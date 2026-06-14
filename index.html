@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MyDNAPedia — Your health is written in your DNA</title>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Fraunces:opsz,wght@9..144,400..700&display=swap" rel="stylesheet" />
+<style>
+  /* ── Canela (self-hosted, TRIAL — eval only, not for production) ─ */
+  @font-face{ font-family:"Canela"; src:url("assets/fonts/Canela-Light-Trial.otf") format("opentype");
+    font-weight:300; font-style:normal; font-display:swap; }
+  @font-face{ font-family:"Canela"; src:url("assets/fonts/Canela-Regular-Trial.otf") format("opentype");
+    font-weight:400; font-style:normal; font-display:swap; }
+  @font-face{ font-family:"Canela"; src:url("assets/fonts/Canela-RegularItalic-Trial.otf") format("opentype");
+    font-weight:400; font-style:italic; font-display:swap; }
+  @font-face{ font-family:"Canela"; src:url("assets/fonts/Canela-Medium-Trial.otf") format("opentype");
+    font-weight:500; font-style:normal; font-display:swap; }
+  @font-face{ font-family:"Canela"; src:url("assets/fonts/Canela-Bold-Trial.otf") format("opentype");
+    font-weight:700; font-style:normal; font-display:swap; }
+
+  :root{
+    --bg:        #F7F2E8;   /* warm off-white, matches the helix frame bg */
+    --ink:       #16120A;   /* warm near-black */
+    --ink-soft:  #3b352a;   /* softer dark for labels */
+    --muted:     #837B69;   /* muted warm grey */
+    --gold:      #9C6B16;   /* deep gold — for gold TEXT on cream (legible) */
+    --gold-lt:   #E4A92F;   /* vibrant honey-gold — for FILLS/accents (dark text on it) */
+    --on-gold:   #1c1406;   /* near-black text/icons on gold fills */
+
+    /* frosted-glass system (light) — more transparent so the blur reads as glass */
+    --glass:     rgba(255,255,255,.32);
+    --glass-cta: rgba(255,255,255,.4);
+    --glass-brd: rgba(255,255,255,.55);
+    --glass-sep: rgba(60,48,20,.18);
+    --glass-sh:  0 20px 50px -20px rgba(74,55,18,.34), 0 3px 12px -4px rgba(74,55,18,.16);
+    --glass-hi:  inset 0 1px 0 rgba(255,255,255,.85), inset 0 0 0 1px rgba(255,255,255,.16);
+    --blur:      saturate(165%) blur(28px);
+
+    --font-display: "Canela", "Fraunces", "Cormorant Garamond", Georgia, serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Satoshi", system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* ── FLOATING GLASS NAV (centered) ──────────────────── */
+  .nav{
+    position:fixed; top:22px; left:50%; transform:translateX(-50%);
+    z-index:50; display:flex; align-items:center; gap:10px;
+    padding:10px 10px 10px 26px; border-radius:20px;
+    background:var(--glass);
+    -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+    border:1px solid var(--glass-brd);
+    box-shadow:var(--glass-sh), var(--glass-hi);
+    animation:navrise .9s cubic-bezier(.22,1,.36,1) .1s both;
+  }
+  @keyframes navrise{
+    from{ opacity:0; transform:translateX(-50%) translateY(-16px); }
+    to  { opacity:1; transform:translateX(-50%) translateY(0); }
+  }
+  .nav-logo{
+    font-family:"Satoshi", sans-serif; font-weight:800; font-size:18px;
+    letter-spacing:-.02em; color:var(--ink); text-decoration:none; white-space:nowrap;
+    padding-right:10px;
+  }
+  .nav-logo .dot{ color:var(--gold-lt); }
+  .nav-links{ display:flex; align-items:center; gap:2px; }
+  .nav-links a{
+    font-family:"Satoshi", sans-serif; font-size:14.5px; font-weight:500;
+    color:var(--ink-soft); text-decoration:none; white-space:nowrap;
+    padding:10px 16px; border-radius:11px;
+    transition:color .25s ease, background .25s ease;
+  }
+  .nav-links a:hover{ color:var(--ink); background:rgba(255,255,255,.38); }
+  /* primary action — emphasized gold button (near-black text for contrast) */
+  .nav-cta{
+    display:inline-flex; align-items:center; gap:8px; margin-left:6px;
+    background:rgba(247,190,40,.82);
+    -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+    color:var(--on-gold);
+    padding:11px 16px 11px 20px; border-radius:13px;
+    font-family:"Satoshi", sans-serif; font-size:14.5px; font-weight:700;
+    border:1px solid rgba(255,246,210,.85); cursor:pointer; white-space:nowrap;
+    box-shadow:0 10px 26px -9px rgba(214,156,26,.6), inset 0 1px 0 rgba(255,255,255,.7);
+    transition:transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s ease, background .3s ease;
+  }
+  .nav-cta:hover{ transform:translateY(-1px); background:rgba(250,199,54,.92);
+    box-shadow:0 14px 32px -9px rgba(214,156,26,.7), inset 0 1px 0 rgba(255,255,255,.75); }
+  .nav-cta svg{ width:15px; height:15px; transition:transform .3s cubic-bezier(.22,1,.36,1); }
+  .nav-cta:hover svg{ transform:translateX(3px); }
+
+  /* ── PINNED STAGE (hero + tension share one pin) ────── */
+  .stage{ position:relative; height:300vh; }
+  .stage-sticky{ position:sticky; top:0; height:100vh; width:100%; overflow:hidden; }
+  #dna{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index:1; }
+
+  /* warm wash on the left so text always reads over the video */
+  .stage-sticky::before{
+    content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
+    background:linear-gradient(100deg,
+      var(--bg) 0%, rgba(247,242,232,.94) 26%,
+      rgba(247,242,232,.5) 46%, rgba(247,242,232,0) 64%);
+  }
+  /* soft ambient glow behind the left content so frosted pills have light
+     to refract — this is what makes the eyebrow + CTA read as real glass */
+  /* two warm gold blobs that drift + pulse on different timings = living glow */
+  .ambient{ position:absolute; inset:0; z-index:3; pointer-events:none; overflow:hidden; }
+  .ambient::before, .ambient::after{
+    content:""; position:absolute; border-radius:50%; will-change:transform, opacity;
+  }
+  .ambient::before{
+    width:660px; height:560px; left:-5%; top:20%;
+    background:radial-gradient(closest-side, rgba(233,180,58,.46), transparent 74%);
+    filter:blur(28px); animation:drift1 9s ease-in-out infinite;
+  }
+  .ambient::after{
+    width:540px; height:520px; left:7%; top:50%;
+    background:radial-gradient(closest-side, rgba(208,144,36,.36), transparent 74%);
+    filter:blur(32px); animation:drift2 12s ease-in-out infinite;
+  }
+  @keyframes drift1{
+    0%,100%{ transform:translate(0,0)       scale(1);    opacity:.7; }
+    50%    { transform:translate(52px,-34px) scale(1.16); opacity:1; }
+  }
+  @keyframes drift2{
+    0%,100%{ transform:translate(0,0)        scale(1.06); opacity:.5; }
+    50%    { transform:translate(-38px,34px)  scale(.9);   opacity:.95; }
+  }
+
+  /* shared frosted-glass primitive */
+  .glass{
+    background:var(--glass);
+    -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+    border:1px solid var(--glass-brd);
+    box-shadow:var(--glass-sh), var(--glass-hi);
+  }
+
+  /* ── S1 HERO ────────────────────────────────────────── */
+  .hero{
+    position:absolute; z-index:5;
+    left:max(42px,6vw); top:50%; transform:translateY(-50%);
+    width:min(660px,54vw); will-change:opacity, transform;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:9px;
+    padding:9px 18px; border-radius:100px; margin-bottom:32px;
+    font-size:13px; font-weight:500; letter-spacing:.01em; color:var(--ink-soft);
+  }
+  .eyebrow i{ position:relative; width:7px; height:7px; border-radius:50%; background:var(--gold-lt); }
+  .eyebrow i::after{
+    content:""; position:absolute; inset:-2px; border-radius:50%;
+    border:2px solid var(--gold-lt); animation:ringpulse 2.8s ease-out infinite;
+  }
+  @keyframes ringpulse{
+    0%  { transform:scale(.6); opacity:.7; }
+    70% { opacity:0; }
+    100%{ transform:scale(2.8); opacity:0; }
+  }
+  .hero h1{
+    font-family:var(--font-display); font-optical-sizing:auto;
+    font-size:clamp(38px,4.4vw,64px); line-height:1.1;
+    letter-spacing:-.005em; font-weight:500; color:var(--ink); margin-bottom:28px;
+  }
+  .hero h1 .accent{ color:var(--gold); }
+  .hero .sub{
+    font-size:clamp(16px,1.25vw,19px); line-height:1.6;
+    color:var(--muted); max-width:36ch; margin-bottom:40px; font-weight:500;
+  }
+  /* CTA — frosted glass */
+  .cta{
+    display:inline-flex; align-items:center; gap:14px;
+    background:var(--glass-cta);
+    -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+    border:1px solid var(--glass-brd);
+    box-shadow:var(--glass-sh), var(--glass-hi);
+    color:var(--ink);
+    padding:11px 12px 11px 27px; border-radius:100px;
+    font-family:"Satoshi", sans-serif; font-size:16px; font-weight:600;
+    cursor:pointer;
+    transition:transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease, background .35s ease;
+  }
+  .cta:hover{ transform:translateY(-2px); background:rgba(255,255,255,.74);
+    box-shadow:0 26px 60px -24px rgba(74,55,18,.42), var(--glass-hi); }
+  .cta .arw{
+    width:36px; height:36px; border-radius:50%;
+    background:rgba(247,190,40,.85);
+    -webkit-backdrop-filter:blur(8px) saturate(150%); backdrop-filter:blur(8px) saturate(150%);
+    border:1px solid rgba(255,246,210,.8);
+    color:var(--on-gold);
+    display:grid; place-items:center; transition:transform .4s cubic-bezier(.22,1,.36,1);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+  }
+  .cta:hover .arw{ transform:translateX(4px); }
+  .cta .arw svg{ width:17px; height:17px; }
+
+  /* trust bar — frosted glass */
+  .trust{
+    position:absolute; z-index:5; right:max(42px,6vw); bottom:48px;
+    display:flex; align-items:center; gap:0;
+    border-radius:20px; padding:16px 6px; will-change:opacity, transform;
+  }
+  .trust .item{ padding:2px 26px; border-right:1px solid var(--glass-sep); }
+  .trust .item:last-child{ border-right:none; }
+  .trust .item b{ display:block; font-size:19px; font-weight:700; letter-spacing:-.01em; color:var(--ink); }
+  .trust .item span{ display:block; font-size:11.5px; font-weight:500; color:var(--muted); margin-top:3px; }
+
+  /* ── S2 TENSION LINE (left-aligned, airy, serif) ────── */
+  .tension{
+    position:absolute; z-index:6; inset:0;
+    display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
+    text-align:left; padding-left:max(42px,6vw); padding-right:6vw;
+    opacity:0; pointer-events:none; will-change:opacity, transform;
+  }
+  /* setup line — quiet body font so it recedes and lets the word be the star */
+  .tension .lead{
+    font-family:"Satoshi", sans-serif; font-weight:500;
+    font-size:clamp(18px,1.85vw,26px); line-height:1.5; letter-spacing:.002em;
+    color:var(--muted);
+  }
+  /* the changing word — the single dramatic Canela moment, in gold */
+  .tension .wordwrap{ display:block; margin-top:clamp(14px,1.5vw,24px); }
+  .tension .word{
+    font-family:var(--font-display); font-weight:400;
+    font-size:clamp(50px,6.4vw,96px); line-height:1.05; letter-spacing:0;
+    color:var(--gold); display:inline-block; will-change:transform, opacity, filter;
+    transition:opacity .55s cubic-bezier(.22,1,.36,1),
+               transform .6s cubic-bezier(.22,1,.36,1),
+               filter .55s ease;
+  }
+  .tension .word.swap{ opacity:0; transform:translateY(.26em); filter:blur(9px); }
+  .tension .q{
+    margin-top:52px; font-size:clamp(15px,1.4vw,20px); font-weight:500;
+    color:var(--muted); letter-spacing:.01em;
+  }
+  .tension .q em{ font-style:normal; color:var(--ink); font-weight:700; }
+
+  /* ── LOAD MOTION (staggered reveal) ─────────────────── */
+  @keyframes rise{
+    from{ opacity:0; transform:translateY(20px); filter:blur(8px); }
+    to  { opacity:1; transform:translateY(0);    filter:blur(0); }
+  }
+  .hero .eyebrow,.hero .sub,.hero .cta,.trust{
+    animation:rise .95s cubic-bezier(.22,1,.36,1) both;
+  }
+  .hero .eyebrow{ animation-delay:.05s; }
+  .hero .sub{ animation-delay:.62s; }
+  .hero .cta{ animation-delay:.78s; }
+  .trust{ animation-delay:.92s; }
+
+  /* headline — word-by-word reveal that overshoots bigger then settles */
+  .hero h1 .w{ display:inline-block; animation:wordin .72s cubic-bezier(.22,1,.36,1) both; }
+  @keyframes wordin{
+    0%  { opacity:0; transform:translateY(16px) scale(.9);  filter:blur(7px); }
+    55% { opacity:1; transform:translateY(0)    scale(1.05); filter:blur(0); }
+    100%{ opacity:1; transform:translateY(0)    scale(1); }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hero .eyebrow,.hero .sub,.hero .cta,.trust{ animation:none; }
+    .hero h1 .w{ animation:none; }
+    .tension .word{ transition:none; }
+  }
+
+  /* ── RESPONSIVE: unpin on mobile, stack naturally ───── */
+  @media (max-width:860px){
+    .stage{ height:auto; }
+    .stage-sticky{ position:static; height:auto; overflow:visible;
+      display:flex; flex-direction:column; }
+    .stage-sticky::before{ display:none; }
+    .ambient{ display:none; }
+    .hero{ position:static; transform:none; width:auto; padding:104px 24px 8px; order:1; }
+    .hero h1{ font-size:clamp(34px,8.6vw,46px); }
+    .hero .sub{ max-width:none; }
+    #dna{ position:relative; height:46vh; order:2; margin-top:16px; }
+    .trust{ position:static; margin:24px 24px 4px; order:3;
+      display:grid; grid-template-columns:1fr 1fr; gap:16px 0; padding:20px 6px; }
+    .trust .item{ padding:4px 18px; border-right:1px solid var(--glass-sep); }
+    .trust .item:nth-child(2n){ border-right:none; }
+    .nav{ top:14px; padding:7px 7px 7px 18px; gap:4px; }
+    .nav-links{ display:none; }
+    .nav-logo{ font-size:16px; padding-right:6px; }
+    .nav-cta{ font-size:13px; padding:9px 9px 9px 15px; margin-left:6px; }
+    .tension{ position:static; order:4; opacity:1 !important; transform:none !important;
+      padding:60px 24px 92px; }
+    .tension .lead{ font-size:clamp(16px,4.4vw,20px); }
+    .tension .lead br{ display:none; }
+    .tension .word{ font-size:clamp(40px,11vw,64px); }
+    .tension .q{ margin-top:40px; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a class="nav-logo" href="#">MyDNAPedia<span class="dot">.</span></a>
+    <div class="nav-links">
+      <a href="#tests">Our Tests</a>
+      <a href="#how">How It Works</a>
+      <a href="#about">About</a>
+    </div>
+    <button class="nav-cta">Get My Results
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </nav>
+
+  <!-- ═══ PINNED STAGE: S1 hero + S2 tension share one scroll pin ═══ -->
+  <section class="stage" id="stage">
+    <div class="stage-sticky">
+      <canvas id="dna"></canvas>
+      <div class="ambient"></div>
+
+      <!-- S1 HERO -->
+      <div class="hero" id="hero">
+        <span class="eyebrow glass"><i></i> Genetic wellness, decoded</span>
+        <h1>Your health is already written. Have you read&nbsp;it?</h1>
+        <p class="sub">A simple swab. A detailed report. A counselling session that changes how you see your health — forever.</p>
+        <button class="cta">Get My Results
+          <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </button>
+      </div>
+
+      <!-- trust bar -->
+      <div class="trust glass" id="trust">
+        <div class="item"><b>1.8M+</b><span>tests conducted</span></div>
+        <div class="item"><b>2012</b><span>founded in Finland</span></div>
+        <div class="item"><b>EU</b><span>certified lab</span></div>
+        <div class="item"><b>99.9%</b><span>accuracy</span></div>
+      </div>
+
+      <!-- S2 TENSION LINE -->
+      <div class="tension" id="tension">
+        <div class="lead">Your DNA already knows if you <br>are at risk of</div>
+        <span class="wordwrap"><span class="word" id="tword">Type&nbsp;2&nbsp;Diabetes</span></span>
+        <div class="q">The question is — <em>do you?</em></div>
+      </div>
+
+    </div>
+  </section>
+
+<script>
+/* ───────────────────────────────────────────────────────────
+   S1/S2 PINNED SCRUBBER  (Apple/Wasabie-style)
+   One scroll progress p (0→1 across the pin) drives:
+     • DNA video frame   (helix builds 1/3 → full)
+     • hero fade-out  •  tension-line fade-in
+   ─────────────────────────────────────────────────────────── */
+(function(){
+  const N    = 97;
+  const PATH = i => `frames/frame_${String(i).padStart(4,'0')}.webp`;
+
+  const stage   = document.getElementById('stage');
+  const canvas  = document.getElementById('dna');
+  const hero    = document.getElementById('hero');
+  const trust   = document.getElementById('trust');
+  const ambient = document.querySelector('.ambient');
+
+  // ── headline: split into words for the staggered reveal ──
+  (function(){
+    const h1 = document.querySelector('.hero h1');
+    if(!h1) return;
+    const words = h1.textContent.split(' ');   // keeps "read it?" together
+    h1.textContent = '';
+    words.forEach((word,i)=>{
+      const s = document.createElement('span');
+      s.className = 'w'; s.textContent = word;
+      s.style.animationDelay = (0.08 + i*0.11) + 's';
+      h1.appendChild(s);
+      if(i < words.length-1) h1.appendChild(document.createTextNode(' '));
+    });
+  })();
+  const tension = document.getElementById('tension');
+  const ctx     = canvas.getContext('2d');
+  const mobile  = () => window.matchMedia('(max-width:860px)').matches;
+
+  // ── preload frames ──────────────────────────────────
+  const frames = new Array(N);
+  let loaded = 0, ready = false;
+  for(let i=0;i<N;i++){
+    const img = new Image();
+    img.onload = () => {
+      if(++loaded === 1) sizeCanvas();
+      if(frames[curIdx] && frames[curIdx].complete) draw(curIdx);
+      if(loaded === N) ready = true;
+    };
+    img.src = PATH(i+1);
+    frames[i] = img;
+  }
+
+  // ── canvas sizing (DPR-aware, cover draw) ───────────
+  function sizeCanvas(){
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width  = Math.round(canvas.clientWidth  * dpr);
+    canvas.height = Math.round(canvas.clientHeight * dpr);
+    draw(curIdx);
+  }
+  let curIdx = mobile() ? 62 : 0;   // mobile has no scrub → show a built helix
+  function draw(idx){
+    const img = frames[idx];
+    if(!img || !img.complete || !img.naturalWidth) return;
+    curIdx = idx;
+    const cw = canvas.width, ch = canvas.height;
+    const iw = img.naturalWidth, ih = img.naturalHeight;
+    const s = Math.max(cw/iw, ch/ih);
+    const w = iw*s, h = ih*s;
+    // helix sits on the right of the source — bias the crop rightward so it
+    // stays in frame on narrow viewports while the text-side stays clear.
+    const biasX = 0.82;
+    ctx.clearRect(0,0,cw,ch);
+    ctx.drawImage(img, (cw-w)*biasX, (ch-h)/2, w, h);
+  }
+
+  // ── easing ──────────────────────────────────────────
+  const clamp  = (v,a,b)=>Math.min(b,Math.max(a,v));
+  const smooth = (a,b,x)=>{ const t=clamp((x-a)/(b-a),0,1); return t*t*(3-2*t); };
+
+  // ── scroll → progress ───────────────────────────────
+  function onScroll(){
+    if(window.__freeze) return;   // verification hold
+    if(mobile()) return;
+    const rect = stage.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const pinDist = stage.offsetHeight - vh;
+    const p = clamp(-rect.top / pinDist, 0, 1);
+
+    // frame: helix builds across p 0.04 → 0.62
+    const idx = Math.round(smooth(0.04,0.62,p) * (N-1));
+    if(idx !== curIdx) draw(idx);
+
+    // hero fades/slides out  p 0.40 → 0.58  (clear inline at top so load-anim plays)
+    const out = smooth(0.40,0.58,p);
+    hero.style.opacity   = out>0 ? String(1-out) : '';
+    hero.style.transform = `translateY(calc(-50% - ${out*36}px))`;
+    // trust bar fades in sync with the hero text (same 0.40 → 0.58 window).
+    trust.style.opacity   = out>0 ? String(1-out) : '';
+    trust.style.transform = out>0 ? `translateY(${out*40}px)` : '';
+    if(ambient) ambient.style.opacity = out>0 ? String(1-out) : '';
+
+    // tension fades in once the video is essentially done  p 0.64 → 0.74
+    const tin = smooth(0.64,0.74,p);
+    tension.style.opacity   = String(tin);
+    tension.style.transform = `translateY(${(1-tin)*28}px)`;
+  }
+
+  // ── S2 rotating tension word ─────────────────────────
+  const WORDS = [
+    "Type 2 Diabetes","Heart Disease","Alzheimer's","Breast Cancer",
+    "Male Pattern Baldness","Stroke","Anxiety","Premature Greying",
+    "Obesity","Endometriosis","Migraine","Vitamin D Deficiency",
+    "Skin Aging","Iron Deficiency","Osteoporosis","Sleep Disorders",
+    "Stress Sensitivity","Caffeine Dependency","Psoriasis","High Cholesterol",
+    "Nicotine Addiction","Bipolar Disorder","Gallstones","Asthma","Thyroid Cancer"
+  ];
+  const tword = document.getElementById('tword');
+  let wi = 0;
+  function rotate(){
+    wi = (wi+1) % WORDS.length;
+    tword.classList.add('swap');
+    setTimeout(()=>{
+      tword.innerHTML = WORDS[wi].replace(/ /g,'&nbsp;');
+      tword.classList.remove('swap');
+    }, 560);
+  }
+  setInterval(rotate, 2200);
+
+  // The trust bar both load-reveals (CSS animation) and scroll-fades (inline).
+  // A filled CSS animation overrides inline styles, so strip it once the
+  // reveal finishes — then the scroll fade/slide takes over cleanly.
+  trust.addEventListener('animationend', ()=>{ trust.style.animation='none'; onScroll(); }, {once:true});
+  setTimeout(()=>{ trust.style.animation='none'; }, 1800);
+
+  // ── wire up ─────────────────────────────────────────
+  window.__scrub = onScroll; // verification hook (drives scrub synchronously)
+  let ticking=false;
+  window.addEventListener('scroll', ()=>{
+    if(!ticking){ requestAnimationFrame(()=>{ onScroll(); ticking=false; }); ticking=true; }
+  }, {passive:true});
+  window.addEventListener('resize', ()=>{ sizeCanvas(); onScroll(); });
+  onScroll();
+})();
+</script>
+</body>
+</html>

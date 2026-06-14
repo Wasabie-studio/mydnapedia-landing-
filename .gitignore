@@ -1,0 +1,12 @@
+# dependencies (only needed to re-generate the helix frames)
+node_modules/
+
+# local tooling / os
+.DS_Store
+*.log
+.claude/
+.netlify/
+.vscode/
+
+# source master (kept out of the repo — frames are committed instead)
+*.mp4
