@@ -281,7 +281,8 @@
   }
 
   /* ── S4 — PLANS / PRICING ──────────────────────────── */
-  .plans{ max-width:1180px; margin:0 auto; padding:120px max(24px,6vw); }
+  /* match the hero's horizontal rhythm (max(42px,6vw)) — no max-width */
+  .plans{ padding:120px max(42px,6vw); }
   .plans-head{ margin-bottom:50px; }
   .plans .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
     text-transform:uppercase; color:var(--muted); }
@@ -289,7 +290,9 @@
     font-size:clamp(34px,4vw,56px); line-height:1.06; letter-spacing:-.01em;
     color:var(--ink); margin:16px 0 14px; }
   .plans-sub{ font-size:clamp(15px,1.2vw,18px); color:var(--muted); font-weight:500; max-width:46ch; }
-  .plans-grid{ display:grid; grid-template-columns:1fr .92fr; gap:24px; align-items:start; }
+  /* left = wide rectangle, right = square card. The two scroll together as a group. */
+  .plans-grid{ display:grid; grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);
+    gap:28px; align-items:start; }
 
   /* left = one rounded box of expandable rows */
   .plans-list{ border:1px solid rgba(50,46,39,.1); border-radius:24px; background:#fff;
@@ -334,8 +337,8 @@
   .acc-cta svg{ width:15px; height:15px; }
   .acc-addons{ font-size:12px; color:var(--muted); margin-top:16px; padding-top:14px; border-top:1px solid rgba(50,46,39,.1); }
 
-  /* right glass card — rounded square */
-  .plans-card{ position:sticky; top:96px; border-radius:24px; padding:14px; align-self:start; }
+  /* right glass card — rounded square. Not sticky: scrolls grouped with the left rectangle. */
+  .plans-card{ border-radius:24px; padding:14px; align-self:start; }
   .helix-stage{ position:relative; border-radius:18px; overflow:hidden; aspect-ratio:1/1;
     background:radial-gradient(120% 100% at 50% 34%, rgba(231,180,62,.16), rgba(247,242,232,.5)); }
   #planHelix{ width:100%; height:100%; display:block; }
