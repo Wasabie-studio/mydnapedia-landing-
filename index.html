@@ -353,12 +353,26 @@
   .helix-stage{ position:relative; border-radius:18px; overflow:hidden; aspect-ratio:1/1;
     background:radial-gradient(120% 100% at 50% 34%, rgba(231,180,62,.16), rgba(247,242,232,.5)); }
   #planHelix{ width:100%; height:100%; display:block; }
+  /* segmented toggle: all 3 are visibly raised so they read as buttons;
+     active is the brightest/most-elevated, hover lifts the inactive ones */
   .plan-toggle{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:14px;
-    background:rgba(120,110,80,.09); border-radius:14px; padding:6px; }
-  .plan-toggle button{ font-family:"Satoshi",sans-serif; font-size:14px; font-weight:700;
-    color:var(--ink-soft); background:transparent; border:none; padding:11px 8px; border-radius:10px;
-    cursor:pointer; transition:background .3s ease, color .3s ease, box-shadow .3s ease; }
-  .plan-toggle button.active{ background:#fff; color:var(--ink); box-shadow:0 6px 16px -8px rgba(74,55,18,.35); }
+    background:rgba(120,110,80,.12); border-radius:14px; padding:6px; }
+  .plan-toggle button{ font-family:"Satoshi",sans-serif; font-size:14px; font-weight:600;
+    color:var(--ink-soft);
+    background:rgba(255,255,255,.5);
+    border:1px solid rgba(255,255,255,.55);
+    padding:11px 8px; border-radius:10px; cursor:pointer;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
+    transition:background .3s ease, color .3s ease, box-shadow .3s ease, transform .3s ease; }
+  .plan-toggle button:hover{ background:rgba(255,255,255,.82); color:var(--ink);
+    transform:translateY(-1px);
+    box-shadow:0 6px 14px -8px rgba(74,55,18,.3), inset 0 1px 0 rgba(255,255,255,.8); }
+  .plan-toggle button.active{ background:#fff; color:var(--ink); font-weight:700;
+    border-color:rgba(255,255,255,.9);
+    box-shadow:0 10px 22px -8px rgba(74,55,18,.42), inset 0 1px 0 rgba(255,255,255,.95);
+    transform:none; }
+  .plan-toggle button.active:hover{ transform:none;
+    box-shadow:0 10px 22px -8px rgba(74,55,18,.42), inset 0 1px 0 rgba(255,255,255,.95); }
   .plan-caption{ text-align:center; font-size:12.5px; color:var(--muted); margin-top:12px; }
 
   @media (max-width:860px){
