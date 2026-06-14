@@ -626,8 +626,9 @@
     im.onload=()=>{ if(i===0) sizePF(); if(i===cur) drawPF(cur); }; im.src=PPATH(i+1); pf[i]=im; }
   function sizePF(){ const d=Math.min(window.devicePixelRatio||1,2);
     canvas.width=Math.round(canvas.clientWidth*d); canvas.height=Math.round(canvas.clientHeight*d); drawPF(cur); }
+  const PZOOM = 1.4;   // zoom the helix so the square doesn't feel empty (slight crop is fine)
   function drawPF(idx){ const im=pf[idx]; if(!im||!im.complete||!im.naturalWidth) return; cur=idx;
-    const cw=canvas.width,ch=canvas.height,s=Math.max(cw/im.naturalWidth,ch/im.naturalHeight),
+    const cw=canvas.width,ch=canvas.height,s=Math.max(cw/im.naturalWidth,ch/im.naturalHeight)*PZOOM,
       w=im.naturalWidth*s,h=im.naturalHeight*s; ctx.clearRect(0,0,cw,ch); ctx.drawImage(im,(cw-w)/2,(ch-h)/2,w,h); }
   function animateTo(target){
     cancelAnimationFrame(raf);
