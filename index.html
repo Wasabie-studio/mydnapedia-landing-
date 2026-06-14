@@ -355,6 +355,61 @@
     .helix-stage{ aspect-ratio:1/1; max-width:420px; margin:0 auto; }
     .cat-grid{ grid-template-columns:1fr; }
   }
+
+  /* ── S7 — TRUST & CREDENTIALS ──────────────────────── */
+  .trust-sec{ position:relative; padding:120px max(24px,6vw); }
+  .trust-wrap{ max-width:1100px; margin:0 auto; position:relative; overflow:hidden;
+    border:1px solid rgba(50,46,39,.1); border-radius:32px;
+    background:radial-gradient(120% 95% at 50% -12%, rgba(231,180,62,.2), transparent 58%), #fff;
+    box-shadow:0 30px 80px -50px rgba(74,55,18,.45);
+    padding:clamp(40px,6vw,76px) clamp(24px,5vw,72px); }
+  .trust-wrap .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); }
+  .trust-wrap h2{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(30px,3.6vw,50px); line-height:1.07; letter-spacing:-.01em;
+    color:var(--ink); margin:14px 0 16px; }
+  .trust-lead{ font-size:clamp(15px,1.2vw,18px); line-height:1.6;
+    color:var(--muted); font-weight:500; max-width:56ch; }
+
+  .trust-stats{ display:grid; grid-template-columns:1fr 1fr; gap:24px;
+    margin:clamp(40px,5vw,64px) 0 clamp(28px,3vw,40px); }
+  .stat{ position:relative; padding:8px 8px 8px clamp(8px,2vw,40px); }
+  .stat + .stat{ border-left:1px solid rgba(50,46,39,.12); }
+  .stat-label{ margin-top:16px; font-size:clamp(13px,1.05vw,15.5px);
+    font-weight:600; color:var(--ink-soft); letter-spacing:.005em; }
+
+  /* odometer number — digits roll up into place on scroll */
+  .odo{ display:inline-flex; align-items:flex-end; line-height:1;
+    font-family:var(--font-display); font-weight:500; color:var(--ink);
+    font-size:clamp(56px,8.4vw,112px); letter-spacing:-.01em; }
+  .odo-digit{ display:inline-block; width:.62em; height:1em; overflow:hidden;
+    text-align:center; }
+  .odo-reel{ display:block; transform:translateY(0); }
+  .odo.run .odo-reel{ transform:translateY(calc(var(--y) * -1em));
+    transition:transform 2.1s cubic-bezier(.16,1,.3,1); }
+  .odo-n{ display:block; height:1em; }
+  .odo-sep{ display:inline-block; }
+  .odo-suffix{ display:inline-block; font-size:.46em; font-weight:700;
+    color:var(--gold); margin-left:.06em; padding-bottom:.12em; }
+
+  .trust-creds{ display:flex; flex-wrap:wrap; gap:10px;
+    padding-top:clamp(24px,3vw,34px); border-top:1px solid rgba(50,46,39,.1); }
+  .cred{ display:inline-flex; align-items:center; gap:9px;
+    font-size:13.5px; font-weight:600; color:var(--ink-soft);
+    background:rgba(120,120,80,.06); border:1px solid rgba(80,80,50,.1);
+    padding:10px 15px; border-radius:100px; }
+  .cred svg{ width:15px; height:15px; color:var(--gold); flex:none; }
+
+  @media (max-width:860px){
+    .trust-sec{ padding:64px 18px; }
+    .trust-stats{ grid-template-columns:1fr; gap:8px; }
+    .stat{ padding:18px 4px; }
+    .stat + .stat{ border-left:none; border-top:1px solid rgba(50,46,39,.12); }
+    .trust-wrap h2 br{ display:none; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .odo.run .odo-reel{ transition:none; }
+  }
 </style>
 </head>
 <body>
@@ -423,6 +478,33 @@
         </div>
         <p class="plan-caption" id="planCaption"></p>
       </aside>
+    </div>
+  </section>
+
+  <!-- ═══ S7 — TRUST & CREDENTIALS ═══ -->
+  <section class="trust-sec" id="credibility">
+    <div class="trust-wrap">
+      <span class="kicker">Why MyDNAPedia</span>
+      <h2>Precise insights,<br>proven at scale.</h2>
+      <p class="trust-lead">Founded in Finland in 2012, we brought a decade of genetic science to India — every test analysed in our EU-certified laboratory using ASPCR technology.</p>
+
+      <div class="trust-stats">
+        <div class="stat">
+          <div class="odo" data-value="1.8" data-suffix="M+"></div>
+          <div class="stat-label">tests conducted globally</div>
+        </div>
+        <div class="stat">
+          <div class="odo" data-value="99.9" data-suffix="%"></div>
+          <div class="stat-label">accuracy &middot; ASPCR technology</div>
+        </div>
+      </div>
+
+      <div class="trust-creds">
+        <span class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V7l7-4z"/><path d="M9 12l2 2 4-4"/></svg> EU-certified laboratory</span>
+        <span class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Approved by US FDA &amp; EMA</span>
+        <span class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Founded in Finland &middot; 2012</span>
+        <span class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> 1-on-1 genetic counselling</span>
+      </div>
     </div>
   </section>
 
@@ -675,6 +757,51 @@
 
   toggle.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>render(b.dataset.plan)));
   render('premium');
+})();
+</script>
+
+<script>
+/* ── S7 — odometer trust counters (roll up on scroll into view) ── */
+(function(){
+  const odos = document.querySelectorAll('.odo');
+  if(!odos.length) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const SPINS = 2;   // full 0→9 cycles before settling = the odometer roll
+
+  odos.forEach(el=>{
+    const value  = el.dataset.value  || '';
+    const suffix = el.dataset.suffix || '';
+    el.innerHTML = '';
+    value.split('').forEach((ch,i)=>{
+      if(/\d/.test(ch)){
+        const total = SPINS*10 + (+ch);   // lands on the digit after N spins
+        const digit = document.createElement('span'); digit.className = 'odo-digit';
+        const reel  = document.createElement('span'); reel.className  = 'odo-reel';
+        for(let n=0;n<=total;n++){
+          const s = document.createElement('span'); s.className = 'odo-n';
+          s.textContent = n % 10; reel.appendChild(s);
+        }
+        reel.style.setProperty('--y', total);
+        reel.style.transitionDelay = (i*0.09)+'s';   // slight stagger per digit
+        if(reduce) reel.style.transition = 'none';
+        digit.appendChild(reel); el.appendChild(digit);
+      } else {
+        const s = document.createElement('span'); s.className = 'odo-sep';
+        s.textContent = ch; el.appendChild(s);
+      }
+    });
+    if(suffix){
+      const s = document.createElement('span'); s.className = 'odo-suffix';
+      s.textContent = suffix; el.appendChild(s);
+    }
+  });
+
+  const run = el => el.classList.add('run');
+  if(reduce){ odos.forEach(run); return; }
+  const io = new IntersectionObserver((entries,obs)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ run(e.target); obs.unobserve(e.target); } });
+  }, { threshold:.4 });
+  odos.forEach(el=>io.observe(el));
 })();
 </script>
 </body>
