@@ -120,6 +120,17 @@
     50%    { transform:translate(-38px,34px)  scale(.9);   opacity:.95; }
   }
 
+  /* fade-to-bg overlay so the helix dissolves into the plans section's bg
+     instead of cutting abruptly when the pin releases */
+  .stage-fade{
+    position:absolute; left:0; right:0; bottom:0; height:62vh; z-index:4;
+    pointer-events:none; opacity:0; will-change:opacity;
+    background:linear-gradient(to bottom,
+      rgba(247,242,232,0) 0%,
+      rgba(247,242,232,.55) 50%,
+      var(--bg) 100%);
+  }
+
   /* shared frosted-glass primitive */
   .glass{
     background:var(--glass);
@@ -496,6 +507,7 @@
     <div class="stage-sticky">
       <canvas id="dna"></canvas>
       <div class="ambient"></div>
+      <div class="stage-fade" id="stageFade"></div>
 
       <!-- S1 HERO -->
       <div class="hero" id="hero">
@@ -618,6 +630,7 @@
   const hero    = document.getElementById('hero');
   const trust   = document.getElementById('trust');
   const ambient = document.querySelector('.ambient');
+  const stageFade = document.getElementById('stageFade');
 
   // ── headline: split into words for the staggered reveal ──
   (function(){
@@ -704,6 +717,10 @@
     const tin = smooth(0.64,0.74,p);
     tension.style.opacity   = String(tin);
     tension.style.transform = `translateY(${(1-tin)*28}px)`;
+
+    // bottom of viewport fades to plans bg so the pin releases smoothly
+    // into the plans section instead of cutting hard.
+    if(stageFade) stageFade.style.opacity = String(smooth(0.72,1,p));
   }
 
   // ── S2 rotating tension word ─────────────────────────
@@ -723,9 +740,9 @@
     setTimeout(()=>{
       tword.innerHTML = WORDS[wi].replace(/ /g,'&nbsp;');
       tword.classList.remove('swap');
-    }, 560);
+    }, 430);
   }
-  setInterval(rotate, 2200);
+  setInterval(rotate, 1600);
 
   // The trust bar both load-reveals (CSS animation) and scroll-fades (inline).
   // A filled CSS animation overrides inline styles, so strip it once the
