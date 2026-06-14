@@ -42,7 +42,6 @@ All logic is vanilla JS at the bottom of `index.html`. (The helper hooks `window
 index.html            # everything: markup, styles, scroll/scrub JS
 assets/
   dna-helix.webp       # full animated helix (1 file, reference)
-  fonts/               # Canela (self-hosted) — see Fonts note
 frames/                # frame_0001..0097.webp — the scrub sequence (native 1764px)
 package.json           # ffmpeg-static, only for regenerating frames
 ```
@@ -53,7 +52,7 @@ package.json           # ffmpeg-static, only for regenerating frames
 
 Defined as CSS variables in `:root` (top of `index.html`):
 
-- **Display font:** Canela (serif) — headlines + the S2 word
+- **Display font:** Sentient (Fontshare, serif) — headlines + the S2 word
 - **Body/UI font:** Satoshi (Fontshare)
 - **Background:** `#F7F2E8` warm off-white
 - **Ink:** `#16120A`
@@ -66,11 +65,10 @@ Please reuse these tokens so the sections stay consistent.
 
 ---
 
-## Fonts ⚠️
+## Fonts
 
-- **Canela is currently the TRIAL version** (`assets/fonts/*-Trial.otf`), licensed for **evaluation/mockups only**.
-  **A proper Canela webfont licence (Commercial Type) must be purchased and the files swapped to `.woff2` before any public/production deploy.**
-- Satoshi loads from Fontshare; Cormorant Garamond + Fraunces remain as fallbacks in the font stack.
+- **Sentient** (display) + **Satoshi** (body) — both from **Fontshare, free for commercial + web use**. No licensing blockers.
+- (We trialled Canela earlier but moved off it to avoid the paid Commercial Type web licence.)
 
 ---
 
@@ -93,7 +91,7 @@ npm install            # pulls ffmpeg-static
 2. Build your section as a self-contained block (ideally its own partial/component or a clearly-marked block in `index.html`).
 3. Open a PR into `main`. We'll integrate sections in order.
 
-Keep to the brand tokens above and the frosted-glass / Canela+Satoshi language.
+Keep to the brand tokens above and the frosted-glass / Sentient + Satoshi language.
 
 ### Sections
 - **S1 Hero** — ✅ done
