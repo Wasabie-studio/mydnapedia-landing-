@@ -427,32 +427,18 @@
   @keyframes vizpop{ to{ opacity:1; transform:translate(-50%,-50%) scale(1); } }
   @keyframes vizdraw{ to{ stroke-dashoffset:0; } }
 
-  /* A — scheduling: day cards + time slots */
-  .viz-sched{ display:flex; flex-direction:column; gap:12px; }
-  .sched-days{ display:flex; gap:8px; }
-  .day{ flex:1 1 0; min-width:0; text-align:center; padding:11px 4px 13px;
-    border:1px solid rgba(50,46,39,.12); border-radius:14px; background:rgba(247,242,232,.7);
-    opacity:0; transform:translateY(10px); }
-  .viz.in .day{ animation:vizrise .55s cubic-bezier(.22,1,.36,1) both; }
-  .day span{ display:block; font-size:10px; font-weight:700; letter-spacing:.08em;
-    color:var(--muted); text-transform:uppercase; }
-  .day b{ display:block; margin-top:5px; font-family:var(--font-display); font-weight:500;
-    font-size:clamp(18px,2vw,24px); color:var(--ink); }
-  .day.on{ background:var(--gold-lt); border-color:rgba(255,246,210,.85);
-    box-shadow:0 10px 22px -8px rgba(214,156,26,.6); }
-  .day.on span, .day.on b{ color:var(--on-gold); }
-  .sched-times{ display:flex; gap:7px; }
-  .slot{ flex:1 1 0; text-align:center; font-size:clamp(11px,1.1vw,13px); font-weight:700;
-    color:var(--ink-soft); padding:9px 4px; border:1px solid rgba(50,46,39,.12);
-    border-radius:10px; background:#fff; opacity:0; transform:translateY(10px); }
-  .viz.in .slot{ animation:vizrise .55s cubic-bezier(.22,1,.36,1) both; }
-  .slot.on{ background:var(--gold-lt); color:var(--on-gold);
-    border-color:rgba(255,246,210,.85); box-shadow:0 10px 20px -9px rgba(214,156,26,.6); }
-  .slot.off{ color:var(--muted); background:rgba(247,242,232,.55); border-style:dashed; }
-  .viz.in .day:nth-child(2),.viz.in .slot:nth-child(2){ animation-delay:.06s; }
-  .viz.in .day:nth-child(3),.viz.in .slot:nth-child(3){ animation-delay:.12s; }
-  .viz.in .day:nth-child(4),.viz.in .slot:nth-child(4){ animation-delay:.18s; }
-  .viz.in .day:nth-child(5),.viz.in .slot:nth-child(5){ animation-delay:.24s; }
+  /* A — volume dot-grid: each dot ≈ a batch of completed tests */
+  .viz-grid{ display:flex; flex-direction:column; gap:14px; }
+  .dot-grid{ display:grid; grid-template-columns:repeat(10,1fr); gap:clamp(7px,1vw,11px); }
+  .dot{ aspect-ratio:1/1; border-radius:50%; background:rgba(50,46,39,.12);
+    opacity:0; transform:scale(.3); }
+  .dot.on{ background:var(--gold-lt); box-shadow:0 3px 8px -3px rgba(214,156,26,.55); }
+  .viz.in .dot{ animation:dotin .42s cubic-bezier(.22,1,.36,1) both;
+    animation-delay:calc(var(--i) * 26ms); }
+  @keyframes dotin{ to{ opacity:1; transform:scale(1); } }
+  .grid-cap{ display:flex; align-items:center; gap:8px; font-size:12.5px;
+    font-weight:600; color:var(--muted); }
+  .grid-cap i{ width:9px; height:9px; border-radius:50%; background:var(--gold-lt); flex:none; }
 
   /* B — results range chart */
   .viz-range{ position:relative; }
@@ -496,7 +482,7 @@
   }
   @media (prefers-reduced-motion:reduce){
     .odo.run .odo-reel{ transition:none; }
-    .viz .day,.viz .slot{ opacity:1; transform:none; animation:none; }
+    .viz .dot{ opacity:1; transform:none; animation:none; }
     .viz .range-chart .pt{ opacity:1; transform:translate(-50%,-50%) scale(1); animation:none; }
     .viz .range-chart path{ stroke-dashoffset:0; animation:none; }
   }
@@ -583,22 +569,10 @@
         <div class="stat">
           <div class="odo" data-value="1.8" data-suffix="M+"></div>
           <div class="stat-label">tests conducted globally</div>
-          <!-- visual: a single cheek swab, booked in minutes -->
-          <div class="viz viz-sched">
-            <div class="sched-days">
-              <div class="day"><span>Tue</span><b>5</b></div>
-              <div class="day"><span>Wed</span><b>6</b></div>
-              <div class="day on"><span>Thu</span><b>7</b></div>
-              <div class="day"><span>Fri</span><b>8</b></div>
-              <div class="day"><span>Sat</span><b>9</b></div>
-            </div>
-            <div class="sched-times">
-              <span class="slot off">8:50</span>
-              <span class="slot on">9:00</span>
-              <span class="slot">9:10</span>
-              <span class="slot">9:20</span>
-              <span class="slot">9:30</span>
-            </div>
+          <!-- visual: volume dot-grid — each dot ≈ a batch of completed tests -->
+          <div class="viz viz-grid">
+            <div class="dot-grid" data-dots="50" data-on="44"></div>
+            <div class="grid-cap"><i></i> 1.8M+ samples processed since 2012</div>
           </div>
         </div>
         <div class="stat">
@@ -918,6 +892,19 @@
     if(suffix){
       const s = document.createElement('span'); s.className = 'odo-suffix';
       s.textContent = suffix; el.appendChild(s);
+    }
+  });
+
+  // build the volume dot-grid(s): `data-on` of `data-dots` dots filled gold
+  document.querySelectorAll('.dot-grid').forEach(grid=>{
+    const total = +grid.dataset.dots || 50;
+    const on    = +grid.dataset.on   || total;
+    grid.innerHTML = '';
+    for(let i=0;i<total;i++){
+      const d = document.createElement('span');
+      d.className = 'dot' + (i<on ? ' on' : '');
+      d.style.setProperty('--i', i);   // staggers the fill into a wave
+      grid.appendChild(d);
     }
   });
 
