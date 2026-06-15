@@ -395,18 +395,16 @@
   .trust-lead{ font-size:clamp(15px,1.2vw,18px); line-height:1.6;
     color:var(--muted); font-weight:500; max-width:48ch; }
 
-  .trust-stats{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch;
-    margin:50px 0 clamp(28px,3vw,40px); }
-  .stat{ position:relative; display:flex; flex-direction:column;
-    border:1px solid rgba(50,46,39,.1); border-radius:24px; background:#F9F6EF;
-    padding:clamp(24px,3vw,36px); box-shadow:0 16px 44px -32px rgba(74,55,18,.26); }
-  .stat-label{ margin-top:14px; font-size:clamp(13px,1.05vw,15.5px);
+  .trust-stats{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(28px,5vw,72px);
+    align-items:start; margin:48px 0 clamp(30px,3.5vw,46px); }
+  .stat{ position:relative; display:flex; flex-direction:column; }
+  .stat-label{ margin-top:10px; font-size:clamp(13px,1.05vw,15px);
     font-weight:600; color:var(--ink-soft); letter-spacing:.005em; }
 
   /* odometer number — digits roll up into place on scroll */
   .odo{ display:inline-flex; align-items:flex-end; line-height:1;
     font-family:var(--font-display); font-weight:500; color:var(--ink);
-    font-size:clamp(56px,8.4vw,112px); letter-spacing:-.01em; }
+    font-size:clamp(46px,6.4vw,86px); letter-spacing:-.01em; }
   .odo-digit{ display:inline-block; width:.62em; height:1em; overflow:hidden;
     text-align:center; }
   .odo-reel{ display:block; transform:translateY(0); }
@@ -418,10 +416,8 @@
     color:var(--gold); margin-left:.06em; padding-bottom:.12em; }
 
   /* ── stat mini-visuals (reveal on scroll) ── */
-  .viz{ margin-top:auto; padding-top:clamp(22px,3vw,32px); }
+  .viz{ margin-top:clamp(20px,2.4vw,28px); }
   @keyframes vizrise{ to{ opacity:1; transform:translateY(0); } }
-  @keyframes vizpop{ to{ opacity:1; transform:translate(-50%,-50%) scale(1); } }
-  @keyframes vizdraw{ to{ stroke-dashoffset:0; } }
 
   /* A — volume dots: a small row, a few left open to read as "still growing" */
   .viz-grid{ display:flex; flex-direction:column; gap:14px; }
@@ -436,32 +432,21 @@
     font-weight:600; color:var(--muted); }
   .grid-cap i{ width:9px; height:9px; border-radius:50%; background:var(--gold-lt); flex:none; }
 
-  /* B — results range chart */
-  .viz-range{ position:relative; display:flex; flex-direction:column; gap:6px; padding-top:12px; }
-  .range-row{ position:relative; display:flex; align-items:center; gap:12px;
-    height:clamp(36px,4.2vw,42px); padding-left:8px; border-radius:12px; }
-  .range-row.rng-in{ background:rgba(228,169,47,.14); }
-  .range-pill{ width:6px; height:22px; border-radius:6px; background:rgba(50,46,39,.18); flex:none; }
-  .range-row.rng-in .range-pill{ background:var(--gold-lt); height:30px; }
-  .range-label{ font-size:10px; font-weight:700; letter-spacing:.1em;
-    color:var(--muted); text-transform:uppercase; }
-  .range-chart{ position:absolute; top:14px; bottom:2px; left:46%; right:18px; pointer-events:none; }
-  .range-chart svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
-  .range-chart path{ fill:none; stroke:var(--gold-lt); stroke-width:2.5;
-    stroke-linecap:round; stroke-linejoin:round;
-    stroke-dasharray:1; stroke-dashoffset:1; }
-  .viz.in .range-chart path{ animation:vizdraw 1.1s ease .2s both; }
-  .range-chart .pt{ position:absolute; width:12px; height:12px; border-radius:50%;
-    background:var(--gold-lt); border:2.5px solid #F9F6EF;
-    box-shadow:0 4px 11px -3px rgba(214,156,26,.75);
-    transform:translate(-50%,-50%) scale(.3); opacity:0; }
-  .viz.in .range-chart .pt{ animation:vizpop .5s cubic-bezier(.22,1,.36,1) both; }
-  .viz.in .range-chart .pt:nth-child(2){ animation-delay:.5s; }
-  .viz.in .range-chart .pt:nth-child(3){ animation-delay:.75s; }
-  .viz.in .range-chart .pt:nth-child(4){ animation-delay:1s; }
-  .range-chart .pt b{ position:absolute; bottom:150%; left:50%; transform:translateX(-50%);
-    font-size:12px; font-weight:700; color:var(--ink); white-space:nowrap;
-    font-variant-numeric:tabular-nums; }
+  /* B — accuracy vs industry-standard comparison bars */
+  .cmp{ display:flex; flex-direction:column; gap:18px; max-width:440px; }
+  .cmp-head{ display:flex; align-items:baseline; justify-content:space-between;
+    gap:12px; margin-bottom:9px; }
+  .cmp-name{ font-size:13px; font-weight:600; color:var(--ink-soft); letter-spacing:.01em; }
+  .cmp-pct{ font-size:13.5px; font-weight:700; color:var(--muted); font-variant-numeric:tabular-nums; }
+  .cmp-bar{ position:relative; height:14px; border-radius:8px; overflow:hidden;
+    background:repeating-linear-gradient(45deg, rgba(50,46,39,.13) 0 2px, rgba(50,46,39,.045) 2px 6px); }
+  .cmp-fill{ position:absolute; inset:0 auto 0 0; width:0; border-radius:8px;
+    background:rgba(50,46,39,.3); transition:width 1.15s cubic-bezier(.16,1,.3,1); }
+  .viz.in .cmp-fill{ width:var(--w); }
+  .cmp-row.win .cmp-name{ color:var(--ink); }
+  .cmp-row.win .cmp-pct{ color:var(--gold); }
+  .cmp-row.win .cmp-fill{ background:var(--gold-lt);
+    box-shadow:0 4px 14px -5px rgba(214,156,26,.6); }
 
   .trust-creds{ display:flex; flex-wrap:wrap; gap:10px;
     padding-top:clamp(24px,3vw,34px); border-top:1px solid rgba(50,46,39,.1); }
@@ -479,8 +464,7 @@
   @media (prefers-reduced-motion:reduce){
     .odo.run .odo-reel{ transition:none; }
     .viz .dot{ opacity:1; transform:none; animation:none; }
-    .viz .range-chart .pt{ opacity:1; transform:translate(-50%,-50%) scale(1); animation:none; }
-    .viz .range-chart path{ stroke-dashoffset:0; animation:none; }
+    .viz.in .cmp-fill{ transition:none; }
   }
 
   /* ── S8 — TESTIMONIALS (horizontal carousel) ───────── */
@@ -633,16 +617,17 @@
         <div class="stat">
           <div class="odo" data-value="99.9" data-suffix="%"></div>
           <div class="stat-label">accuracy &middot; ASPCR technology</div>
-          <!-- visual: every marker read against your healthy range -->
-          <div class="viz viz-range">
-            <div class="range-row"><span class="range-pill"></span><span class="range-label">Above range</span></div>
-            <div class="range-row rng-in"><span class="range-pill"></span><span class="range-label">In range</span></div>
-            <div class="range-row"><span class="range-pill"></span><span class="range-label">Below range</span></div>
-            <div class="range-chart">
-              <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M8,34 L50,66 L90,52" pathLength="1"/></svg>
-              <span class="pt" style="left:8%;top:34%"><b>16.7</b></span>
-              <span class="pt" style="left:50%;top:66%"><b>10.0</b></span>
-              <span class="pt" style="left:90%;top:52%"><b>12.5</b></span>
+          <!-- visual: our accuracy vs the industry standard, so 99.9% has context -->
+          <div class="viz viz-cmp">
+            <div class="cmp">
+              <div class="cmp-row">
+                <div class="cmp-head"><span class="cmp-name">Industry standard</span><span class="cmp-pct">92%</span></div>
+                <div class="cmp-bar"><span class="cmp-fill" style="--w:92%"></span></div>
+              </div>
+              <div class="cmp-row win">
+                <div class="cmp-head"><span class="cmp-name">MyDNAPedia</span><span class="cmp-pct">99.9%</span></div>
+                <div class="cmp-bar"><span class="cmp-fill" style="--w:99.9%"></span></div>
+              </div>
             </div>
           </div>
         </div>
