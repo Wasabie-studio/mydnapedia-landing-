@@ -385,18 +385,18 @@
   }
 
   /* ── S7 — TRUST & CREDENTIALS ──────────────────────── */
-  .trust-sec{ position:relative; padding:120px max(24px,6vw); }
-  .trust-wrap{ max-width:1060px; margin:0 auto; position:relative; }
+  .trust-sec{ position:relative; }
+  .trust-wrap{ padding:120px max(42px,6vw); position:relative; }
   .trust-wrap .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
     text-transform:uppercase; color:var(--muted); }
   .trust-wrap h2{ font-family:var(--font-display); font-weight:500;
-    font-size:clamp(30px,3.6vw,50px); line-height:1.07; letter-spacing:-.01em;
-    color:var(--ink); margin:14px 0 16px; }
+    font-size:clamp(34px,4vw,56px); line-height:1.06; letter-spacing:-.01em;
+    color:var(--ink); margin:16px 0 14px; }
   .trust-lead{ font-size:clamp(15px,1.2vw,18px); line-height:1.6;
-    color:var(--muted); font-weight:500; max-width:56ch; }
+    color:var(--muted); font-weight:500; max-width:48ch; }
 
   .trust-stats{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch;
-    margin:clamp(40px,5vw,64px) 0 clamp(28px,3vw,40px); }
+    margin:50px 0 clamp(28px,3vw,40px); }
   .stat{ position:relative; display:flex; flex-direction:column;
     border:1px solid rgba(50,46,39,.1); border-radius:24px; background:#F9F6EF;
     padding:clamp(24px,3vw,36px); box-shadow:0 16px 44px -32px rgba(74,55,18,.26); }
@@ -472,8 +472,8 @@
   .cred svg{ width:15px; height:15px; color:var(--gold); flex:none; }
 
   @media (max-width:860px){
-    .trust-sec{ padding:64px 18px; }
-    .trust-stats{ grid-template-columns:1fr; gap:16px; }
+    .trust-wrap{ padding:72px 22px 84px; }
+    .trust-stats{ grid-template-columns:1fr; gap:16px; margin-top:36px; }
     .trust-wrap h2 br{ display:none; }
   }
   @media (prefers-reduced-motion:reduce){
