@@ -446,6 +446,55 @@
     opacity:0; transition:opacity .5s;
   }
   .how-footer.vis{ opacity:1; }
+
+  /* ── step-card icon animations ──────────── */
+  .icon-order{ perspective:180px; }
+  .icon-order svg{ animation:box-bounce 3s ease-in-out infinite; }
+  .icon-order .box-lid{ transform-origin:50% 100%; animation:lid-open 3s ease-in-out infinite; }
+  @keyframes box-bounce{
+    0%,35%{ transform:translateY(0); }
+    43%{ transform:translateY(-3px); }
+    51%{ transform:translateY(0); }
+    58%{ transform:translateY(-2px); }
+    66%,100%{ transform:translateY(0); }
+  }
+  @keyframes lid-open{
+    0%,35%{ transform:rotateX(0deg); }
+    55%,78%{ transform:rotateX(-52deg); }
+    100%{ transform:rotateX(0deg); }
+  }
+
+  .icon-swab svg{ animation:swab-rock 2s ease-in-out infinite; transform-origin:center; }
+  .icon-swab .swab-tip{ animation:tip-glow 2s ease-in-out infinite; }
+  @keyframes swab-rock{ 0%,100%{ transform:rotate(-20deg); } 50%{ transform:rotate(20deg); } }
+  @keyframes tip-glow{ 0%,100%{ opacity:.6; } 50%{ opacity:1; filter:drop-shadow(0 0 3px rgba(228,169,47,.9)); } }
+
+  .icon-post svg{ animation:env-fly 3.2s ease-in-out infinite; }
+  .icon-post .env-flap{ transform-origin:50% 0%; animation:flap-fold 3.2s ease-in-out infinite; }
+  @keyframes flap-fold{ 0%,18%{ transform:scaleY(-.6); } 42%,100%{ transform:scaleY(1); } }
+  @keyframes env-fly{
+    0%,38%{ transform:translate(0,1px) rotate(0deg); opacity:1; }
+    64%{ transform:translate(7px,-7px) rotate(13deg); opacity:.5; }
+    65%{ transform:translate(-10px,6px) rotate(-3deg); opacity:0; }
+    88%{ transform:translate(0,1px) rotate(0deg); opacity:0; }
+    100%{ transform:translate(0,1px) rotate(0deg); opacity:1; }
+  }
+
+  .icon-dna{ perspective:130px; }
+  .icon-dna svg{ animation:helix-spin 4s linear infinite; }
+  @keyframes helix-spin{ from{ transform:rotateY(0deg); } to{ transform:rotateY(360deg); } }
+
+  .step-check{
+    stroke-dasharray:22;
+    stroke-dashoffset:22;
+    animation:draw-check 3s ease-in-out infinite;
+  }
+  @keyframes draw-check{
+    0%,15%{ stroke-dashoffset:22; }
+    50%,80%{ stroke-dashoffset:0; }
+    100%{ stroke-dashoffset:22; }
+  }
+
   @media(max-width:860px){
     .how{ height:calc(100vh + 5 * 95vh); }
     .how-pin{ padding:0 22px 36px; }
@@ -680,9 +729,11 @@
 
         <div class="step-card">
           <div class="step-left">
-            <div class="step-icon">
-              <!-- Package / delivery -->
-              <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            <div class="step-icon icon-order">
+              <svg viewBox="0 0 24 24">
+                <g class="box-body"><rect x="3" y="9" width="18" height="13" rx="1.5"/><line x1="12" y1="9" x2="12" y2="22"/></g>
+                <g class="box-lid"><rect x="2" y="5" width="20" height="4.5" rx="1.5"/><path d="M9 5V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V5"/></g>
+              </svg>
             </div>
             <span class="step-num">Step 01</span>
           </div>
@@ -694,9 +745,12 @@
 
         <div class="step-card">
           <div class="step-left">
-            <div class="step-icon">
-              <!-- Cotton swab -->
-              <svg viewBox="0 0 24 24"><rect x="10" y="2" width="4" height="5" rx="2"/><rect x="11" y="7" width="2" height="10" rx="1"/><rect x="10" y="17" width="4" height="5" rx="2"/></svg>
+            <div class="step-icon icon-swab">
+              <svg viewBox="0 0 24 24">
+                <rect class="swab-tip" x="10" y="2" width="4" height="5" rx="2"/>
+                <rect x="11" y="7" width="2" height="10" rx="1"/>
+                <rect class="swab-tip" x="10" y="17" width="4" height="5" rx="2"/>
+              </svg>
             </div>
             <span class="step-num">Step 02</span>
           </div>
@@ -708,9 +762,11 @@
 
         <div class="step-card">
           <div class="step-left">
-            <div class="step-icon">
-              <!-- Envelope / mail -->
-              <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <div class="step-icon icon-post">
+              <svg viewBox="0 0 24 24">
+                <g class="env-body"><rect x="2" y="4" width="20" height="16" rx="2"/></g>
+                <path class="env-flap" d="M2 4l10 8 10-8"/>
+              </svg>
             </div>
             <span class="step-num">Step 03</span>
           </div>
@@ -722,9 +778,14 @@
 
         <div class="step-card">
           <div class="step-left">
-            <div class="step-icon">
-              <!-- Lab flask / analysis -->
-              <svg viewBox="0 0 24 24"><path d="M10 2v7.31l-4.72 6.29A2 2 0 0 0 6.9 18.5h10.2a2 2 0 0 0 1.62-3.19L14 9.31V2"/><line x1="8.5" y1="2" x2="15.5" y2="2"/><path d="M7 15.5h10"/></svg>
+            <div class="step-icon icon-dna">
+              <svg viewBox="0 0 24 24">
+                <path d="M5,2 C16,5 8,10 16,12 C8,14 16,19 5,22"/>
+                <path d="M19,2 C8,5 16,10 8,12 C16,14 8,19 19,22"/>
+                <line x1="5" y1="2" x2="19" y2="2"/>
+                <line x1="8" y1="12" x2="16" y2="12"/>
+                <line x1="5" y1="22" x2="19" y2="22"/>
+              </svg>
             </div>
             <span class="step-num">Step 04</span>
           </div>
@@ -736,9 +797,14 @@
 
         <div class="step-card">
           <div class="step-left">
-            <div class="step-icon">
-              <!-- Document / report -->
-              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+            <div class="step-icon icon-report">
+              <svg viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13" opacity="0.4"/>
+                <line x1="13" y1="17" x2="8" y2="17" opacity="0.4"/>
+                <polyline class="step-check" points="7 13 10 16 16 10"/>
+              </svg>
             </div>
             <span class="step-num">Step 05</span>
           </div>
