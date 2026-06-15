@@ -386,11 +386,7 @@
 
   /* ── S7 — TRUST & CREDENTIALS ──────────────────────── */
   .trust-sec{ position:relative; padding:120px max(24px,6vw); }
-  .trust-wrap{ max-width:1100px; margin:0 auto; position:relative; overflow:hidden;
-    border:1px solid rgba(50,46,39,.1); border-radius:32px;
-    background:radial-gradient(120% 95% at 50% -12%, rgba(231,180,62,.2), transparent 58%), #fff;
-    box-shadow:0 30px 80px -50px rgba(74,55,18,.45);
-    padding:clamp(40px,6vw,76px) clamp(24px,5vw,72px); }
+  .trust-wrap{ max-width:1060px; margin:0 auto; position:relative; }
   .trust-wrap .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
     text-transform:uppercase; color:var(--muted); }
   .trust-wrap h2{ font-family:var(--font-display); font-weight:500;
@@ -399,11 +395,11 @@
   .trust-lead{ font-size:clamp(15px,1.2vw,18px); line-height:1.6;
     color:var(--muted); font-weight:500; max-width:56ch; }
 
-  .trust-stats{ display:grid; grid-template-columns:1fr 1fr; gap:20px;
+  .trust-stats{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch;
     margin:clamp(40px,5vw,64px) 0 clamp(28px,3vw,40px); }
   .stat{ position:relative; display:flex; flex-direction:column;
-    border:1px solid rgba(50,46,39,.1); border-radius:24px; background:#fff;
-    padding:clamp(22px,3vw,34px); box-shadow:0 18px 50px -34px rgba(74,55,18,.28); }
+    border:1px solid rgba(50,46,39,.09); border-radius:24px; background:#fff;
+    padding:clamp(24px,3vw,36px); box-shadow:0 16px 44px -32px rgba(74,55,18,.26); }
   .stat-label{ margin-top:14px; font-size:clamp(13px,1.05vw,15.5px);
     font-weight:600; color:var(--ink-soft); letter-spacing:.005em; }
 
@@ -422,16 +418,16 @@
     color:var(--gold); margin-left:.06em; padding-bottom:.12em; }
 
   /* ── stat mini-visuals (reveal on scroll) ── */
-  .viz{ margin-top:clamp(20px,2.6vw,30px); }
+  .viz{ margin-top:auto; padding-top:clamp(22px,3vw,32px); }
   @keyframes vizrise{ to{ opacity:1; transform:translateY(0); } }
   @keyframes vizpop{ to{ opacity:1; transform:translate(-50%,-50%) scale(1); } }
   @keyframes vizdraw{ to{ stroke-dashoffset:0; } }
 
-  /* A — volume dot-grid: each dot ≈ a batch of completed tests */
+  /* A — volume dots: a small row, a few left open to read as "still growing" */
   .viz-grid{ display:flex; flex-direction:column; gap:14px; }
-  .dot-grid{ display:grid; grid-template-columns:repeat(8,1fr); gap:clamp(9px,1.3vw,14px); }
-  .dot{ aspect-ratio:1/1; border-radius:50%; background:rgba(50,46,39,.12);
-    opacity:0; transform:scale(.3); }
+  .dot-grid{ display:flex; flex-wrap:wrap; gap:clamp(10px,1.4vw,14px); }
+  .dot{ width:clamp(16px,2.1vw,20px); height:clamp(16px,2.1vw,20px); border-radius:50%;
+    background:rgba(50,46,39,.12); opacity:0; transform:scale(.3); }
   .dot.on{ background:var(--gold-lt); box-shadow:0 3px 8px -3px rgba(214,156,26,.55); }
   .viz.in .dot{ animation:dotin .42s cubic-bezier(.22,1,.36,1) both;
     animation-delay:calc(var(--i) * 26ms); }
@@ -441,9 +437,9 @@
   .grid-cap i{ width:9px; height:9px; border-radius:50%; background:var(--gold-lt); flex:none; }
 
   /* B — results range chart */
-  .viz-range{ position:relative; display:flex; flex-direction:column; gap:8px; padding-top:14px; }
+  .viz-range{ position:relative; display:flex; flex-direction:column; gap:6px; padding-top:12px; }
   .range-row{ position:relative; display:flex; align-items:center; gap:12px;
-    height:clamp(42px,5vw,50px); padding-left:8px; border-radius:12px; }
+    height:clamp(36px,4.2vw,42px); padding-left:8px; border-radius:12px; }
   .range-row.rng-in{ background:rgba(228,169,47,.14); }
   .range-pill{ width:6px; height:22px; border-radius:6px; background:rgba(50,46,39,.18); flex:none; }
   .range-row.rng-in .range-pill{ background:var(--gold-lt); height:30px; }
@@ -571,7 +567,7 @@
           <div class="stat-label">tests conducted globally</div>
           <!-- visual: volume dot-grid — each dot ≈ a batch of completed tests -->
           <div class="viz viz-grid">
-            <div class="dot-grid" data-dots="32" data-on="28"></div>
+            <div class="dot-grid" data-dots="10" data-on="8"></div>
             <div class="grid-cap"><i></i> 1.8M+ samples processed since 2012</div>
           </div>
         </div>
