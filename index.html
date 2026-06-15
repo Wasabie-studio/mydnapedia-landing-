@@ -395,10 +395,12 @@
   .trust-lead{ font-size:clamp(15px,1.2vw,18px); line-height:1.6;
     color:var(--muted); font-weight:500; max-width:48ch; }
 
-  .trust-stats{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(28px,5vw,72px);
-    align-items:start; margin:48px 0 clamp(30px,3.5vw,46px); }
-  .stat{ position:relative; display:flex; flex-direction:column; }
-  .stat-label{ margin-top:10px; font-size:clamp(13px,1.05vw,15px);
+  .trust-stats{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch;
+    margin:48px 0 clamp(30px,3.5vw,46px); }
+  .stat{ position:relative; display:flex; flex-direction:column;
+    border:1px solid rgba(50,46,39,.1); border-radius:24px; background:#F9F6EF;
+    padding:clamp(24px,3vw,36px); box-shadow:0 16px 44px -32px rgba(74,55,18,.26); }
+  .stat-label{ margin-top:12px; font-size:clamp(13px,1.05vw,15px);
     font-weight:600; color:var(--ink-soft); letter-spacing:.005em; }
 
   /* odometer number — digits roll up into place on scroll */
@@ -416,21 +418,28 @@
     color:var(--gold); margin-left:.06em; padding-bottom:.12em; }
 
   /* ── stat mini-visuals (reveal on scroll) ── */
-  .viz{ margin-top:clamp(20px,2.4vw,28px); }
+  .viz{ margin-top:auto; padding-top:clamp(20px,2.4vw,28px); }
   @keyframes vizrise{ to{ opacity:1; transform:translateY(0); } }
+  @keyframes vizdraw{ to{ stroke-dashoffset:0; } }
+  @keyframes vizpop{ to{ opacity:1; transform:translate(-50%,-50%) scale(1); } }
 
-  /* A — volume dots: a small row, a few left open to read as "still growing" */
-  .viz-grid{ display:flex; flex-direction:column; gap:14px; }
-  .dot-grid{ display:flex; flex-wrap:wrap; gap:clamp(10px,1.4vw,14px); }
-  .dot{ width:clamp(16px,2.1vw,20px); height:clamp(16px,2.1vw,20px); border-radius:50%;
-    background:rgba(50,46,39,.12); opacity:0; transform:scale(.3); }
-  .dot.on{ background:var(--gold-lt); box-shadow:0 3px 8px -3px rgba(214,156,26,.55); }
-  .viz.in .dot{ animation:dotin .42s cubic-bezier(.22,1,.36,1) both;
-    animation-delay:calc(var(--i) * 26ms); }
-  @keyframes dotin{ to{ opacity:1; transform:scale(1); } }
-  .grid-cap{ display:flex; align-items:center; gap:8px; font-size:12.5px;
-    font-weight:600; color:var(--muted); }
-  .grid-cap i{ width:9px; height:9px; border-radius:50%; background:var(--gold-lt); flex:none; }
+  /* A — cumulative growth: tests built up since the 2012 founding */
+  .viz-growth{ display:flex; flex-direction:column; gap:12px; }
+  .growth{ position:relative; height:clamp(100px,12vw,132px); }
+  .growth svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .growth-area{ opacity:0; transition:opacity 1.1s ease .3s; }
+  .viz.in .growth-area{ opacity:1; }
+  .growth-line{ fill:none; stroke:var(--gold-lt); stroke-width:2.5;
+    stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke;
+    stroke-dasharray:1; stroke-dashoffset:1; }
+  .viz.in .growth-line{ animation:vizdraw 1.25s ease .15s forwards; }
+  .growth-dot{ position:absolute; width:13px; height:13px; border-radius:50%;
+    background:var(--gold-lt); border:2.5px solid #F9F6EF;
+    box-shadow:0 4px 12px -3px rgba(214,156,26,.7);
+    transform:translate(-50%,-50%) scale(.3); opacity:0; }
+  .viz.in .growth-dot{ animation:vizpop .5s cubic-bezier(.22,1,.36,1) 1.1s both; }
+  .growth-axis{ display:flex; justify-content:space-between;
+    font-size:11.5px; font-weight:600; color:var(--muted); letter-spacing:.02em; }
 
   /* B — accuracy vs industry-standard comparison bars */
   .cmp{ display:flex; flex-direction:column; gap:18px; max-width:440px; }
@@ -463,7 +472,9 @@
   }
   @media (prefers-reduced-motion:reduce){
     .odo.run .odo-reel{ transition:none; }
-    .viz .dot{ opacity:1; transform:none; animation:none; }
+    .viz .growth-area{ opacity:1; transition:none; }
+    .viz .growth-line{ stroke-dashoffset:0; animation:none; }
+    .viz .growth-dot{ opacity:1; transform:translate(-50%,-50%) scale(1); animation:none; }
     .viz.in .cmp-fill{ transition:none; }
   }
 
@@ -608,10 +619,20 @@
         <div class="stat">
           <div class="odo" data-value="1.8" data-suffix="M+"></div>
           <div class="stat-label">tests conducted globally</div>
-          <!-- visual: volume dot-grid — each dot ≈ a batch of completed tests -->
-          <div class="viz viz-grid">
-            <div class="dot-grid" data-dots="10" data-on="8"></div>
-            <div class="grid-cap"><i></i> 1.8M+ samples processed since 2012</div>
+          <!-- visual: cumulative growth — tests built up from the 2012 founding to today -->
+          <div class="viz viz-growth">
+            <div class="growth">
+              <svg viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true">
+                <defs><linearGradient id="growthFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#E4A92F" stop-opacity=".32"/>
+                  <stop offset="1" stop-color="#E4A92F" stop-opacity="0"/>
+                </linearGradient></defs>
+                <path class="growth-area" fill="url(#growthFill)" d="M0,55 C22,53 38,49 54,39 C70,30 84,18 96,11 L96,60 L0,60 Z"/>
+                <path class="growth-line" pathLength="1" d="M0,55 C22,53 38,49 54,39 C70,30 84,18 96,11"/>
+              </svg>
+              <span class="growth-dot" style="left:96%;top:18%"></span>
+            </div>
+            <div class="growth-axis"><span>2012 &middot; Finland</span><span>Today &middot; 1.8M+</span></div>
           </div>
         </div>
         <div class="stat">
