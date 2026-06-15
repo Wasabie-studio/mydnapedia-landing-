@@ -100,7 +100,7 @@
   /* soft ambient glow behind the left content so frosted pills have light
      to refract — this is what makes the eyebrow + CTA read as real glass */
   /* two warm gold blobs that drift + pulse on different timings = living glow */
-  .ambient{ position:absolute; inset:0; z-index:3; pointer-events:none; overflow:hidden; }
+  .ambient{ display:none; }  /* EXPERIMENT: no gold glow behind text on the white bg */
   .ambient::before, .ambient::after{
     content:""; position:absolute; border-radius:50%; will-change:transform, opacity;
   }
