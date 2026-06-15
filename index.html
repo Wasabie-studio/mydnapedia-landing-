@@ -491,12 +491,9 @@
     color:var(--muted); font-weight:500; max-width:48ch; }
   /* full-bleed auto-running ticker */
   .tcards{ margin-top:44px; overflow:hidden; padding:8px 0;
-    margin-left:calc(-1 * var(--gut)); margin-right:calc(-1 * var(--gut));
-    -webkit-mask-image:linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
-    mask-image:linear-gradient(to right, transparent, #000 5%, #000 95%, transparent); }
+    margin-left:calc(-1 * var(--gut)); margin-right:calc(-1 * var(--gut)); }
   .tticker{ display:flex; width:max-content; will-change:transform;
     animation:ticker 55s linear infinite; }
-  .tcards:hover .tticker{ animation-play-state:paused; }
   @keyframes ticker{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
   /* image-fill card: portrait photo with quote + name overlaid at the bottom */
   .tcard{ position:relative; flex:0 0 clamp(258px,27vw,326px); aspect-ratio:4/5;
