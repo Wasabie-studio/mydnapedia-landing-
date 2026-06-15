@@ -397,27 +397,38 @@
   .step-card{
     position:absolute; inset:0;
     border-radius:26px;
-    transform-origin:top center; /* scale shrinks downward so bottom edge peeks */
+    transform-origin:top center;
     background:rgba(255,255,255,.76);
     backdrop-filter:blur(20px) saturate(1.3);
     -webkit-backdrop-filter:blur(20px) saturate(1.3);
     border:1px solid rgba(255,255,255,.9);
     padding:44px 60px;
-    display:grid; grid-template-columns:auto 1fr;
-    gap:0 48px; align-items:center;
+    display:grid; grid-template-columns:76px 1fr;
+    gap:0 40px; align-items:center;
     box-shadow:0 12px 48px rgba(50,46,39,.13), 0 2px 8px rgba(50,46,39,.06);
     transform:translateY(110%);
     will-change:transform;
   }
-  /* smooth depth repositioning when a new card lands on top */
   .step-card[data-settled]{
     transition:transform .45s cubic-bezier(.25,.46,.45,.94);
   }
+  .step-left{
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  .step-icon{
+    width:56px; height:56px; border-radius:16px;
+    background:rgba(228,169,47,.10);
+    border:1.5px solid rgba(228,169,47,.28);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .step-icon svg{
+    width:26px; height:26px;
+    stroke:var(--gold); fill:none;
+    stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round;
+  }
   .step-num{
-    font-family:var(--font-display); font-weight:500;
-    font-size:clamp(52px,6.5vw,90px);
-    color:var(--gold-lt); opacity:.28; line-height:1;
-    letter-spacing:-.03em; user-select:none;
+    font-size:11px; font-weight:700; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--muted); user-select:none;
   }
   .step-title{
     font-family:var(--font-display); font-weight:500;
@@ -669,41 +680,77 @@
         <h2>Simple. Private. Precise.</h2>
       </div>
       <div class="how-cards">
+
         <div class="step-card">
-          <span class="step-num">01</span>
+          <div class="step-left">
+            <div class="step-icon">
+              <!-- Package / delivery -->
+              <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </div>
+            <span class="step-num">Step 01</span>
+          </div>
           <div class="step-body">
             <h3 class="step-title">Order</h3>
             <p class="step-desc">Your kit is delivered to your door. Everything you need is inside.</p>
           </div>
         </div>
+
         <div class="step-card">
-          <span class="step-num">02</span>
+          <div class="step-left">
+            <div class="step-icon">
+              <!-- Cotton swab -->
+              <svg viewBox="0 0 24 24"><rect x="10" y="2" width="4" height="5" rx="2"/><rect x="11" y="7" width="2" height="10" rx="1"/><rect x="10" y="17" width="4" height="5" rx="2"/></svg>
+            </div>
+            <span class="step-num">Step 02</span>
+          </div>
           <div class="step-body">
             <h3 class="step-title">Swab</h3>
             <p class="step-desc">Swab the inside of your cheek at home. Takes two minutes. Completely painless.</p>
           </div>
         </div>
+
         <div class="step-card">
-          <span class="step-num">03</span>
+          <div class="step-left">
+            <div class="step-icon">
+              <!-- Envelope / mail -->
+              <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </div>
+            <span class="step-num">Step 03</span>
+          </div>
           <div class="step-body">
             <h3 class="step-title">Post</h3>
             <p class="step-desc">Send your swab back in the prepaid envelope included in the kit. No clinic visit needed.</p>
           </div>
         </div>
+
         <div class="step-card">
-          <span class="step-num">04</span>
+          <div class="step-left">
+            <div class="step-icon">
+              <!-- Lab flask / analysis -->
+              <svg viewBox="0 0 24 24"><path d="M10 2v7.31l-4.72 6.29A2 2 0 0 0 6.9 18.5h10.2a2 2 0 0 0 1.62-3.19L14 9.31V2"/><line x1="8.5" y1="2" x2="15.5" y2="2"/><path d="M7 15.5h10"/></svg>
+            </div>
+            <span class="step-num">Step 04</span>
+          </div>
           <div class="step-body">
             <h3 class="step-title">Analysis</h3>
             <p class="step-desc">Your DNA is analysed in our EU-certified laboratory using ASPCR technology. 99.9% accuracy.</p>
           </div>
         </div>
+
         <div class="step-card">
-          <span class="step-num">05</span>
+          <div class="step-left">
+            <div class="step-icon">
+              <!-- Document / report -->
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+            </div>
+            <span class="step-num">Step 05</span>
+          </div>
           <div class="step-body">
             <h3 class="step-title">Counsel &amp; Report</h3>
             <p class="step-desc">Before you see a single number, a genetic counsellor walks you through your findings. Then your full report is yours — to keep, to share with your doctor, to act on.</p>
           </div>
         </div>
+
       </div>
       <p class="how-footer">Results delivered in 3 to 4 weeks from the day your sample reaches the lab.</p>
     </div>
