@@ -8,5 +8,7 @@ node_modules/
 .netlify/
 .vscode/
 
-# source master (kept out of the repo — frames are committed instead)
+# source masters (kept out of the repo — frames are committed instead)
 *.mp4
+# ...but the web-optimized hero loop video IS shipped
+!assets/hero-loop.mp4

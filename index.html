@@ -8,7 +8,7 @@
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=sentient@400,500,700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:        #F7F2E8;   /* warm off-white, matches the helix frame bg */
+    --bg:        #FFFFFF;   /* EXPERIMENT: white bg for all sections */
     --ink:       #322E27;   /* dark warm gray (softer than pure black) */
     --ink-soft:  #4a443a;   /* softer dark for labels */
     --muted:     #837B69;   /* muted warm grey */
@@ -16,7 +16,7 @@
     --gold-lt:   #E4A92F;   /* vibrant honey-gold — for FILLS/accents (dark text on it) */
     --on-gold:   #1c1406;   /* near-black text/icons on gold fills */
 
-    /* frosted-glass system (light) — more transparent so the blur reads as glass */
+    /* frosted-glass system (light) */
     --glass:     rgba(255,255,255,.32);
     --glass-cta: rgba(255,255,255,.4);
     --glass-brd: rgba(255,255,255,.55);
@@ -36,7 +36,7 @@
     overflow-x:hidden;
   }
 
-  /* ── FLOATING GLASS NAV (centered) ──────────────────── */
+  /* ── FLOATING GLASS NAV ──────────────────────────────── */
   .nav{
     position:fixed; top:22px; left:50%; transform:translateX(-50%);
     z-index:50; display:flex; align-items:center; gap:10px;
@@ -65,7 +65,6 @@
     transition:color .25s ease, background .25s ease;
   }
   .nav-links a:hover{ color:var(--ink); background:rgba(255,255,255,.38); }
-  /* primary action — emphasized gold button (near-black text for contrast) */
   .nav-cta{
     display:inline-flex; align-items:center; gap:8px; margin-left:6px;
     background:rgba(247,190,40,.82);
@@ -82,22 +81,20 @@
   .nav-cta svg{ width:15px; height:15px; transition:transform .3s cubic-bezier(.22,1,.36,1); }
   .nav-cta:hover svg{ transform:translateX(3px); }
 
-  /* ── PINNED STAGE (hero + tension share one pin) ────── */
+  /* ── PINNED STAGE (hero + tension share one pin) ─────── */
   .stage{ position:relative; height:300vh; }
   .stage-sticky{ position:sticky; top:0; height:100vh; width:100%; overflow:hidden; }
-  #dna{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index:1; }
+  /* EXPERIMENT: looping video. Helix is centered in the source, placed on the RIGHT. */
+  #dna{ position:absolute; top:0; right:0; bottom:0; width:58%; height:100%; display:block; z-index:1;
+    object-fit:cover; object-position:78% center; }
 
-  /* warm wash on the left so text always reads over the video */
   .stage-sticky::before{
     content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
     background:linear-gradient(100deg,
-      var(--bg) 0%, rgba(247,242,232,.94) 26%,
-      rgba(247,242,232,.5) 46%, rgba(247,242,232,0) 64%);
+      var(--bg) 0%, rgba(255,255,255,.94) 26%,
+      rgba(255,255,255,.5) 46%, rgba(255,255,255,0) 64%);
   }
-  /* soft ambient glow behind the left content so frosted pills have light
-     to refract — this is what makes the eyebrow + CTA read as real glass */
-  /* two warm gold blobs that drift + pulse on different timings = living glow */
-  .ambient{ position:absolute; inset:0; z-index:3; pointer-events:none; overflow:hidden; }
+  .ambient{ display:none; }  /* EXPERIMENT: no gold glow behind text on white bg */
   .ambient::before, .ambient::after{
     content:""; position:absolute; border-radius:50%; will-change:transform, opacity;
   }
@@ -120,18 +117,15 @@
     50%    { transform:translate(-38px,34px)  scale(.9);   opacity:.95; }
   }
 
-  /* fade-to-bg overlay so the helix dissolves into the plans section's bg
-     instead of cutting abruptly when the pin releases */
   .stage-fade{
     position:absolute; left:0; right:0; bottom:0; height:62vh; z-index:4;
     pointer-events:none; opacity:0; will-change:opacity;
     background:linear-gradient(to bottom,
-      rgba(247,242,232,0) 0%,
-      rgba(247,242,232,.55) 50%,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,.55) 50%,
       var(--bg) 100%);
   }
 
-  /* shared frosted-glass primitive */
   .glass{
     background:var(--glass);
     -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
@@ -170,7 +164,6 @@
     font-size:clamp(16px,1.25vw,19px); line-height:1.6;
     color:var(--muted); max-width:36ch; margin-bottom:40px; font-weight:500;
   }
-  /* CTA — frosted glass */
   .cta{
     display:inline-flex; align-items:center; gap:14px;
     background:var(--glass-cta);
@@ -197,7 +190,6 @@
   .cta:hover .arw{ transform:translateX(4px); }
   .cta .arw svg{ width:17px; height:17px; }
 
-  /* trust bar — frosted glass */
   .trust{
     position:absolute; z-index:5; right:max(42px,6vw); bottom:48px;
     display:flex; align-items:center; gap:0;
@@ -208,20 +200,18 @@
   .trust .item b{ display:block; font-size:19px; font-weight:700; letter-spacing:-.01em; color:var(--ink); }
   .trust .item span{ display:block; font-size:11.5px; font-weight:500; color:var(--muted); margin-top:3px; }
 
-  /* ── S2 TENSION LINE (left-aligned, airy, serif) ────── */
+  /* ── S2 TENSION LINE ────────────────────────────────── */
   .tension{
     position:absolute; z-index:6; inset:0;
     display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
     text-align:left; padding-left:max(42px,6vw); padding-right:6vw;
     opacity:0; pointer-events:none; will-change:opacity, transform;
   }
-  /* setup line — quiet body font so it recedes and lets the word be the star */
   .tension .lead{
     font-family:"Satoshi", sans-serif; font-weight:500;
     font-size:clamp(18px,1.85vw,26px); line-height:1.5; letter-spacing:.002em;
     color:var(--muted);
   }
-  /* the changing word — the single dramatic Canela moment, in gold */
   .tension .wordwrap{ display:block; margin-top:clamp(14px,1.5vw,24px); }
   .tension .word{
     font-family:var(--font-display); font-weight:400;
@@ -251,7 +241,6 @@
   .hero .cta{ animation-delay:.78s; }
   .trust{ animation-delay:.92s; }
 
-  /* headline — word-by-word reveal that overshoots bigger then settles */
   .hero h1 .w{ display:inline-block; animation:wordin .72s cubic-bezier(.22,1,.36,1) both; }
   @keyframes wordin{
     0%  { opacity:0; transform:translateY(16px) scale(.9);  filter:blur(7px); }
@@ -292,7 +281,6 @@
   }
 
   /* ── S4 — PLANS / PRICING ──────────────────────────── */
-  /* match the hero's horizontal rhythm (max(42px,6vw)) — no max-width */
   .plans{ padding:120px max(42px,6vw); }
   .plans-head{ margin-bottom:50px; }
   .plans .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
@@ -301,11 +289,9 @@
     font-size:clamp(34px,4vw,56px); line-height:1.06; letter-spacing:-.01em;
     color:var(--ink); margin:16px 0 14px; }
   .plans-sub{ font-size:clamp(15px,1.2vw,18px); color:var(--muted); font-weight:500; max-width:46ch; }
-  /* left = wide rectangle, right = square card. The two scroll together as a group. */
   .plans-grid{ display:grid; grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);
     gap:28px; align-items:start; }
 
-  /* left = one rounded box of expandable rows */
   .plans-list{ border:1px solid rgba(50,46,39,.1); border-radius:24px; background:#fff;
     padding:8px; display:flex; flex-direction:column; gap:4px;
     box-shadow:0 18px 50px -32px rgba(74,55,18,.26); }
@@ -348,13 +334,10 @@
   .acc-cta svg{ width:15px; height:15px; }
   .acc-addons{ font-size:12px; color:var(--muted); margin-top:16px; padding-top:14px; border-top:1px solid rgba(50,46,39,.1); }
 
-  /* right glass card — rounded square. Not sticky: scrolls grouped with the left rectangle. */
   .plans-card{ border-radius:24px; padding:14px; align-self:start; }
   .helix-stage{ position:relative; border-radius:18px; overflow:hidden; aspect-ratio:1/1;
     background:radial-gradient(120% 100% at 50% 34%, rgba(231,180,62,.16), rgba(247,242,232,.5)); }
   #planHelix{ width:100%; height:100%; display:block; }
-  /* segmented toggle: all 3 are visibly raised so they read as buttons;
-     active is the brightest/most-elevated, hover lifts the inactive ones */
   .plan-toggle{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:14px;
     background:rgba(120,110,80,.12); border-radius:14px; padding:6px; }
   .plan-toggle button{ font-family:"Satoshi",sans-serif; font-size:14px; font-weight:600;
@@ -384,7 +367,83 @@
     .cat-grid{ grid-template-columns:1fr; }
   }
 
-  /* ── S7 — TRUST & CREDENTIALS ──────────────────────── */
+  /* ── S5 — HOW IT WORKS (pinned card stack) ──────────── */
+  .how{
+    position:relative;
+    height:calc(100vh + 5 * 90vh);
+    background:var(--bg);
+  }
+  .how-pin{
+    position:sticky; top:0;
+    height:100vh; overflow:hidden;
+    padding:0 max(42px,6vw) 56px;
+    display:flex; flex-direction:column;
+    background:#F0EBE0; /* warm cream so glass cards read clearly */
+  }
+  .how-head{
+    padding-top:112px; /* clears nav + breathing room */
+    text-align:center; flex-shrink:0;
+    padding-bottom:40px;
+  }
+  .how-head .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:12px; display:block; }
+  .how-head h2{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(28px,3.6vw,52px); color:var(--ink);
+    line-height:1.12; letter-spacing:-.02em; margin:0; }
+  .how-cards{
+    position:relative; flex:1; min-height:0;
+    /* no overflow:hidden — lets stacked cards peek below */
+  }
+  .step-card{
+    position:absolute; inset:0;
+    border-radius:26px;
+    transform-origin:top center; /* scale shrinks downward so bottom edge peeks */
+    background:rgba(255,255,255,.76);
+    backdrop-filter:blur(20px) saturate(1.3);
+    -webkit-backdrop-filter:blur(20px) saturate(1.3);
+    border:1px solid rgba(255,255,255,.9);
+    padding:44px 60px;
+    display:grid; grid-template-columns:auto 1fr;
+    gap:0 48px; align-items:center;
+    box-shadow:0 12px 48px rgba(50,46,39,.13), 0 2px 8px rgba(50,46,39,.06);
+    transform:translateY(110%);
+    will-change:transform;
+  }
+  /* smooth depth repositioning when a new card lands on top */
+  .step-card[data-settled]{
+    transition:transform .45s cubic-bezier(.25,.46,.45,.94);
+  }
+  .step-num{
+    font-family:var(--font-display); font-weight:500;
+    font-size:clamp(52px,6.5vw,90px);
+    color:var(--gold-lt); opacity:.28; line-height:1;
+    letter-spacing:-.03em; user-select:none;
+  }
+  .step-title{
+    font-family:var(--font-display); font-weight:500;
+    font-size:clamp(20px,2vw,28px); color:var(--ink);
+    letter-spacing:-.015em; margin:0 0 10px;
+  }
+  .step-desc{
+    font-size:clamp(14px,1.1vw,17px); color:var(--muted);
+    line-height:1.7; margin:0; max-width:56ch;
+  }
+  .how-footer{
+    flex-shrink:0; text-align:center; padding-top:60px;
+    font-size:clamp(12px,.9vw,14px); color:var(--muted);
+    font-weight:500; letter-spacing:.01em;
+    opacity:0; transition:opacity .5s;
+  }
+  .how-footer.vis{ opacity:1; }
+  @media(max-width:860px){
+    .how{ height:calc(100vh + 5 * 95vh); }
+    .how-pin{ padding:0 22px 36px; }
+    .how-head{ padding-top:88px; padding-bottom:28px; }
+    .step-card{ padding:28px 24px; gap:0 20px; }
+    .step-num{ font-size:clamp(44px,10vw,68px); }
+  }
+
+  /* ── S7 — TRUST & CREDENTIALS (designer's rework) ───── */
   .trust-sec{ position:relative; }
   .trust-wrap{ padding:120px max(42px,6vw) 78px; position:relative; }
   .trust-wrap .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
@@ -403,12 +462,11 @@
   .stat-label{ margin-top:12px; font-size:clamp(13px,1.05vw,15px);
     font-weight:600; color:var(--ink-soft); letter-spacing:.005em; }
 
-  /* odometer number — digits roll up into place on scroll */
+  /* odometer */
   .odo{ display:inline-flex; align-items:flex-end; line-height:1;
     font-family:var(--font-display); font-weight:500; color:var(--ink);
     font-size:clamp(46px,6.4vw,86px); letter-spacing:-.01em; }
-  .odo-digit{ display:inline-block; width:.62em; height:1em; overflow:hidden;
-    text-align:center; }
+  .odo-digit{ display:inline-block; width:.62em; height:1em; overflow:hidden; text-align:center; }
   .odo-reel{ display:block; transform:translateY(0); }
   .odo.run .odo-reel{ transform:translateY(calc(var(--y) * -1em));
     transition:transform 2.1s cubic-bezier(.16,1,.3,1); }
@@ -417,13 +475,12 @@
   .odo-suffix{ display:inline-block; font-size:.46em; font-weight:700;
     color:var(--gold); margin-left:.06em; padding-bottom:.12em; }
 
-  /* ── stat mini-visuals (reveal on scroll) ── */
   .viz{ margin-top:auto; padding-top:clamp(20px,2.4vw,28px); }
   @keyframes vizrise{ to{ opacity:1; transform:translateY(0); } }
   @keyframes vizdraw{ to{ stroke-dashoffset:0; } }
   @keyframes vizpop{ to{ opacity:1; transform:translate(-50%,-50%) scale(1); } }
 
-  /* A — cumulative growth: tests built up since the 2012 founding */
+  /* A — cumulative growth chart (tests built since 2012) */
   .viz-growth{ display:flex; flex-direction:column; gap:12px; }
   .growth{ position:relative; height:clamp(100px,12vw,132px); }
   .growth svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
@@ -441,7 +498,7 @@
   .growth-axis{ display:flex; justify-content:space-between;
     font-size:11.5px; font-weight:600; color:var(--muted); letter-spacing:.02em; }
 
-  /* B — accuracy vs industry-standard comparison bars */
+  /* B — accuracy vs industry comparison bars */
   .cmp{ display:flex; flex-direction:column; gap:18px; max-width:440px; }
   .cmp-head{ display:flex; align-items:baseline; justify-content:space-between;
     gap:12px; margin-bottom:9px; }
@@ -478,7 +535,7 @@
     .viz.in .cmp-fill{ transition:none; }
   }
 
-  /* ── S8 — TESTIMONIALS (horizontal carousel) ───────── */
+  /* ── S8 — TESTIMONIALS (auto-running ticker) ─────────── */
   .tmonials{ position:relative; }
   .tmonials-wrap{ --gut:max(42px,6vw); padding:58px var(--gut) 120px; position:relative; }
   .tmonials-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; }
@@ -489,19 +546,16 @@
     color:var(--ink); margin:16px 0 14px; }
   .tmonials-sub{ font-size:clamp(15px,1.2vw,18px); line-height:1.6;
     color:var(--muted); font-weight:500; max-width:48ch; }
-  /* full-bleed auto-running ticker */
   .tcards{ margin-top:44px; overflow:hidden; padding:8px 0;
     margin-left:calc(-1 * var(--gut)); margin-right:calc(-1 * var(--gut)); }
   .tticker{ display:flex; width:max-content; will-change:transform;
     animation:ticker 55s linear infinite; }
   @keyframes ticker{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
-  /* image-fill card: portrait photo with quote + name overlaid at the bottom */
   .tcard{ position:relative; flex:0 0 clamp(258px,27vw,326px); aspect-ratio:4/5;
     margin-right:22px; border-radius:24px; overflow:hidden;
     border:1px solid rgba(50,46,39,.08); box-shadow:0 18px 50px -34px rgba(74,55,18,.42);
     transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s ease; }
   .tcard:hover{ transform:translateY(-4px); box-shadow:0 30px 62px -34px rgba(74,55,18,.52); }
-  /* PLACEHOLDER portrait — set a background-image here (or drop an <img>) to use a real photo */
   .tcard-photo{ position:absolute; inset:0; background-size:cover; background-position:center;
     background-image:linear-gradient(155deg,#cfc8ba 0%,#b4ab98 48%,#928975 100%); }
   .tcard-photo svg{ position:absolute; top:40%; left:50%; transform:translate(-50%,-50%);
@@ -549,14 +603,16 @@
   <!-- ═══ PINNED STAGE: S1 hero + S2 tension share one scroll pin ═══ -->
   <section class="stage" id="stage">
     <div class="stage-sticky">
-      <canvas id="dna"></canvas>
+      <video id="dna" autoplay loop muted playsinline preload="auto">
+        <source src="assets/hero-loop.mp4" type="video/mp4" />
+      </video>
       <div class="ambient"></div>
       <div class="stage-fade" id="stageFade"></div>
 
       <!-- S1 HERO -->
       <div class="hero" id="hero">
         <span class="eyebrow glass"><i></i> Genetic wellness, decoded</span>
-        <h1>Your health is already written. Have you read&nbsp;it?</h1>
+        <h1>It's all in your&nbsp;genes.</h1>
         <p class="sub">A simple swab. A detailed report. A counselling session that changes how you see your health — forever.</p>
         <button class="cta">Get My Results
           <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -602,7 +658,55 @@
     </div>
   </section>
 
-  <!-- ═══ S7 — TRUST & CREDENTIALS ═══ -->
+  <!-- ═══ S5 — HOW IT WORKS ═══ -->
+  <section class="how" id="how-it-works">
+    <div class="how-pin">
+      <div class="how-head">
+        <span class="kicker">How It Works</span>
+        <h2>Simple. Private. Precise.</h2>
+      </div>
+      <div class="how-cards">
+        <div class="step-card">
+          <span class="step-num">01</span>
+          <div class="step-body">
+            <h3 class="step-title">Order</h3>
+            <p class="step-desc">Your kit is delivered to your door. Everything you need is inside.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">02</span>
+          <div class="step-body">
+            <h3 class="step-title">Swab</h3>
+            <p class="step-desc">Swab the inside of your cheek at home. Takes two minutes. Completely painless.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">03</span>
+          <div class="step-body">
+            <h3 class="step-title">Post</h3>
+            <p class="step-desc">Send your swab back in the prepaid envelope included in the kit. No clinic visit needed.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">04</span>
+          <div class="step-body">
+            <h3 class="step-title">Analysis</h3>
+            <p class="step-desc">Your DNA is analysed in our EU-certified laboratory using ASPCR technology. 99.9% accuracy.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">05</span>
+          <div class="step-body">
+            <h3 class="step-title">Counsel &amp; Report</h3>
+            <p class="step-desc">Before you see a single number, a genetic counsellor walks you through your findings. Then your full report is yours — to keep, to share with your doctor, to act on.</p>
+          </div>
+        </div>
+      </div>
+      <p class="how-footer">Results delivered in 3 to 4 weeks from the day your sample reaches the lab.</p>
+    </div>
+  </section>
+
+  <!-- ═══ S7 — TRUST & CREDENTIALS (designer's rework) ═══ -->
   <section class="trust-sec" id="credibility">
     <div class="trust-wrap">
       <span class="kicker">Why MyDNAPedia</span>
@@ -613,7 +717,7 @@
         <div class="stat">
           <div class="odo" data-value="1.8" data-suffix="M+"></div>
           <div class="stat-label">tests conducted globally</div>
-          <!-- visual: cumulative growth — tests built up from the 2012 founding to today -->
+          <!-- cumulative growth: tests built up from the 2012 founding to today -->
           <div class="viz viz-growth">
             <div class="growth">
               <svg viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true">
@@ -632,7 +736,7 @@
         <div class="stat">
           <div class="odo" data-value="99.9" data-suffix="%"></div>
           <div class="stat-label">accuracy &middot; ASPCR technology</div>
-          <!-- visual: our accuracy vs the industry standard, so 99.9% has context -->
+          <!-- our accuracy vs the industry standard, so 99.9% has context -->
           <div class="viz viz-cmp">
             <div class="cmp">
               <div class="cmp-row">
@@ -657,7 +761,7 @@
     </div>
   </section>
 
-  <!-- ═══ S8 — TESTIMONIALS (dummy copy · placeholder photos · carousel) ═══ -->
+  <!-- ═══ S8 — TESTIMONIALS (dummy copy · placeholder photos) ═══ -->
   <section class="tmonials" id="stories">
     <div class="tmonials-wrap">
       <div class="tmonials-head">
@@ -678,7 +782,6 @@
             <span class="tcard-name">Name Surname<small>Delhi &middot; MDP 360°</small></span>
           </figcaption>
         </figure>
-
         <figure class="tcard">
           <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
           <span class="tcard-ph">Photo placeholder</span>
@@ -687,7 +790,6 @@
             <span class="tcard-name">Name Surname<small>Mumbai &middot; MDP Fitness</small></span>
           </figcaption>
         </figure>
-
         <figure class="tcard">
           <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
           <span class="tcard-ph">Photo placeholder</span>
@@ -696,7 +798,6 @@
             <span class="tcard-name">Name Surname<small>Bengaluru &middot; MDP Skin Health</small></span>
           </figcaption>
         </figure>
-
         <figure class="tcard">
           <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
           <span class="tcard-ph">Photo placeholder</span>
@@ -705,7 +806,6 @@
             <span class="tcard-name">Name Surname<small>Pune &middot; MDP Cardiac Health</small></span>
           </figcaption>
         </figure>
-
         <figure class="tcard">
           <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
           <span class="tcard-ph">Photo placeholder</span>
@@ -714,7 +814,6 @@
             <span class="tcard-name">Name Surname<small>Hyderabad &middot; Nutrition</small></span>
           </figcaption>
         </figure>
-
         <figure class="tcard">
           <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
           <span class="tcard-ph">Photo placeholder</span>
@@ -750,7 +849,7 @@
   (function(){
     const h1 = document.querySelector('.hero h1');
     if(!h1) return;
-    const words = h1.textContent.split(' ');   // keeps "read it?" together
+    const words = h1.textContent.split(' ');
     h1.textContent = '';
     words.forEach((word,i)=>{
       const s = document.createElement('span');
@@ -760,14 +859,17 @@
       if(i < words.length-1) h1.appendChild(document.createTextNode(' '));
     });
   })();
+
   const tension = document.getElementById('tension');
-  const ctx     = canvas.getContext('2d');
+  // EXPERIMENT: hero uses a looping <video>, not the canvas scrub.
+  // ctx is null for a <video>, so all frame-scrub code below no-ops.
+  const ctx     = canvas.getContext ? canvas.getContext('2d') : null;
   const mobile  = () => window.matchMedia('(max-width:860px)').matches;
 
-  // ── preload frames ──────────────────────────────────
+  // ── preload frames ──────────────────────────────────────
   const frames = new Array(N);
   let loaded = 0, ready = false;
-  for(let i=0;i<N;i++){
+  if(ctx) for(let i=0;i<N;i++){
     const img = new Image();
     img.onload = () => {
       if(++loaded === 1) sizeCanvas();
@@ -778,15 +880,16 @@
     frames[i] = img;
   }
 
-  // ── canvas sizing (DPR-aware, cover draw) ───────────
   function sizeCanvas(){
+    if(!ctx) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width  = Math.round(canvas.clientWidth  * dpr);
     canvas.height = Math.round(canvas.clientHeight * dpr);
     draw(curIdx);
   }
-  let curIdx = mobile() ? 62 : 0;   // mobile has no scrub → show a built helix
+  let curIdx = mobile() ? 62 : 0;
   function draw(idx){
+    if(!ctx) return;
     const img = frames[idx];
     if(!img || !img.complete || !img.naturalWidth) return;
     curIdx = idx;
@@ -794,50 +897,40 @@
     const iw = img.naturalWidth, ih = img.naturalHeight;
     const s = Math.max(cw/iw, ch/ih);
     const w = iw*s, h = ih*s;
-    // helix sits on the right of the source — bias the crop rightward so it
-    // stays in frame on narrow viewports while the text-side stays clear.
     const biasX = 0.82;
     ctx.clearRect(0,0,cw,ch);
     ctx.drawImage(img, (cw-w)*biasX, (ch-h)/2, w, h);
   }
 
-  // ── easing ──────────────────────────────────────────
   const clamp  = (v,a,b)=>Math.min(b,Math.max(a,v));
   const smooth = (a,b,x)=>{ const t=clamp((x-a)/(b-a),0,1); return t*t*(3-2*t); };
 
-  // ── scroll → progress ───────────────────────────────
   function onScroll(){
-    if(window.__freeze) return;   // verification hold
+    if(window.__freeze) return;
     if(mobile()) return;
     const rect = stage.getBoundingClientRect();
     const vh = window.innerHeight;
     const pinDist = stage.offsetHeight - vh;
     const p = clamp(-rect.top / pinDist, 0, 1);
 
-    // frame: helix builds across p 0.04 → 0.62
     const idx = Math.round(smooth(0.04,0.62,p) * (N-1));
     if(idx !== curIdx) draw(idx);
 
-    // hero fades/slides out  p 0.40 → 0.58  (clear inline at top so load-anim plays)
     const out = smooth(0.40,0.58,p);
     hero.style.opacity   = out>0 ? String(1-out) : '';
     hero.style.transform = `translateY(calc(-50% - ${out*36}px))`;
-    // trust bar fades in sync with the hero text (same 0.40 → 0.58 window).
     trust.style.opacity   = out>0 ? String(1-out) : '';
     trust.style.transform = out>0 ? `translateY(${out*40}px)` : '';
     if(ambient) ambient.style.opacity = out>0 ? String(1-out) : '';
 
-    // tension fades in once the video is essentially done  p 0.64 → 0.74
     const tin = smooth(0.64,0.74,p);
     tension.style.opacity   = String(tin);
     tension.style.transform = `translateY(${(1-tin)*28}px)`;
 
-    // bottom of viewport fades to plans bg so the pin releases smoothly
-    // into the plans section instead of cutting hard.
     if(stageFade) stageFade.style.opacity = String(smooth(0.72,1,p));
   }
 
-  // ── S2 rotating tension word ─────────────────────────
+  // ── S2 rotating tension word ─────────────────────────────
   const WORDS = [
     "Type 2 Diabetes","Heart Disease","Alzheimer's","Breast Cancer",
     "Male Pattern Baldness","Stroke","Anxiety","Premature Greying",
@@ -858,14 +951,10 @@
   }
   setInterval(rotate, 1600);
 
-  // The trust bar both load-reveals (CSS animation) and scroll-fades (inline).
-  // A filled CSS animation overrides inline styles, so strip it once the
-  // reveal finishes — then the scroll fade/slide takes over cleanly.
   trust.addEventListener('animationend', ()=>{ trust.style.animation='none'; onScroll(); }, {once:true});
   setTimeout(()=>{ trust.style.animation='none'; }, 1800);
 
-  // ── wire up ─────────────────────────────────────────
-  window.__scrub = onScroll; // verification hook (drives scrub synchronously)
+  window.__scrub = onScroll;
   let ticking=false;
   window.addEventListener('scroll', ()=>{
     if(!ticking){ requestAnimationFrame(()=>{ onScroll(); ticking=false; }); ticking=true; }
@@ -876,9 +965,8 @@
 </script>
 
 <script>
-/* ── S4 — plan toggle + single-open accordion + helix state ── */
+/* ── S4 — plan toggle + single-open accordion + helix scrub ── */
 (function(){
-  // Premium=full, Standard=mid, Lite=1/3 (placeholder frames; swap for real video)
   const ADDONS = "Add-on consultations: Nutritionist · Wellness consultant · Health check planning";
   const PLANS = {
     premium: {
@@ -926,14 +1014,13 @@
   if(!list || !canvas) return;
   const ctx = canvas.getContext('2d');
 
-  // ── helix frame scrub: forward = helix builds down, backward = builds up ──
   const PN = 68, PPATH = i => 'frames-plan/h_'+String(i).padStart(4,'0')+'.webp';
   const pf = new Array(PN); let cur = 0, raf = null;
   for(let i=0;i<PN;i++){ const im=new Image();
     im.onload=()=>{ if(i===0) sizePF(); if(i===cur) drawPF(cur); }; im.src=PPATH(i+1); pf[i]=im; }
   function sizePF(){ const d=Math.min(window.devicePixelRatio||1,2);
     canvas.width=Math.round(canvas.clientWidth*d); canvas.height=Math.round(canvas.clientHeight*d); drawPF(cur); }
-  const PZOOM = 1.4;   // zoom the helix so the square doesn't feel empty (slight crop is fine)
+  const PZOOM = 1.4;
   function drawPF(idx){ const im=pf[idx]; if(!im||!im.complete||!im.naturalWidth) return; cur=idx;
     const cw=canvas.width,ch=canvas.height,s=Math.max(cw/im.naturalWidth,ch/im.naturalHeight)*PZOOM,
       w=im.naturalWidth*s,h=im.naturalHeight*s; ctx.clearRect(0,0,cw,ch); ctx.drawImage(im,(cw-w)/2,(ch-h)/2,w,h); }
@@ -986,12 +1073,12 @@
 </script>
 
 <script>
-/* ── S7 — odometer trust counters (roll up on scroll into view) ── */
+/* ── S7 — odometer counters + scroll-triggered mini-visuals ── */
 (function(){
   const odos = document.querySelectorAll('.odo');
   if(!odos.length) return;
   const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const SPINS = 2;   // full 0→9 cycles before settling = the odometer roll
+  const SPINS = 2;
 
   odos.forEach(el=>{
     const value  = el.dataset.value  || '';
@@ -999,7 +1086,7 @@
     el.innerHTML = '';
     value.split('').forEach((ch,i)=>{
       if(/\d/.test(ch)){
-        const total = SPINS*10 + (+ch);   // lands on the digit after N spins
+        const total = SPINS*10 + (+ch);
         const digit = document.createElement('span'); digit.className = 'odo-digit';
         const reel  = document.createElement('span'); reel.className  = 'odo-reel';
         for(let n=0;n<=total;n++){
@@ -1007,7 +1094,7 @@
           s.textContent = n % 10; reel.appendChild(s);
         }
         reel.style.setProperty('--y', total);
-        reel.style.transitionDelay = (i*0.09)+'s';   // slight stagger per digit
+        reel.style.transitionDelay = (i*0.09)+'s';
         if(reduce) reel.style.transition = 'none';
         digit.appendChild(reel); el.appendChild(digit);
       } else {
@@ -1021,19 +1108,6 @@
     }
   });
 
-  // build the volume dot-grid(s): `data-on` of `data-dots` dots filled gold
-  document.querySelectorAll('.dot-grid').forEach(grid=>{
-    const total = +grid.dataset.dots || 50;
-    const on    = +grid.dataset.on   || total;
-    grid.innerHTML = '';
-    for(let i=0;i<total;i++){
-      const d = document.createElement('span');
-      d.className = 'dot' + (i<on ? ' on' : '');
-      d.style.setProperty('--i', i);   // staggers the fill into a wave
-      grid.appendChild(d);
-    }
-  });
-
   const run = el => el.classList.add('run');
   const vizs = document.querySelectorAll('.viz');
 
@@ -1044,7 +1118,6 @@
   }, { threshold:.4 });
   odos.forEach(el=>io.observe(el));
 
-  // mini-visuals reveal as they enter view
   const vio = new IntersectionObserver((entries,obs)=>{
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); } });
   }, { threshold:.3 });
@@ -1053,7 +1126,60 @@
 </script>
 
 <script>
-/* ── S8 — testimonials ticker: clone cards once for a seamless loop ── */
+/* ── S5 — How It Works: scroll-driven card stack ── */
+(function(){
+  const how = document.getElementById('how-it-works');
+  if(!how) return;
+  const cards = Array.from(how.querySelectorAll('.step-card'));
+  const footer = how.querySelector('.how-footer');
+  const N = cards.length;
+  const SLIDE = 0.38; // fraction of each card's segment used for the slide animation
+
+  function easeInOut(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+
+  function tick(){
+    const rect = how.getBoundingClientRect();
+    const travel = how.offsetHeight - window.innerHeight;
+    if(travel <= 0) return;
+    const scrolled = Math.max(0, Math.min(travel, -rect.top));
+    // cf: 0..N representing how far through all cards we are
+    const cf = (scrolled / travel) * N;
+
+    // topmost card index that is fully settled
+    let topInIdx = -1;
+    cards.forEach((_, i) => { if((cf - i) / SLIDE >= 1) topInIdx = i; });
+
+    cards.forEach((card, i) => {
+      const p  = Math.max(0, Math.min(1, (cf - i) / SLIDE));
+      const ep = easeInOut(p);
+
+      if(p < 1){
+        // Sliding in — no CSS transition (JS drives the animation)
+        card.removeAttribute('data-settled');
+        card.style.transform = `translateY(${((1 - ep) * 110).toFixed(2)}%)`;
+        card.style.zIndex    = 50 + i;
+      } else {
+        // Settled in the stack — CSS transition handles smooth depth repositioning
+        card.setAttribute('data-settled', '');
+        const depth  = topInIdx - i;         // 0 = top, 1 = one behind, etc.
+        const offsetY = depth * 18;           // peek below current card (px)
+        const scale   = 1 - depth * 0.03;    // slightly smaller for depth illusion
+        card.style.transform = `translateY(${offsetY}px) scale(${scale.toFixed(3)})`;
+        card.style.zIndex    = i + 1;        // higher index = more in front
+      }
+    });
+
+    // Show footer once last card is fully settled
+    if(footer) footer.classList.toggle('vis', topInIdx === N - 1);
+  }
+
+  window.addEventListener('scroll', tick, { passive: true });
+  tick();
+})();
+</script>
+
+<script>
+/* ── S8 — testimonials ticker: clone cards for seamless loop ── */
 (function(){
   const track = document.querySelector('.tticker');
   if(!track) return;
@@ -1063,6 +1189,108 @@
     clone.setAttribute('aria-hidden','true');
     track.appendChild(clone);
   });
+})();
+</script>
+
+<script>
+(function(){
+  if(window.matchMedia('(hover:none)').matches) return;
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+
+  /* hide system cursor site-wide */
+  document.documentElement.style.cursor = 'none';
+
+  const cv = document.createElement('canvas');
+  cv.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999';
+  document.body.appendChild(cv);
+  const ctx = cv.getContext('2d');
+  let dpr = 1;
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width  = Math.round(innerWidth  * dpr);
+    cv.height = Math.round(innerHeight * dpr);
+  }
+  resize(); window.addEventListener('resize', resize);
+
+  const GRAINS = [
+    [233,180,62, 0.80],
+    [242,205,120,0.60],
+    [156,107,22, 0.75],
+    [255,246,210,0.65],
+    [50, 46, 39, 0.45],
+  ];
+
+  const P = [];
+  let mx = -9999, my = -9999, pmx = -9999, pmy = -9999;
+  let active = false;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY; active = true;
+  }, {passive: true});
+  document.addEventListener('mouseleave', () => { active = false; });
+
+  function spawn(cx, cy, speed){
+    const n = speed > 1.2 ? 3 : 2;
+    for(let i = 0; i < n; i++){
+      const c  = GRAINS[(Math.random() * GRAINS.length) | 0];
+      const a  = Math.random() * Math.PI * 2;
+      const sp = (Math.random() * 0.6 + 0.2) * dpr * Math.min(speed * 0.35, 1.8);
+      P.push({
+        x: cx * dpr, y: cy * dpr,
+        vx: Math.cos(a) * sp,
+        vy: Math.sin(a) * sp - 0.3 * dpr,
+        life: 1,
+        decay: 0.022 + Math.random() * 0.018,
+        size: (Math.random() * 1.4 + 0.3) * dpr,
+        rot: Math.random() * Math.PI * 2,
+        rotV: (Math.random() - 0.5) * 0.18,
+        c,
+        rect: Math.random() > 0.5
+      });
+    }
+  }
+
+  function loop(){
+    ctx.clearRect(0, 0, cv.width, cv.height);
+
+    if(active){
+      const speed = Math.hypot(mx - pmx, my - pmy);
+      if(speed > 0.5) spawn(mx, my, speed);
+      pmx = mx; pmy = my;
+
+      /* small circle cursor */
+      const cx = mx * dpr, cy = my * dpr, r = 5 * dpr;
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, 6.283);
+      ctx.fillStyle = 'rgba(156,107,22,0.85)';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    for(let i = P.length - 1; i >= 0; i--){
+      const p = P[i];
+      p.x += p.vx; p.y += p.vy;
+      p.vy += 0.018 * dpr;
+      p.vx *= 0.968;
+      p.rot += p.rotV;
+      p.life -= p.decay;
+      if(p.life <= 0){ P.splice(i, 1); continue; }
+      const sz = p.size * Math.max(0.05, p.life);
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.life) * p.c[3];
+      ctx.fillStyle   = `rgb(${p.c[0]},${p.c[1]},${p.c[2]})`;
+      ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      if(p.rect){
+        ctx.fillRect(-sz * 0.45, -sz * 0.65, sz * 0.9, sz * 1.3);
+      } else {
+        ctx.beginPath(); ctx.arc(0, 0, sz, 0, 6.283); ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    requestAnimationFrame(loop);
+  }
+  loop();
 })();
 </script>
 </body>
