@@ -16,7 +16,7 @@
     --gold-lt:   #E4A92F;   /* vibrant honey-gold — for FILLS/accents (dark text on it) */
     --on-gold:   #1c1406;   /* near-black text/icons on gold fills */
 
-    /* frosted-glass system (light) — more transparent so the blur reads as glass */
+    /* frosted-glass system (light) */
     --glass:     rgba(255,255,255,.32);
     --glass-cta: rgba(255,255,255,.4);
     --glass-brd: rgba(255,255,255,.55);
@@ -36,7 +36,7 @@
     overflow-x:hidden;
   }
 
-  /* ── FLOATING GLASS NAV (centered) ──────────────────── */
+  /* ── FLOATING GLASS NAV ──────────────────────────────── */
   .nav{
     position:fixed; top:22px; left:50%; transform:translateX(-50%);
     z-index:50; display:flex; align-items:center; gap:10px;
@@ -65,7 +65,6 @@
     transition:color .25s ease, background .25s ease;
   }
   .nav-links a:hover{ color:var(--ink); background:rgba(255,255,255,.38); }
-  /* primary action — emphasized gold button (near-black text for contrast) */
   .nav-cta{
     display:inline-flex; align-items:center; gap:8px; margin-left:6px;
     background:rgba(247,190,40,.82);
@@ -82,25 +81,20 @@
   .nav-cta svg{ width:15px; height:15px; transition:transform .3s cubic-bezier(.22,1,.36,1); }
   .nav-cta:hover svg{ transform:translateX(3px); }
 
-  /* ── PINNED STAGE (hero + tension share one pin) ────── */
+  /* ── PINNED STAGE (hero + tension share one pin) ─────── */
   .stage{ position:relative; height:300vh; }
   .stage-sticky{ position:sticky; top:0; height:100vh; width:100%; overflow:hidden; }
-  /* EXPERIMENT: looping video. Helix is centered in the source, so we place
-     the video box on the RIGHT portion of the hero — text stays clear on the left. */
+  /* EXPERIMENT: looping video. Helix is centered in the source, placed on the RIGHT. */
   #dna{ position:absolute; top:0; right:0; bottom:0; width:58%; height:100%; display:block; z-index:1;
-    object-fit:cover; object-position:78% center; }  /* nudge helix right so it isn't cropped at the edge */
+    object-fit:cover; object-position:78% center; }
 
-  /* warm wash on the left so text always reads over the video */
   .stage-sticky::before{
     content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
     background:linear-gradient(100deg,
       var(--bg) 0%, rgba(255,255,255,.94) 26%,
       rgba(255,255,255,.5) 46%, rgba(255,255,255,0) 64%);
   }
-  /* soft ambient glow behind the left content so frosted pills have light
-     to refract — this is what makes the eyebrow + CTA read as real glass */
-  /* two warm gold blobs that drift + pulse on different timings = living glow */
-  .ambient{ display:none; }  /* EXPERIMENT: no gold glow behind text on the white bg */
+  .ambient{ display:none; }  /* EXPERIMENT: no gold glow behind text on white bg */
   .ambient::before, .ambient::after{
     content:""; position:absolute; border-radius:50%; will-change:transform, opacity;
   }
@@ -123,8 +117,6 @@
     50%    { transform:translate(-38px,34px)  scale(.9);   opacity:.95; }
   }
 
-  /* fade-to-bg overlay so the helix dissolves into the plans section's bg
-     instead of cutting abruptly when the pin releases */
   .stage-fade{
     position:absolute; left:0; right:0; bottom:0; height:62vh; z-index:4;
     pointer-events:none; opacity:0; will-change:opacity;
@@ -134,7 +126,6 @@
       var(--bg) 100%);
   }
 
-  /* shared frosted-glass primitive */
   .glass{
     background:var(--glass);
     -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
@@ -173,7 +164,6 @@
     font-size:clamp(16px,1.25vw,19px); line-height:1.6;
     color:var(--muted); max-width:36ch; margin-bottom:40px; font-weight:500;
   }
-  /* CTA — frosted glass */
   .cta{
     display:inline-flex; align-items:center; gap:14px;
     background:var(--glass-cta);
@@ -200,7 +190,6 @@
   .cta:hover .arw{ transform:translateX(4px); }
   .cta .arw svg{ width:17px; height:17px; }
 
-  /* trust bar — frosted glass */
   .trust{
     position:absolute; z-index:5; right:max(42px,6vw); bottom:48px;
     display:flex; align-items:center; gap:0;
@@ -211,20 +200,18 @@
   .trust .item b{ display:block; font-size:19px; font-weight:700; letter-spacing:-.01em; color:var(--ink); }
   .trust .item span{ display:block; font-size:11.5px; font-weight:500; color:var(--muted); margin-top:3px; }
 
-  /* ── S2 TENSION LINE (left-aligned, airy, serif) ────── */
+  /* ── S2 TENSION LINE ────────────────────────────────── */
   .tension{
     position:absolute; z-index:6; inset:0;
     display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
     text-align:left; padding-left:max(42px,6vw); padding-right:6vw;
     opacity:0; pointer-events:none; will-change:opacity, transform;
   }
-  /* setup line — quiet body font so it recedes and lets the word be the star */
   .tension .lead{
     font-family:"Satoshi", sans-serif; font-weight:500;
     font-size:clamp(18px,1.85vw,26px); line-height:1.5; letter-spacing:.002em;
     color:var(--muted);
   }
-  /* the changing word — the single dramatic Canela moment, in gold */
   .tension .wordwrap{ display:block; margin-top:clamp(14px,1.5vw,24px); }
   .tension .word{
     font-family:var(--font-display); font-weight:400;
@@ -254,7 +241,6 @@
   .hero .cta{ animation-delay:.78s; }
   .trust{ animation-delay:.92s; }
 
-  /* headline — word-by-word reveal that overshoots bigger then settles */
   .hero h1 .w{ display:inline-block; animation:wordin .72s cubic-bezier(.22,1,.36,1) both; }
   @keyframes wordin{
     0%  { opacity:0; transform:translateY(16px) scale(.9);  filter:blur(7px); }
@@ -295,7 +281,6 @@
   }
 
   /* ── S4 — PLANS / PRICING ──────────────────────────── */
-  /* match the hero's horizontal rhythm (max(42px,6vw)) — no max-width */
   .plans{ padding:120px max(42px,6vw); }
   .plans-head{ margin-bottom:50px; }
   .plans .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
@@ -304,11 +289,9 @@
     font-size:clamp(34px,4vw,56px); line-height:1.06; letter-spacing:-.01em;
     color:var(--ink); margin:16px 0 14px; }
   .plans-sub{ font-size:clamp(15px,1.2vw,18px); color:var(--muted); font-weight:500; max-width:46ch; }
-  /* left = wide rectangle, right = square card. The two scroll together as a group. */
   .plans-grid{ display:grid; grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);
     gap:28px; align-items:start; }
 
-  /* left = one rounded box of expandable rows */
   .plans-list{ border:1px solid rgba(50,46,39,.1); border-radius:24px; background:#fff;
     padding:8px; display:flex; flex-direction:column; gap:4px;
     box-shadow:0 18px 50px -32px rgba(74,55,18,.26); }
@@ -351,13 +334,10 @@
   .acc-cta svg{ width:15px; height:15px; }
   .acc-addons{ font-size:12px; color:var(--muted); margin-top:16px; padding-top:14px; border-top:1px solid rgba(50,46,39,.1); }
 
-  /* right glass card — rounded square. Not sticky: scrolls grouped with the left rectangle. */
   .plans-card{ border-radius:24px; padding:14px; align-self:start; }
   .helix-stage{ position:relative; border-radius:18px; overflow:hidden; aspect-ratio:1/1;
     background:radial-gradient(120% 100% at 50% 34%, rgba(231,180,62,.16), rgba(247,242,232,.5)); }
   #planHelix{ width:100%; height:100%; display:block; }
-  /* segmented toggle: all 3 are visibly raised so they read as buttons;
-     active is the brightest/most-elevated, hover lifts the inactive ones */
   .plan-toggle{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:14px;
     background:rgba(120,110,80,.12); border-radius:14px; padding:6px; }
   .plan-toggle button{ font-family:"Satoshi",sans-serif; font-size:14px; font-weight:600;
@@ -387,35 +367,106 @@
     .cat-grid{ grid-template-columns:1fr; }
   }
 
-  /* ── S7 — TRUST & CREDENTIALS ──────────────────────── */
-  .trust-sec{ position:relative; padding:120px max(24px,6vw); }
-  .trust-wrap{ max-width:1100px; margin:0 auto; position:relative; overflow:hidden;
-    border:1px solid rgba(50,46,39,.1); border-radius:32px;
-    background:radial-gradient(120% 95% at 50% -12%, rgba(231,180,62,.2), transparent 58%), #fff;
-    box-shadow:0 30px 80px -50px rgba(74,55,18,.45);
-    padding:clamp(40px,6vw,76px) clamp(24px,5vw,72px); }
+  /* ── S5 — HOW IT WORKS (pinned card stack) ──────────── */
+  .how{
+    position:relative;
+    height:calc(100vh + 5 * 90vh);
+    background:var(--bg);
+  }
+  .how-pin{
+    position:sticky; top:0;
+    height:100vh; overflow:hidden;
+    padding:0 max(42px,6vw) 56px;
+    display:flex; flex-direction:column;
+    background:#F0EBE0; /* warm cream so glass cards read clearly */
+  }
+  .how-head{
+    padding-top:112px; /* clears nav + breathing room */
+    text-align:center; flex-shrink:0;
+    padding-bottom:40px;
+  }
+  .how-head .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:12px; display:block; }
+  .how-head h2{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(28px,3.6vw,52px); color:var(--ink);
+    line-height:1.12; letter-spacing:-.02em; margin:0; }
+  .how-cards{
+    position:relative; flex:1; min-height:0;
+    /* no overflow:hidden — lets stacked cards peek below */
+  }
+  .step-card{
+    position:absolute; inset:0;
+    border-radius:26px;
+    transform-origin:top center; /* scale shrinks downward so bottom edge peeks */
+    background:rgba(255,255,255,.76);
+    backdrop-filter:blur(20px) saturate(1.3);
+    -webkit-backdrop-filter:blur(20px) saturate(1.3);
+    border:1px solid rgba(255,255,255,.9);
+    padding:44px 60px;
+    display:grid; grid-template-columns:auto 1fr;
+    gap:0 48px; align-items:center;
+    box-shadow:0 12px 48px rgba(50,46,39,.13), 0 2px 8px rgba(50,46,39,.06);
+    transform:translateY(110%);
+    will-change:transform;
+  }
+  /* smooth depth repositioning when a new card lands on top */
+  .step-card[data-settled]{
+    transition:transform .45s cubic-bezier(.25,.46,.45,.94);
+  }
+  .step-num{
+    font-family:var(--font-display); font-weight:500;
+    font-size:clamp(52px,6.5vw,90px);
+    color:var(--gold-lt); opacity:.28; line-height:1;
+    letter-spacing:-.03em; user-select:none;
+  }
+  .step-title{
+    font-family:var(--font-display); font-weight:500;
+    font-size:clamp(20px,2vw,28px); color:var(--ink);
+    letter-spacing:-.015em; margin:0 0 10px;
+  }
+  .step-desc{
+    font-size:clamp(14px,1.1vw,17px); color:var(--muted);
+    line-height:1.7; margin:0; max-width:56ch;
+  }
+  .how-footer{
+    flex-shrink:0; text-align:center; padding-top:60px;
+    font-size:clamp(12px,.9vw,14px); color:var(--muted);
+    font-weight:500; letter-spacing:.01em;
+    opacity:0; transition:opacity .5s;
+  }
+  .how-footer.vis{ opacity:1; }
+  @media(max-width:860px){
+    .how{ height:calc(100vh + 5 * 95vh); }
+    .how-pin{ padding:0 22px 36px; }
+    .how-head{ padding-top:88px; padding-bottom:28px; }
+    .step-card{ padding:28px 24px; gap:0 20px; }
+    .step-num{ font-size:clamp(44px,10vw,68px); }
+  }
+
+  /* ── S7 — TRUST & CREDENTIALS (designer's rework) ───── */
+  .trust-sec{ position:relative; }
+  .trust-wrap{ padding:120px max(42px,6vw) 78px; position:relative; }
   .trust-wrap .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
     text-transform:uppercase; color:var(--muted); }
   .trust-wrap h2{ font-family:var(--font-display); font-weight:500;
-    font-size:clamp(30px,3.6vw,50px); line-height:1.07; letter-spacing:-.01em;
-    color:var(--ink); margin:14px 0 16px; }
+    font-size:clamp(34px,4vw,56px); line-height:1.06; letter-spacing:-.01em;
+    color:var(--ink); margin:16px 0 14px; }
   .trust-lead{ font-size:clamp(15px,1.2vw,18px); line-height:1.6;
-    color:var(--muted); font-weight:500; max-width:56ch; }
+    color:var(--muted); font-weight:500; max-width:48ch; }
 
-  .trust-stats{ display:grid; grid-template-columns:1fr 1fr; gap:20px;
-    margin:clamp(40px,5vw,64px) 0 clamp(28px,3vw,40px); }
+  .trust-stats{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch;
+    margin:48px 0 clamp(30px,3.5vw,46px); }
   .stat{ position:relative; display:flex; flex-direction:column;
-    border:1px solid rgba(50,46,39,.1); border-radius:24px; background:#fff;
-    padding:clamp(22px,3vw,34px); box-shadow:0 18px 50px -34px rgba(74,55,18,.28); }
-  .stat-label{ margin-top:14px; font-size:clamp(13px,1.05vw,15.5px);
+    border:1px solid rgba(50,46,39,.1); border-radius:24px; background:#F9F6EF;
+    padding:clamp(24px,3vw,36px); box-shadow:0 16px 44px -32px rgba(74,55,18,.26); }
+  .stat-label{ margin-top:12px; font-size:clamp(13px,1.05vw,15px);
     font-weight:600; color:var(--ink-soft); letter-spacing:.005em; }
 
-  /* odometer number — digits roll up into place on scroll */
+  /* odometer */
   .odo{ display:inline-flex; align-items:flex-end; line-height:1;
     font-family:var(--font-display); font-weight:500; color:var(--ink);
-    font-size:clamp(56px,8.4vw,112px); letter-spacing:-.01em; }
-  .odo-digit{ display:inline-block; width:.62em; height:1em; overflow:hidden;
-    text-align:center; }
+    font-size:clamp(46px,6.4vw,86px); letter-spacing:-.01em; }
+  .odo-digit{ display:inline-block; width:.62em; height:1em; overflow:hidden; text-align:center; }
   .odo-reel{ display:block; transform:translateY(0); }
   .odo.run .odo-reel{ transform:translateY(calc(var(--y) * -1em));
     transition:transform 2.1s cubic-bezier(.16,1,.3,1); }
@@ -424,65 +475,44 @@
   .odo-suffix{ display:inline-block; font-size:.46em; font-weight:700;
     color:var(--gold); margin-left:.06em; padding-bottom:.12em; }
 
-  /* ── stat mini-visuals (reveal on scroll) ── */
-  .viz{ margin-top:clamp(20px,2.6vw,30px); }
+  .viz{ margin-top:auto; padding-top:clamp(20px,2.4vw,28px); }
   @keyframes vizrise{ to{ opacity:1; transform:translateY(0); } }
-  @keyframes vizpop{ to{ opacity:1; transform:translate(-50%,-50%) scale(1); } }
   @keyframes vizdraw{ to{ stroke-dashoffset:0; } }
+  @keyframes vizpop{ to{ opacity:1; transform:translate(-50%,-50%) scale(1); } }
 
-  /* A — scheduling: day cards + time slots */
-  .viz-sched{ display:flex; flex-direction:column; gap:12px; }
-  .sched-days{ display:flex; gap:8px; }
-  .day{ flex:1 1 0; min-width:0; text-align:center; padding:11px 4px 13px;
-    border:1px solid rgba(50,46,39,.12); border-radius:14px; background:rgba(247,242,232,.7);
-    opacity:0; transform:translateY(10px); }
-  .viz.in .day{ animation:vizrise .55s cubic-bezier(.22,1,.36,1) both; }
-  .day span{ display:block; font-size:10px; font-weight:700; letter-spacing:.08em;
-    color:var(--muted); text-transform:uppercase; }
-  .day b{ display:block; margin-top:5px; font-family:var(--font-display); font-weight:500;
-    font-size:clamp(18px,2vw,24px); color:var(--ink); }
-  .day.on{ background:var(--gold-lt); border-color:rgba(255,246,210,.85);
-    box-shadow:0 10px 22px -8px rgba(214,156,26,.6); }
-  .day.on span, .day.on b{ color:var(--on-gold); }
-  .sched-times{ display:flex; gap:7px; }
-  .slot{ flex:1 1 0; text-align:center; font-size:clamp(11px,1.1vw,13px); font-weight:700;
-    color:var(--ink-soft); padding:9px 4px; border:1px solid rgba(50,46,39,.12);
-    border-radius:10px; background:#fff; opacity:0; transform:translateY(10px); }
-  .viz.in .slot{ animation:vizrise .55s cubic-bezier(.22,1,.36,1) both; }
-  .slot.on{ background:var(--gold-lt); color:var(--on-gold);
-    border-color:rgba(255,246,210,.85); box-shadow:0 10px 20px -9px rgba(214,156,26,.6); }
-  .slot.off{ color:var(--muted); background:rgba(247,242,232,.55); border-style:dashed; }
-  .viz.in .day:nth-child(2),.viz.in .slot:nth-child(2){ animation-delay:.06s; }
-  .viz.in .day:nth-child(3),.viz.in .slot:nth-child(3){ animation-delay:.12s; }
-  .viz.in .day:nth-child(4),.viz.in .slot:nth-child(4){ animation-delay:.18s; }
-  .viz.in .day:nth-child(5),.viz.in .slot:nth-child(5){ animation-delay:.24s; }
-
-  /* B — results range chart */
-  .viz-range{ position:relative; }
-  .range-row{ position:relative; display:flex; align-items:center; gap:12px;
-    height:clamp(38px,4.6vw,46px); padding-left:8px; border-radius:12px; }
-  .range-row.rng-in{ background:rgba(228,169,47,.14); }
-  .range-pill{ width:6px; height:22px; border-radius:6px; background:rgba(50,46,39,.18); flex:none; }
-  .range-row.rng-in .range-pill{ background:var(--gold-lt); height:30px; }
-  .range-label{ font-size:10px; font-weight:700; letter-spacing:.1em;
-    color:var(--muted); text-transform:uppercase; }
-  .range-chart{ position:absolute; inset:0 14px; pointer-events:none; }
-  .range-chart svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
-  .range-chart path{ fill:none; stroke:var(--gold-lt); stroke-width:2.5;
-    stroke-linecap:round; stroke-linejoin:round;
+  /* A — cumulative growth chart (tests built since 2012) */
+  .viz-growth{ display:flex; flex-direction:column; gap:12px; }
+  .growth{ position:relative; height:clamp(100px,12vw,132px); }
+  .growth svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .growth-area{ opacity:0; transition:opacity 1.1s ease .3s; }
+  .viz.in .growth-area{ opacity:1; }
+  .growth-line{ fill:none; stroke:var(--gold-lt); stroke-width:2.5;
+    stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke;
     stroke-dasharray:1; stroke-dashoffset:1; }
-  .viz.in .range-chart path{ animation:vizdraw 1.1s ease .2s both; }
-  .range-chart .pt{ position:absolute; width:12px; height:12px; border-radius:50%;
-    background:var(--gold-lt); border:2.5px solid #fff;
-    box-shadow:0 4px 11px -3px rgba(214,156,26,.75);
+  .viz.in .growth-line{ animation:vizdraw 1.25s ease .15s forwards; }
+  .growth-dot{ position:absolute; width:13px; height:13px; border-radius:50%;
+    background:var(--gold-lt); border:2.5px solid #F9F6EF;
+    box-shadow:0 4px 12px -3px rgba(214,156,26,.7);
     transform:translate(-50%,-50%) scale(.3); opacity:0; }
-  .viz.in .range-chart .pt{ animation:vizpop .5s cubic-bezier(.22,1,.36,1) both; }
-  .viz.in .range-chart .pt:nth-child(2){ animation-delay:.5s; }
-  .viz.in .range-chart .pt:nth-child(3){ animation-delay:.75s; }
-  .viz.in .range-chart .pt:nth-child(4){ animation-delay:1s; }
-  .range-chart .pt b{ position:absolute; bottom:150%; left:50%; transform:translateX(-50%);
-    font-size:12px; font-weight:700; color:var(--ink); white-space:nowrap;
-    font-variant-numeric:tabular-nums; }
+  .viz.in .growth-dot{ animation:vizpop .5s cubic-bezier(.22,1,.36,1) 1.1s both; }
+  .growth-axis{ display:flex; justify-content:space-between;
+    font-size:11.5px; font-weight:600; color:var(--muted); letter-spacing:.02em; }
+
+  /* B — accuracy vs industry comparison bars */
+  .cmp{ display:flex; flex-direction:column; gap:18px; max-width:440px; }
+  .cmp-head{ display:flex; align-items:baseline; justify-content:space-between;
+    gap:12px; margin-bottom:9px; }
+  .cmp-name{ font-size:13px; font-weight:600; color:var(--ink-soft); letter-spacing:.01em; }
+  .cmp-pct{ font-size:13.5px; font-weight:700; color:var(--muted); font-variant-numeric:tabular-nums; }
+  .cmp-bar{ position:relative; height:14px; border-radius:8px; overflow:hidden;
+    background:repeating-linear-gradient(45deg, rgba(50,46,39,.13) 0 2px, rgba(50,46,39,.045) 2px 6px); }
+  .cmp-fill{ position:absolute; inset:0 auto 0 0; width:0; border-radius:8px;
+    background:rgba(50,46,39,.3); transition:width 1.15s cubic-bezier(.16,1,.3,1); }
+  .viz.in .cmp-fill{ width:var(--w); }
+  .cmp-row.win .cmp-name{ color:var(--ink); }
+  .cmp-row.win .cmp-pct{ color:var(--gold); }
+  .cmp-row.win .cmp-fill{ background:var(--gold-lt);
+    box-shadow:0 4px 14px -5px rgba(214,156,26,.6); }
 
   .trust-creds{ display:flex; flex-wrap:wrap; gap:10px;
     padding-top:clamp(24px,3vw,34px); border-top:1px solid rgba(50,46,39,.1); }
@@ -493,15 +523,69 @@
   .cred svg{ width:15px; height:15px; color:var(--gold); flex:none; }
 
   @media (max-width:860px){
-    .trust-sec{ padding:64px 18px; }
-    .trust-stats{ grid-template-columns:1fr; gap:16px; }
+    .trust-wrap{ padding:72px 22px 52px; }
+    .trust-stats{ grid-template-columns:1fr; gap:16px; margin-top:36px; }
     .trust-wrap h2 br{ display:none; }
   }
   @media (prefers-reduced-motion:reduce){
     .odo.run .odo-reel{ transition:none; }
-    .viz .day,.viz .slot{ opacity:1; transform:none; animation:none; }
-    .viz .range-chart .pt{ opacity:1; transform:translate(-50%,-50%) scale(1); animation:none; }
-    .viz .range-chart path{ stroke-dashoffset:0; animation:none; }
+    .viz .growth-area{ opacity:1; transition:none; }
+    .viz .growth-line{ stroke-dashoffset:0; animation:none; }
+    .viz .growth-dot{ opacity:1; transform:translate(-50%,-50%) scale(1); animation:none; }
+    .viz.in .cmp-fill{ transition:none; }
+  }
+
+  /* ── S8 — TESTIMONIALS (auto-running ticker) ─────────── */
+  .tmonials{ position:relative; }
+  .tmonials-wrap{ --gut:max(42px,6vw); padding:58px var(--gut) 120px; position:relative; }
+  .tmonials-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; }
+  .tmonials-wrap .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); }
+  .tmonials-wrap h2{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(34px,4vw,56px); line-height:1.06; letter-spacing:-.01em;
+    color:var(--ink); margin:16px 0 14px; }
+  .tmonials-sub{ font-size:clamp(15px,1.2vw,18px); line-height:1.6;
+    color:var(--muted); font-weight:500; max-width:48ch; }
+  .tcards{ margin-top:44px; overflow:hidden; padding:8px 0;
+    margin-left:calc(-1 * var(--gut)); margin-right:calc(-1 * var(--gut));
+    -webkit-mask-image:linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+    mask-image:linear-gradient(to right, transparent, #000 5%, #000 95%, transparent); }
+  .tticker{ display:flex; width:max-content; will-change:transform;
+    animation:ticker 55s linear infinite; }
+  .tcards:hover .tticker{ animation-play-state:paused; }
+  @keyframes ticker{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  .tcard{ position:relative; flex:0 0 clamp(258px,27vw,326px); aspect-ratio:4/5;
+    margin-right:22px; border-radius:24px; overflow:hidden;
+    border:1px solid rgba(50,46,39,.08); box-shadow:0 18px 50px -34px rgba(74,55,18,.42);
+    transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s ease; }
+  .tcard:hover{ transform:translateY(-4px); box-shadow:0 30px 62px -34px rgba(74,55,18,.52); }
+  .tcard-photo{ position:absolute; inset:0; background-size:cover; background-position:center;
+    background-image:linear-gradient(155deg,#cfc8ba 0%,#b4ab98 48%,#928975 100%); }
+  .tcard-photo svg{ position:absolute; top:40%; left:50%; transform:translate(-50%,-50%);
+    width:42%; max-width:150px; color:#fff; opacity:.3; }
+  .tcard-ph{ position:absolute; top:14px; left:14px; z-index:3;
+    font-size:10px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:#fff;
+    background:rgba(20,15,8,.38); border:1px solid rgba(255,255,255,.35);
+    padding:5px 11px; border-radius:100px;
+    -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
+  .tcard::after{ content:""; position:absolute; inset:0; z-index:1;
+    background:linear-gradient(to top, rgba(18,13,6,.82) 0%, rgba(18,13,6,.32) 34%, rgba(18,13,6,0) 60%); }
+  .tcard-quote{ position:absolute; left:0; right:0; bottom:0; z-index:2;
+    padding:clamp(20px,2vw,30px); color:#fff; }
+  .tcard-quote p{ font-family:"Satoshi",sans-serif; font-weight:600;
+    font-size:clamp(17px,1.5vw,21px); line-height:1.32; margin:0 0 14px; }
+  .tcard-name{ font-family:"Satoshi",sans-serif; font-weight:600; font-size:14.5px; line-height:1.3; }
+  .tcard-name small{ display:block; font-weight:500; font-size:12.5px; opacity:.8; margin-top:2px; }
+
+  @media (max-width:860px){
+    .tmonials-wrap{ --gut:22px; padding:40px var(--gut) 84px; }
+    .tcards{ margin-top:30px; }
+    .tcard{ flex-basis:72vw; margin-right:16px; }
+    .tticker{ animation-duration:38s; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .tticker{ animation:none; }
+    .tcards{ overflow-x:auto; }
   }
 </style>
 </head>
@@ -531,7 +615,7 @@
       <!-- S1 HERO -->
       <div class="hero" id="hero">
         <span class="eyebrow glass"><i></i> Genetic wellness, decoded</span>
-        <h1>Your health is already written. Have you read&nbsp;it?</h1>
+        <h1>It's all in your&nbsp;genes.</h1>
         <p class="sub">A simple swab. A detailed report. A counselling session that changes how you see your health — forever.</p>
         <button class="cta">Get My Results
           <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -577,7 +661,55 @@
     </div>
   </section>
 
-  <!-- ═══ S7 — TRUST & CREDENTIALS ═══ -->
+  <!-- ═══ S5 — HOW IT WORKS ═══ -->
+  <section class="how" id="how-it-works">
+    <div class="how-pin">
+      <div class="how-head">
+        <span class="kicker">How It Works</span>
+        <h2>Simple. Private. Precise.</h2>
+      </div>
+      <div class="how-cards">
+        <div class="step-card">
+          <span class="step-num">01</span>
+          <div class="step-body">
+            <h3 class="step-title">Order</h3>
+            <p class="step-desc">Your kit is delivered to your door. Everything you need is inside.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">02</span>
+          <div class="step-body">
+            <h3 class="step-title">Swab</h3>
+            <p class="step-desc">Swab the inside of your cheek at home. Takes two minutes. Completely painless.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">03</span>
+          <div class="step-body">
+            <h3 class="step-title">Post</h3>
+            <p class="step-desc">Send your swab back in the prepaid envelope included in the kit. No clinic visit needed.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">04</span>
+          <div class="step-body">
+            <h3 class="step-title">Analysis</h3>
+            <p class="step-desc">Your DNA is analysed in our EU-certified laboratory using ASPCR technology. 99.9% accuracy.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">05</span>
+          <div class="step-body">
+            <h3 class="step-title">Counsel &amp; Report</h3>
+            <p class="step-desc">Before you see a single number, a genetic counsellor walks you through your findings. Then your full report is yours — to keep, to share with your doctor, to act on.</p>
+          </div>
+        </div>
+      </div>
+      <p class="how-footer">Results delivered in 3 to 4 weeks from the day your sample reaches the lab.</p>
+    </div>
+  </section>
+
+  <!-- ═══ S7 — TRUST & CREDENTIALS (designer's rework) ═══ -->
   <section class="trust-sec" id="credibility">
     <div class="trust-wrap">
       <span class="kicker">Why MyDNAPedia</span>
@@ -588,37 +720,36 @@
         <div class="stat">
           <div class="odo" data-value="1.8" data-suffix="M+"></div>
           <div class="stat-label">tests conducted globally</div>
-          <!-- visual: a single cheek swab, booked in minutes -->
-          <div class="viz viz-sched">
-            <div class="sched-days">
-              <div class="day"><span>Tue</span><b>5</b></div>
-              <div class="day"><span>Wed</span><b>6</b></div>
-              <div class="day on"><span>Thu</span><b>7</b></div>
-              <div class="day"><span>Fri</span><b>8</b></div>
-              <div class="day"><span>Sat</span><b>9</b></div>
+          <!-- cumulative growth: tests built up from the 2012 founding to today -->
+          <div class="viz viz-growth">
+            <div class="growth">
+              <svg viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true">
+                <defs><linearGradient id="growthFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#E4A92F" stop-opacity=".32"/>
+                  <stop offset="1" stop-color="#E4A92F" stop-opacity="0"/>
+                </linearGradient></defs>
+                <path class="growth-area" fill="url(#growthFill)" d="M0,55 C22,53 38,49 54,39 C70,30 84,18 96,11 L96,60 L0,60 Z"/>
+                <path class="growth-line" pathLength="1" d="M0,55 C22,53 38,49 54,39 C70,30 84,18 96,11"/>
+              </svg>
+              <span class="growth-dot" style="left:96%;top:18%"></span>
             </div>
-            <div class="sched-times">
-              <span class="slot off">8:50</span>
-              <span class="slot on">9:00</span>
-              <span class="slot">9:10</span>
-              <span class="slot">9:20</span>
-              <span class="slot">9:30</span>
-            </div>
+            <div class="growth-axis"><span>2012 &middot; Finland</span><span>Today &middot; 1.8M+</span></div>
           </div>
         </div>
         <div class="stat">
           <div class="odo" data-value="99.9" data-suffix="%"></div>
           <div class="stat-label">accuracy &middot; ASPCR technology</div>
-          <!-- visual: every marker read against your healthy range -->
-          <div class="viz viz-range">
-            <div class="range-row"><span class="range-pill"></span><span class="range-label">Above range</span></div>
-            <div class="range-row rng-in"><span class="range-pill"></span><span class="range-label">In range</span></div>
-            <div class="range-row"><span class="range-pill"></span><span class="range-label">Below range</span></div>
-            <div class="range-chart">
-              <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M22,34 L53,62 L82,52" pathLength="1"/></svg>
-              <span class="pt" style="left:22%;top:34%"><b>16.7</b></span>
-              <span class="pt" style="left:53%;top:62%"><b>10.0</b></span>
-              <span class="pt" style="left:82%;top:52%"><b>12.5</b></span>
+          <!-- our accuracy vs the industry standard, so 99.9% has context -->
+          <div class="viz viz-cmp">
+            <div class="cmp">
+              <div class="cmp-row">
+                <div class="cmp-head"><span class="cmp-name">Industry standard</span><span class="cmp-pct">92%</span></div>
+                <div class="cmp-bar"><span class="cmp-fill" style="--w:92%"></span></div>
+              </div>
+              <div class="cmp-row win">
+                <div class="cmp-head"><span class="cmp-name">MyDNAPedia</span><span class="cmp-pct">99.9%</span></div>
+                <div class="cmp-bar"><span class="cmp-fill" style="--w:99.9%"></span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -629,6 +760,72 @@
         <span class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Approved by US FDA &amp; EMA</span>
         <span class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Founded in Finland &middot; 2012</span>
         <span class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> 1-on-1 genetic counselling</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ S8 — TESTIMONIALS (dummy copy · placeholder photos) ═══ -->
+  <section class="tmonials" id="stories">
+    <div class="tmonials-wrap">
+      <div class="tmonials-head">
+        <div>
+          <span class="kicker">Real stories</span>
+          <h2>What our members say.</h2>
+          <p class="tmonials-sub">Placeholder copy — real member verbatims and portraits will replace these.</p>
+        </div>
+      </div>
+
+      <div class="tcards">
+       <div class="tticker">
+        <figure class="tcard">
+          <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
+          <span class="tcard-ph">Photo placeholder</span>
+          <figcaption class="tcard-quote">
+            <p>"I finally understood why my body responds the way it does."</p>
+            <span class="tcard-name">Name Surname<small>Delhi &middot; MDP 360°</small></span>
+          </figcaption>
+        </figure>
+        <figure class="tcard">
+          <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
+          <span class="tcard-ph">Photo placeholder</span>
+          <figcaption class="tcard-quote">
+            <p>"The counselling session alone was worth every rupee."</p>
+            <span class="tcard-name">Name Surname<small>Mumbai &middot; MDP Fitness</small></span>
+          </figcaption>
+        </figure>
+        <figure class="tcard">
+          <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
+          <span class="tcard-ph">Photo placeholder</span>
+          <figcaption class="tcard-quote">
+            <p>"I changed three habits the week my results arrived."</p>
+            <span class="tcard-name">Name Surname<small>Bengaluru &middot; MDP Skin Health</small></span>
+          </figcaption>
+        </figure>
+        <figure class="tcard">
+          <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
+          <span class="tcard-ph">Photo placeholder</span>
+          <figcaption class="tcard-quote">
+            <p>"It caught a risk my regular check-ups never flagged."</p>
+            <span class="tcard-name">Name Surname<small>Pune &middot; MDP Cardiac Health</small></span>
+          </figcaption>
+        </figure>
+        <figure class="tcard">
+          <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
+          <span class="tcard-ph">Photo placeholder</span>
+          <figcaption class="tcard-quote">
+            <p>"Worth it just to stop guessing about my diet."</p>
+            <span class="tcard-name">Name Surname<small>Hyderabad &middot; Nutrition</small></span>
+          </figcaption>
+        </figure>
+        <figure class="tcard">
+          <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
+          <span class="tcard-ph">Photo placeholder</span>
+          <figcaption class="tcard-quote">
+            <p>"My doctor finally had real data to work with."</p>
+            <span class="tcard-name">Name Surname<small>Chennai &middot; MDP 360°</small></span>
+          </figcaption>
+        </figure>
+       </div>
       </div>
     </div>
   </section>
@@ -655,7 +852,7 @@
   (function(){
     const h1 = document.querySelector('.hero h1');
     if(!h1) return;
-    const words = h1.textContent.split(' ');   // keeps "read it?" together
+    const words = h1.textContent.split(' ');
     h1.textContent = '';
     words.forEach((word,i)=>{
       const s = document.createElement('span');
@@ -665,13 +862,14 @@
       if(i < words.length-1) h1.appendChild(document.createTextNode(' '));
     });
   })();
+
   const tension = document.getElementById('tension');
-  // EXPERIMENT: hero uses a looping <video> now, not the canvas scrub.
-  // ctx is null for a <video>, so all the frame-scrub code below no-ops.
+  // EXPERIMENT: hero uses a looping <video>, not the canvas scrub.
+  // ctx is null for a <video>, so all frame-scrub code below no-ops.
   const ctx     = canvas.getContext ? canvas.getContext('2d') : null;
   const mobile  = () => window.matchMedia('(max-width:860px)').matches;
 
-  // ── preload frames ──────────────────────────────────
+  // ── preload frames ──────────────────────────────────────
   const frames = new Array(N);
   let loaded = 0, ready = false;
   if(ctx) for(let i=0;i<N;i++){
@@ -685,7 +883,6 @@
     frames[i] = img;
   }
 
-  // ── canvas sizing (DPR-aware, cover draw) ───────────
   function sizeCanvas(){
     if(!ctx) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -693,7 +890,7 @@
     canvas.height = Math.round(canvas.clientHeight * dpr);
     draw(curIdx);
   }
-  let curIdx = mobile() ? 62 : 0;   // mobile has no scrub → show a built helix
+  let curIdx = mobile() ? 62 : 0;
   function draw(idx){
     if(!ctx) return;
     const img = frames[idx];
@@ -703,50 +900,40 @@
     const iw = img.naturalWidth, ih = img.naturalHeight;
     const s = Math.max(cw/iw, ch/ih);
     const w = iw*s, h = ih*s;
-    // helix sits on the right of the source — bias the crop rightward so it
-    // stays in frame on narrow viewports while the text-side stays clear.
     const biasX = 0.82;
     ctx.clearRect(0,0,cw,ch);
     ctx.drawImage(img, (cw-w)*biasX, (ch-h)/2, w, h);
   }
 
-  // ── easing ──────────────────────────────────────────
   const clamp  = (v,a,b)=>Math.min(b,Math.max(a,v));
   const smooth = (a,b,x)=>{ const t=clamp((x-a)/(b-a),0,1); return t*t*(3-2*t); };
 
-  // ── scroll → progress ───────────────────────────────
   function onScroll(){
-    if(window.__freeze) return;   // verification hold
+    if(window.__freeze) return;
     if(mobile()) return;
     const rect = stage.getBoundingClientRect();
     const vh = window.innerHeight;
     const pinDist = stage.offsetHeight - vh;
     const p = clamp(-rect.top / pinDist, 0, 1);
 
-    // frame: helix builds across p 0.04 → 0.62
     const idx = Math.round(smooth(0.04,0.62,p) * (N-1));
     if(idx !== curIdx) draw(idx);
 
-    // hero fades/slides out  p 0.40 → 0.58  (clear inline at top so load-anim plays)
     const out = smooth(0.40,0.58,p);
     hero.style.opacity   = out>0 ? String(1-out) : '';
     hero.style.transform = `translateY(calc(-50% - ${out*36}px))`;
-    // trust bar fades in sync with the hero text (same 0.40 → 0.58 window).
     trust.style.opacity   = out>0 ? String(1-out) : '';
     trust.style.transform = out>0 ? `translateY(${out*40}px)` : '';
     if(ambient) ambient.style.opacity = out>0 ? String(1-out) : '';
 
-    // tension fades in once the video is essentially done  p 0.64 → 0.74
     const tin = smooth(0.64,0.74,p);
     tension.style.opacity   = String(tin);
     tension.style.transform = `translateY(${(1-tin)*28}px)`;
 
-    // bottom of viewport fades to plans bg so the pin releases smoothly
-    // into the plans section instead of cutting hard.
     if(stageFade) stageFade.style.opacity = String(smooth(0.72,1,p));
   }
 
-  // ── S2 rotating tension word ─────────────────────────
+  // ── S2 rotating tension word ─────────────────────────────
   const WORDS = [
     "Type 2 Diabetes","Heart Disease","Alzheimer's","Breast Cancer",
     "Male Pattern Baldness","Stroke","Anxiety","Premature Greying",
@@ -767,14 +954,10 @@
   }
   setInterval(rotate, 1600);
 
-  // The trust bar both load-reveals (CSS animation) and scroll-fades (inline).
-  // A filled CSS animation overrides inline styles, so strip it once the
-  // reveal finishes — then the scroll fade/slide takes over cleanly.
   trust.addEventListener('animationend', ()=>{ trust.style.animation='none'; onScroll(); }, {once:true});
   setTimeout(()=>{ trust.style.animation='none'; }, 1800);
 
-  // ── wire up ─────────────────────────────────────────
-  window.__scrub = onScroll; // verification hook (drives scrub synchronously)
+  window.__scrub = onScroll;
   let ticking=false;
   window.addEventListener('scroll', ()=>{
     if(!ticking){ requestAnimationFrame(()=>{ onScroll(); ticking=false; }); ticking=true; }
@@ -785,9 +968,8 @@
 </script>
 
 <script>
-/* ── S4 — plan toggle + single-open accordion + helix state ── */
+/* ── S4 — plan toggle + single-open accordion + helix scrub ── */
 (function(){
-  // Premium=full, Standard=mid, Lite=1/3 (placeholder frames; swap for real video)
   const ADDONS = "Add-on consultations: Nutritionist · Wellness consultant · Health check planning";
   const PLANS = {
     premium: {
@@ -835,14 +1017,13 @@
   if(!list || !canvas) return;
   const ctx = canvas.getContext('2d');
 
-  // ── helix frame scrub: forward = helix builds down, backward = builds up ──
   const PN = 68, PPATH = i => 'frames-plan/h_'+String(i).padStart(4,'0')+'.webp';
   const pf = new Array(PN); let cur = 0, raf = null;
   for(let i=0;i<PN;i++){ const im=new Image();
     im.onload=()=>{ if(i===0) sizePF(); if(i===cur) drawPF(cur); }; im.src=PPATH(i+1); pf[i]=im; }
   function sizePF(){ const d=Math.min(window.devicePixelRatio||1,2);
     canvas.width=Math.round(canvas.clientWidth*d); canvas.height=Math.round(canvas.clientHeight*d); drawPF(cur); }
-  const PZOOM = 1.4;   // zoom the helix so the square doesn't feel empty (slight crop is fine)
+  const PZOOM = 1.4;
   function drawPF(idx){ const im=pf[idx]; if(!im||!im.complete||!im.naturalWidth) return; cur=idx;
     const cw=canvas.width,ch=canvas.height,s=Math.max(cw/im.naturalWidth,ch/im.naturalHeight)*PZOOM,
       w=im.naturalWidth*s,h=im.naturalHeight*s; ctx.clearRect(0,0,cw,ch); ctx.drawImage(im,(cw-w)/2,(ch-h)/2,w,h); }
@@ -895,12 +1076,12 @@
 </script>
 
 <script>
-/* ── S7 — odometer trust counters (roll up on scroll into view) ── */
+/* ── S7 — odometer counters + scroll-triggered mini-visuals ── */
 (function(){
   const odos = document.querySelectorAll('.odo');
   if(!odos.length) return;
   const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const SPINS = 2;   // full 0→9 cycles before settling = the odometer roll
+  const SPINS = 2;
 
   odos.forEach(el=>{
     const value  = el.dataset.value  || '';
@@ -908,7 +1089,7 @@
     el.innerHTML = '';
     value.split('').forEach((ch,i)=>{
       if(/\d/.test(ch)){
-        const total = SPINS*10 + (+ch);   // lands on the digit after N spins
+        const total = SPINS*10 + (+ch);
         const digit = document.createElement('span'); digit.className = 'odo-digit';
         const reel  = document.createElement('span'); reel.className  = 'odo-reel';
         for(let n=0;n<=total;n++){
@@ -916,7 +1097,7 @@
           s.textContent = n % 10; reel.appendChild(s);
         }
         reel.style.setProperty('--y', total);
-        reel.style.transitionDelay = (i*0.09)+'s';   // slight stagger per digit
+        reel.style.transitionDelay = (i*0.09)+'s';
         if(reduce) reel.style.transition = 'none';
         digit.appendChild(reel); el.appendChild(digit);
       } else {
@@ -940,7 +1121,6 @@
   }, { threshold:.4 });
   odos.forEach(el=>io.observe(el));
 
-  // mini-visuals reveal as they enter view
   const vio = new IntersectionObserver((entries,obs)=>{
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); } });
   }, { threshold:.3 });
@@ -949,68 +1129,168 @@
 </script>
 
 <script>
-/* EXPERIMENT: gold "disintegration" cursor — emits helix-like gold sparks
-   from the pointer while hovering over text. */
+/* ── S5 — How It Works: scroll-driven card stack ── */
+(function(){
+  const how = document.getElementById('how-it-works');
+  if(!how) return;
+  const cards = Array.from(how.querySelectorAll('.step-card'));
+  const footer = how.querySelector('.how-footer');
+  const N = cards.length;
+  const SLIDE = 0.38; // fraction of each card's segment used for the slide animation
+
+  function easeInOut(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+
+  function tick(){
+    const rect = how.getBoundingClientRect();
+    const travel = how.offsetHeight - window.innerHeight;
+    if(travel <= 0) return;
+    const scrolled = Math.max(0, Math.min(travel, -rect.top));
+    // cf: 0..N representing how far through all cards we are
+    const cf = (scrolled / travel) * N;
+
+    // topmost card index that is fully settled
+    let topInIdx = -1;
+    cards.forEach((_, i) => { if((cf - i) / SLIDE >= 1) topInIdx = i; });
+
+    cards.forEach((card, i) => {
+      const p  = Math.max(0, Math.min(1, (cf - i) / SLIDE));
+      const ep = easeInOut(p);
+
+      if(p < 1){
+        // Sliding in — no CSS transition (JS drives the animation)
+        card.removeAttribute('data-settled');
+        card.style.transform = `translateY(${((1 - ep) * 110).toFixed(2)}%)`;
+        card.style.zIndex    = 50 + i;
+      } else {
+        // Settled in the stack — CSS transition handles smooth depth repositioning
+        card.setAttribute('data-settled', '');
+        const depth  = topInIdx - i;         // 0 = top, 1 = one behind, etc.
+        const offsetY = depth * 18;           // peek below current card (px)
+        const scale   = 1 - depth * 0.03;    // slightly smaller for depth illusion
+        card.style.transform = `translateY(${offsetY}px) scale(${scale.toFixed(3)})`;
+        card.style.zIndex    = i + 1;        // higher index = more in front
+      }
+    });
+
+    // Show footer once last card is fully settled
+    if(footer) footer.classList.toggle('vis', topInIdx === N - 1);
+  }
+
+  window.addEventListener('scroll', tick, { passive: true });
+  tick();
+})();
+</script>
+
+<script>
+/* ── S8 — testimonials ticker: clone cards for seamless loop ── */
+(function(){
+  const track = document.querySelector('.tticker');
+  if(!track) return;
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  track.querySelectorAll('.tcard').forEach(card=>{
+    const clone = card.cloneNode(true);
+    clone.setAttribute('aria-hidden','true');
+    track.appendChild(clone);
+  });
+})();
+</script>
+
+<script>
 (function(){
   if(window.matchMedia('(hover:none)').matches) return;
   if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+
+  /* hide system cursor site-wide */
+  document.documentElement.style.cursor = 'none';
 
   const cv = document.createElement('canvas');
   cv.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999';
   document.body.appendChild(cv);
   const ctx = cv.getContext('2d');
-  let W, H, dpr;
-  function size(){
+  let dpr = 1;
+  function resize(){
     dpr = Math.min(window.devicePixelRatio || 1, 2);
-    cv.width = Math.round(innerWidth*dpr); cv.height = Math.round(innerHeight*dpr);
+    cv.width  = Math.round(innerWidth  * dpr);
+    cv.height = Math.round(innerHeight * dpr);
   }
-  size(); window.addEventListener('resize', size);
+  resize(); window.addEventListener('resize', resize);
 
-  const GOLD = [[233,180,62],[242,205,120],[201,146,38],[255,224,160]];
-  const TEXTSEL = 'h1,h2,h3,h4,p,a,span,button,li,em,strong,b,.acc-title,.acc-sub';
+  const GRAINS = [
+    [233,180,62, 0.80],
+    [242,205,120,0.60],
+    [156,107,22, 0.75],
+    [255,246,210,0.65],
+    [50, 46, 39, 0.45],
+  ];
+
   const P = [];
-  let mx=-999, my=-999, pmx=-999, pmy=-999, overText=false;
+  let mx = -9999, my = -9999, pmx = -9999, pmy = -9999;
+  let active = false;
 
-  window.addEventListener('mousemove', e=>{
-    mx = e.clientX*dpr; my = e.clientY*dpr;
-    const el = e.target;
-    overText = !!(el && el.closest && el.closest(TEXTSEL));
-  }, {passive:true});
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY; active = true;
+  }, {passive: true});
+  document.addEventListener('mouseleave', () => { active = false; });
 
-  function spawn(n){
-    for(let i=0;i<n;i++){
-      const a = Math.random()*Math.PI*2;
-      const sp = (Math.random()*0.7+0.15)*dpr;
-      const c = GOLD[(Math.random()*GOLD.length)|0];
+  function spawn(cx, cy, speed){
+    const n = speed > 1.2 ? 3 : 2;
+    for(let i = 0; i < n; i++){
+      const c  = GRAINS[(Math.random() * GRAINS.length) | 0];
+      const a  = Math.random() * Math.PI * 2;
+      const sp = (Math.random() * 0.6 + 0.2) * dpr * Math.min(speed * 0.35, 1.8);
       P.push({
-        x: mx + (Math.random()-0.5)*12*dpr,
-        y: my + (Math.random()-0.5)*12*dpr,
-        vx: Math.cos(a)*sp,
-        vy: Math.sin(a)*sp - 0.35*dpr,        // slight upward drift
-        life: 1, decay: 0.012 + Math.random()*0.022,
-        size: (Math.random()*1.8 + 0.7)*dpr, c
+        x: cx * dpr, y: cy * dpr,
+        vx: Math.cos(a) * sp,
+        vy: Math.sin(a) * sp - 0.3 * dpr,
+        life: 1,
+        decay: 0.022 + Math.random() * 0.018,
+        size: (Math.random() * 1.4 + 0.3) * dpr,
+        rot: Math.random() * Math.PI * 2,
+        rotV: (Math.random() - 0.5) * 0.18,
+        c,
+        rect: Math.random() > 0.5
       });
     }
   }
 
   function loop(){
-    ctx.clearRect(0,0,cv.width,cv.height);
-    // spawn based on how fast the pointer moves over text (more movement = more sparks)
-    if(overText){
-      const speed = Math.hypot(mx-pmx, my-pmy)/dpr;
-      const n = Math.min(6, 1 + (speed*0.12|0));
-      spawn(n);
+    ctx.clearRect(0, 0, cv.width, cv.height);
+
+    if(active){
+      const speed = Math.hypot(mx - pmx, my - pmy);
+      if(speed > 0.5) spawn(mx, my, speed);
+      pmx = mx; pmy = my;
+
+      /* small circle cursor */
+      const cx = mx * dpr, cy = my * dpr, r = 5 * dpr;
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, 6.283);
+      ctx.fillStyle = 'rgba(156,107,22,0.85)';
+      ctx.fill();
+      ctx.restore();
     }
-    pmx = mx; pmy = my;
-    for(let i=P.length-1;i>=0;i--){
+
+    for(let i = P.length - 1; i >= 0; i--){
       const p = P[i];
-      p.x += p.vx; p.y += p.vy; p.vy += 0.006*dpr; p.life -= p.decay;
-      if(p.life <= 0){ P.splice(i,1); continue; }
-      ctx.globalAlpha = Math.max(0, p.life)*0.85;
-      ctx.fillStyle = 'rgb('+p.c[0]+','+p.c[1]+','+p.c[2]+')';
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.size*p.life, 0, 6.283); ctx.fill();
+      p.x += p.vx; p.y += p.vy;
+      p.vy += 0.018 * dpr;
+      p.vx *= 0.968;
+      p.rot += p.rotV;
+      p.life -= p.decay;
+      if(p.life <= 0){ P.splice(i, 1); continue; }
+      const sz = p.size * Math.max(0.05, p.life);
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.life) * p.c[3];
+      ctx.fillStyle   = `rgb(${p.c[0]},${p.c[1]},${p.c[2]})`;
+      ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      if(p.rect){
+        ctx.fillRect(-sz * 0.45, -sz * 0.65, sz * 0.9, sz * 1.3);
+      } else {
+        ctx.beginPath(); ctx.arc(0, 0, sz, 0, 6.283); ctx.fill();
+      }
+      ctx.restore();
     }
-    ctx.globalAlpha = 1;
+
     requestAnimationFrame(loop);
   }
   loop();
