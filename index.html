@@ -88,7 +88,7 @@
   /* EXPERIMENT: looping video. Helix is centered in the source, so we place
      the video box on the RIGHT portion of the hero — text stays clear on the left. */
   #dna{ position:absolute; top:0; right:0; bottom:0; width:58%; height:100%; display:block; z-index:1;
-    object-fit:cover; object-position:center; }
+    object-fit:cover; object-position:78% center; }  /* nudge helix right so it isn't cropped at the edge */
 
   /* warm wash on the left so text always reads over the video */
   .stage-sticky::before{
