@@ -489,25 +489,18 @@
     color:var(--ink); margin:16px 0 14px; }
   .tmonials-sub{ font-size:clamp(15px,1.2vw,18px); line-height:1.6;
     color:var(--muted); font-weight:500; max-width:48ch; }
-  /* prev / next */
-  .tm-nav{ display:flex; gap:10px; flex:none; padding-bottom:6px; }
-  .tm-arrow{ width:46px; height:46px; border-radius:50%; display:grid; place-items:center;
-    background:#F9F6EF; border:1px solid rgba(50,46,39,.14); color:var(--ink); cursor:pointer;
-    transition:background .25s ease, color .25s ease, border-color .25s ease, opacity .25s ease; }
-  .tm-arrow:hover{ background:var(--gold-lt); color:var(--on-gold); border-color:rgba(255,246,210,.85); }
-  .tm-arrow svg{ width:19px; height:19px; }
-  .tm-arrow:disabled{ opacity:.3; cursor:default; }
-  .tm-arrow:disabled:hover{ background:#F9F6EF; color:var(--ink); border-color:rgba(50,46,39,.14); }
-
-  /* full-bleed scroll-snap track */
-  .tcards{ display:flex; gap:22px; margin-top:44px; overflow-x:auto;
-    scroll-snap-type:x mandatory; scroll-behavior:smooth;
-    padding:6px var(--gut); margin-left:calc(-1 * var(--gut)); margin-right:calc(-1 * var(--gut));
-    scroll-padding-left:var(--gut); scrollbar-width:none; -webkit-overflow-scrolling:touch; }
-  .tcards::-webkit-scrollbar{ display:none; }
+  /* full-bleed auto-running ticker */
+  .tcards{ margin-top:44px; overflow:hidden; padding:8px 0;
+    margin-left:calc(-1 * var(--gut)); margin-right:calc(-1 * var(--gut));
+    -webkit-mask-image:linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+    mask-image:linear-gradient(to right, transparent, #000 5%, #000 95%, transparent); }
+  .tticker{ display:flex; width:max-content; will-change:transform;
+    animation:ticker 55s linear infinite; }
+  .tcards:hover .tticker{ animation-play-state:paused; }
+  @keyframes ticker{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
   /* image-fill card: portrait photo with quote + name overlaid at the bottom */
   .tcard{ position:relative; flex:0 0 clamp(258px,27vw,326px); aspect-ratio:4/5;
-    scroll-snap-align:start; border-radius:24px; overflow:hidden;
+    margin-right:22px; border-radius:24px; overflow:hidden;
     border:1px solid rgba(50,46,39,.08); box-shadow:0 18px 50px -34px rgba(74,55,18,.42);
     transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s ease; }
   .tcard:hover{ transform:translateY(-4px); box-shadow:0 30px 62px -34px rgba(74,55,18,.52); }
@@ -532,9 +525,13 @@
 
   @media (max-width:860px){
     .tmonials-wrap{ --gut:22px; padding:40px var(--gut) 84px; }
-    .tm-nav{ display:none; }
-    .tcards{ margin-top:30px; gap:16px; }
-    .tcard{ flex-basis:78vw; }
+    .tcards{ margin-top:30px; }
+    .tcard{ flex-basis:72vw; margin-right:16px; }
+    .tticker{ animation-duration:38s; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .tticker{ animation:none; }
+    .tcards{ overflow-x:auto; }
   }
 </style>
 </head>
@@ -672,13 +669,10 @@
           <h2>What our members say.</h2>
           <p class="tmonials-sub">Placeholder copy — real member verbatims and portraits will replace these.</p>
         </div>
-        <div class="tm-nav">
-          <button class="tm-arrow" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
-          <button class="tm-arrow" data-dir="1" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
-        </div>
       </div>
 
-      <div class="tcards" id="tCarousel">
+      <div class="tcards">
+       <div class="tticker">
         <figure class="tcard">
           <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
           <span class="tcard-ph">Photo placeholder</span>
@@ -732,6 +726,7 @@
             <span class="tcard-name">Name Surname<small>Chennai &middot; MDP 360°</small></span>
           </figcaption>
         </figure>
+       </div>
       </div>
     </div>
   </section>
@@ -1061,28 +1056,16 @@
 </script>
 
 <script>
-/* ── S8 — testimonials horizontal carousel (prev/next + edge state) ── */
+/* ── S8 — testimonials ticker: clone cards once for a seamless loop ── */
 (function(){
-  const track = document.getElementById('tCarousel');
+  const track = document.querySelector('.tticker');
   if(!track) return;
-  const prev = document.querySelector('.tm-arrow[data-dir="-1"]');
-  const next = document.querySelector('.tm-arrow[data-dir="1"]');
-  const step = () => {
-    const card = track.querySelector('.tcard');
-    const gap = parseFloat(getComputedStyle(track).gap) || 22;
-    return card ? card.getBoundingClientRect().width + gap : 320;
-  };
-  document.querySelectorAll('.tm-arrow').forEach(b=>{
-    b.addEventListener('click', ()=> track.scrollBy({ left:(+b.dataset.dir) * step(), behavior:'smooth' }));
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  track.querySelectorAll('.tcard').forEach(card=>{
+    const clone = card.cloneNode(true);
+    clone.setAttribute('aria-hidden','true');
+    track.appendChild(clone);
   });
-  function update(){
-    const max = track.scrollWidth - track.clientWidth - 2;
-    if(prev) prev.disabled = track.scrollLeft <= 2;
-    if(next) next.disabled = track.scrollLeft >= max;
-  }
-  track.addEventListener('scroll', ()=>requestAnimationFrame(update), {passive:true});
-  window.addEventListener('resize', update);
-  update();
 })();
 </script>
 </body>
