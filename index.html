@@ -526,7 +526,7 @@
     box-shadow:0 4px 14px -5px rgba(214,156,26,.6); }
 
   .trust-creds{ display:flex; flex-wrap:wrap; gap:10px;
-    padding-top:clamp(24px,3vw,34px); border-top:1px solid rgba(50,46,39,.1); }
+    padding-top:clamp(20px,2.4vw,28px); }
   .cred{ display:inline-flex; align-items:center; gap:9px;
     font-size:13.5px; font-weight:600; color:var(--ink-soft);
     background:rgba(120,120,80,.06); border:1px solid rgba(80,80,50,.1);
@@ -558,12 +558,9 @@
   .tmonials-sub{ font-size:clamp(15px,1.2vw,18px); line-height:1.6;
     color:var(--muted); font-weight:500; max-width:48ch; }
   .tcards{ margin-top:44px; overflow:hidden; padding:8px 0;
-    margin-left:calc(-1 * var(--gut)); margin-right:calc(-1 * var(--gut));
-    -webkit-mask-image:linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
-    mask-image:linear-gradient(to right, transparent, #000 5%, #000 95%, transparent); }
+    margin-left:calc(-1 * var(--gut)); margin-right:calc(-1 * var(--gut)); }
   .tticker{ display:flex; width:max-content; will-change:transform;
     animation:ticker 55s linear infinite; }
-  .tcards:hover .tticker{ animation-play-state:paused; }
   @keyframes ticker{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
   .tcard{ position:relative; flex:0 0 clamp(258px,27vw,326px); aspect-ratio:4/5;
     margin-right:22px; border-radius:24px; overflow:hidden;
