@@ -408,13 +408,15 @@
     box-shadow:0 12px 48px rgba(50,46,39,.13), 0 2px 8px rgba(50,46,39,.06);
     transform:translateY(110%);
     will-change:transform;
+    overflow:hidden;
   }
   .step-card[data-settled]{
     transition:transform .45s cubic-bezier(.25,.46,.45,.94);
   }
   .step-photo{
-    position:absolute; right:24px; top:50%; transform:translateY(-50%);
-    width:clamp(190px,22vw,280px); height:auto;
+    position:absolute; right:-90px; bottom:-44px;
+    transform:rotate(-9deg);
+    width:clamp(300px,34vw,440px); height:auto;
     display:block; pointer-events:none;
   }
   .step-left{
