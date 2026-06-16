@@ -412,6 +412,11 @@
   .step-card[data-settled]{
     transition:transform .45s cubic-bezier(.25,.46,.45,.94);
   }
+  .step-photo{
+    position:absolute; right:54px; top:50%; transform:translateY(-50%);
+    width:clamp(120px,14vw,180px); height:auto;
+    display:block; pointer-events:none;
+  }
   .step-left{
     display:flex; flex-direction:column; align-items:center; gap:10px;
   }
@@ -453,6 +458,7 @@
     .how-head{ padding-top:88px; padding-bottom:28px; }
     .step-card{ padding:28px 24px; gap:0 20px; }
     .step-num{ font-size:clamp(44px,10vw,68px); }
+    .step-photo{ display:none; }
   }
 
   /* ── S7 — TRUST & CREDENTIALS (designer's rework) ───── */
@@ -690,6 +696,7 @@
             <h3 class="step-title">Order</h3>
             <p class="step-desc">Your kit is delivered to your door. Everything you need is inside.</p>
           </div>
+          <img class="step-photo" src="assets/box-product.png" alt="MyDNAPedia kit box" />
         </div>
 
         <div class="step-card">
