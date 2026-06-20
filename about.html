@@ -81,7 +81,7 @@
   .nav-cta:hover svg{ transform:translateX(3px); }
 
   /* ── SECTION 1 — THE WHY / ABOUT ─────────── */
-  .about{ position:relative; background:#FBF8F1; min-height:100vh; }
+  .about{ position:relative; background:#FBF8F1; }
   .about-wrap{ padding:clamp(132px,17vh,184px) max(42px,6vw) clamp(72px,9vw,112px); }
   .about .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
     text-transform:uppercase; color:var(--muted); display:block; }
@@ -107,6 +107,38 @@
   @media(max-width:760px){
     .about-lead{ max-width:none; }
     .about-cols{ grid-template-columns:1fr; gap:20px; }
+  }
+
+  /* ── SECTION 2 — WHAT WE DO ─────────── */
+  .wwd{ position:relative; background:var(--bg); }
+  .wwd-wrap{ padding:clamp(70px,8vw,104px) max(42px,6vw) clamp(84px,9vw,124px); }
+  .wwd .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); display:block; }
+  .wwd h2{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(32px,4vw,54px); line-height:1.08; letter-spacing:-.015em;
+    color:var(--ink); margin:14px 0 0; }
+  .wwd-intro{ font-size:clamp(15px,1.2vw,18px); line-height:1.72;
+    color:var(--muted); font-weight:500; max-width:66ch; margin:22px 0 0; }
+  .wwd-intro em{ font-style:normal; color:var(--ink); font-weight:600; }
+  .wwd-grid{ display:grid; grid-template-columns:1fr 1fr;
+    gap:clamp(40px,4.5vw,64px) clamp(40px,6vw,96px);
+    margin-top:clamp(50px,6vw,82px); }
+  .pillar{ position:relative; }
+  .pillar-num{ position:absolute; top:2px; right:0;
+    font-family:var(--font-display); font-weight:500; font-size:clamp(30px,3vw,42px);
+    color:rgba(156,107,22,.16); line-height:1; user-select:none; }
+  .pillar-icon{ width:54px; height:54px; border-radius:15px;
+    background:rgba(228,169,47,.10); border:1.5px solid rgba(228,169,47,.30);
+    display:flex; align-items:center; justify-content:center; margin-bottom:20px; }
+  .pillar-icon svg{ width:25px; height:25px; stroke:var(--gold); fill:none;
+    stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+  .pillar h3{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(20px,1.8vw,26px); color:var(--ink); letter-spacing:-.01em;
+    margin:0 0 11px; max-width:18ch; }
+  .pillar p{ font-size:clamp(14.5px,1.05vw,16.5px); line-height:1.74;
+    color:var(--ink-soft); margin:0; max-width:48ch; }
+  @media(max-width:760px){
+    .wwd-grid{ grid-template-columns:1fr; gap:40px; }
   }
 </style>
 </head>
@@ -139,6 +171,53 @@
         <span class="about-mission-label">The mission, in three words</span>
         <p class="about-mission-words">Avoid. Reduce. Delay.</p>
         <p class="about-mission-desc">Every insight we deliver exists to help you avoid a condition you're predisposed to, reduce its severity if it appears, or delay its onset through informed action. Not fear. Not prediction. <em>Just clarity — and a way forward.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 2 — WHAT WE DO ═══ -->
+  <section class="wwd" id="what-we-do">
+    <div class="wwd-wrap">
+      <span class="kicker">What We Do</span>
+      <h2>From guessing to knowing.</h2>
+      <p class="wwd-intro">We map over 100 DNA-based health insights across nutrition, disease risk, fitness, mental wellbeing, skin, and more — then translate them into specific, actionable guidance through one-on-one counselling. Not a report you read alone. <em>A conversation that makes it make sense.</em></p>
+
+      <div class="wwd-grid">
+        <div class="pillar">
+          <span class="pillar-num">01</span>
+          <div class="pillar-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3>Preventive Precision</h3>
+          <p>Identifying genetic predispositions before symptoms appear — so the right decision happens years earlier than a diagnosis ever could.</p>
+        </div>
+
+        <div class="pillar">
+          <span class="pillar-num">02</span>
+          <div class="pillar-icon">
+            <svg viewBox="0 0 24 24"><path d="M5.2 9a8 8 0 0 1 13.6 0"/><path d="M8 11a4.2 4.2 0 0 1 8 0v2.5"/><path d="M12 11v5.6"/><path d="M8 13.5V16a6 6 0 0 0 .6 2.6"/><path d="M16 13.8V16a6 6 0 0 1-.5 2.4"/></svg>
+          </div>
+          <h3>Personalisation That's Actually Personal</h3>
+          <p>Your DNA result, your current lifestyle, and your health goals — considered together, not separately. Generic advice with your name on it isn't personalisation. This is.</p>
+        </div>
+
+        <div class="pillar">
+          <span class="pillar-num">03</span>
+          <div class="pillar-icon">
+            <svg viewBox="0 0 24 24"><path d="M10.5 20.5 3.5 13.5a5 5 0 0 1 7-7l7 7a5 5 0 0 1-7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+          </div>
+          <h3>Pharmacogenomics</h3>
+          <p>How your body responds to the medicines your doctor prescribes. The only test in India that connects your genetics directly to your prescriptions — reducing the trial-and-error most people quietly live with.</p>
+        </div>
+
+        <div class="pillar">
+          <span class="pillar-num">04</span>
+          <div class="pillar-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 14a2 2 0 0 1-2 2H7l-4 4V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
+          </div>
+          <h3>Counselling, Not Just a Report</h3>
+          <p>Every result is explained by a trained genetic counsellor before you see a single number alone. You leave knowing exactly what it means for your life — not holding a PDF full of unfamiliar terms.</p>
+        </div>
       </div>
     </div>
   </section>
