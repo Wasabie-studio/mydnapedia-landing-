@@ -157,21 +157,21 @@
   .approach h2{ font-family:var(--font-display); font-weight:500;
     font-size:clamp(32px,4vw,54px); line-height:1.08; letter-spacing:-.015em;
     color:var(--ink); margin:14px 0 0; }
-  .approach-list{ margin-top:clamp(44px,5vw,68px); border-top:1px solid rgba(50,46,39,.13); }
-  .approach-item{ display:grid; grid-template-columns:0.85fr 1.4fr;
-    gap:clamp(18px,5vw,72px);
-    padding:clamp(30px,3.4vw,46px) 0;
-    border-bottom:1px solid rgba(50,46,39,.13); }
-  .approach-head{ display:flex; gap:15px; align-items:baseline; }
+  .approach-list{ margin-top:clamp(40px,4.5vw,60px);
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:clamp(32px,3.6vw,54px) clamp(40px,6vw,96px);
+    border-top:1px solid rgba(50,46,39,.13);
+    padding-top:clamp(36px,3.8vw,52px); }
+  .approach-head{ display:flex; gap:14px; align-items:baseline; margin-bottom:12px; }
   .approach-num{ font-family:var(--font-display); font-weight:500;
-    font-size:clamp(14px,1vw,16px); color:var(--gold); line-height:1.5; flex:none; }
+    font-size:clamp(14px,1vw,16px); color:var(--gold); line-height:1.4; flex:none; }
   .approach-title{ font-family:var(--font-display); font-weight:500;
-    font-size:clamp(21px,2vw,28px); color:var(--ink); letter-spacing:-.01em;
+    font-size:clamp(20px,1.8vw,25px); color:var(--ink); letter-spacing:-.01em;
     line-height:1.18; margin:0; }
-  .approach-desc{ font-size:clamp(15px,1.1vw,17px); line-height:1.74;
-    color:var(--ink-soft); margin:0; max-width:60ch; }
+  .approach-desc{ font-size:clamp(14.5px,1.05vw,16.5px); line-height:1.72;
+    color:var(--ink-soft); margin:0; max-width:50ch; }
   @media(max-width:760px){
-    .approach-item{ grid-template-columns:1fr; gap:14px; }
+    .approach-list{ grid-template-columns:1fr; gap:32px; }
   }
 </style>
 </head>
