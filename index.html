@@ -613,6 +613,68 @@
     .tticker{ animation:none; }
     .tcards{ overflow-x:auto; }
   }
+
+  /* ── S9 — LEAD CAPTURE FORM ─────────────────────────── */
+  .lead{ position:relative; }
+  .lead-inner{ padding:clamp(72px,9vw,118px) max(42px,6vw); }
+  .lead-wrap{ display:grid; grid-template-columns:1.25fr clamp(380px,40%,500px);
+    gap:clamp(40px,5vw,84px); align-items:center; }
+  .lead-head{ text-align:left; }
+  .lead-head .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); }
+  .lead-head h2{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(34px,4vw,56px); line-height:1.05; letter-spacing:-.01em;
+    color:var(--ink); margin:14px 0 14px; }
+  .lead-head p{ font-size:clamp(15px,1.2vw,17px); line-height:1.55;
+    color:var(--muted); font-weight:500; max-width:42ch; margin:0; }
+  .lead-points{ list-style:none; margin:30px 0 0; padding:0;
+    display:grid; grid-template-columns:1fr 1fr; gap:16px 30px; }
+  .lead-points li{ display:flex; align-items:flex-start; gap:12px;
+    font-size:15px; font-weight:500; color:var(--ink-soft); line-height:1.4; }
+  .lead-points svg{ flex:none; width:21px; height:21px; color:var(--gold); margin-top:1px; }
+
+  .lead-card{ background:#F9F6EF; border:1px solid rgba(50,46,39,.08); border-radius:24px;
+    padding:clamp(28px,4vw,46px); box-shadow:0 22px 54px -38px rgba(74,55,18,.32); }
+  .lead-form{ display:flex; flex-direction:column; gap:18px; }
+  .field{ display:flex; flex-direction:column; gap:8px; }
+  .field > span{ font-size:13px; font-weight:600; color:var(--ink-soft); letter-spacing:.005em; }
+  .field input, .field select, .field textarea{ width:100%; font-family:"Satoshi",sans-serif; font-size:15px;
+    color:var(--ink); background:#fff; border:1px solid rgba(50,46,39,.16); border-radius:12px;
+    padding:14px 16px; transition:border-color .2s ease, box-shadow .2s ease; }
+  .field input::placeholder, .field textarea::placeholder{ color:var(--muted); }
+  .field textarea{ min-height:96px; resize:vertical; line-height:1.5; }
+  .field input:focus, .field select:focus, .field textarea:focus{ outline:none; border-color:var(--gold-lt);
+    box-shadow:0 0 0 3px rgba(228,169,47,.18); }
+  .field select{ appearance:none; -webkit-appearance:none; cursor:pointer; padding-right:44px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23837B69' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 16px center; }
+  .lead-submit{ margin-top:6px; display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    background:rgba(247,190,40,.95); color:var(--on-gold); border:1px solid rgba(255,246,210,.85);
+    padding:15px 22px; border-radius:12px; font-family:"Satoshi",sans-serif; font-weight:700;
+    font-size:15px; cursor:pointer; box-shadow:0 12px 26px -10px rgba(214,156,26,.55);
+    transition:transform .25s cubic-bezier(.22,1,.36,1), background .25s ease; }
+  .lead-submit:hover{ transform:translateY(-1px); background:rgba(250,199,54,1); }
+  .lead-submit svg{ width:16px; height:16px; transition:transform .25s ease; }
+  .lead-submit:hover svg{ transform:translateX(3px); }
+  .lead-note{ margin-top:4px; text-align:center; font-size:14px; font-weight:600; color:var(--gold); }
+
+  /* stacked variant — text on top, form below (fields in a 2-col table) */
+  .lead-stack .lead-wrap{ display:block; }
+  .lead-stack .lead-head{ margin-bottom:clamp(28px,3.4vw,42px); max-width:none; }
+  .lead-stack .lead-head p{ max-width:64ch; }
+  .lead-stack .lead-form{ display:grid; grid-template-columns:1fr 1fr; gap:18px 24px; }
+  .lead-stack .field.full,
+  .lead-stack .lead-form .lead-submit,
+  .lead-stack .lead-form .lead-note{ grid-column:1 / -1; }
+  .lead-stack .lead-form .lead-submit{ justify-self:start; padding-left:42px; padding-right:42px; }
+
+  @media (max-width:860px){
+    .lead-inner{ padding:64px 22px 80px; }
+    .lead-wrap{ grid-template-columns:1fr; gap:28px; }
+    .lead-points{ grid-template-columns:1fr; gap:14px; }
+    .lead-stack .lead-form{ grid-template-columns:1fr; }
+    .lead-stack .lead-form .lead-submit{ justify-self:stretch; }
+  }
 </style>
 </head>
 <body>
@@ -885,6 +947,102 @@
           </figcaption>
         </figure>
        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ S9 — LEAD CAPTURE FORM ═══ -->
+  <section class="lead" id="get-results">
+    <div class="lead-inner">
+      <div class="lead-wrap">
+        <div class="lead-head">
+          <span class="kicker">Get started</span>
+          <h2>Get my results.</h2>
+          <p>Leave your details and our team will reach out on WhatsApp within 48 hours.</p>
+          <ul class="lead-points">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> One simple cheek swab — no blood, no clinic visit</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> A detailed report, decoded by experts</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> A 1-on-1 session with a genetic counsellor</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> EU-certified lab &middot; 99.9% accuracy</li>
+          </ul>
+        </div>
+        <div class="lead-card">
+          <form class="lead-form" id="leadForm" novalidate>
+            <label class="field">
+              <span>Full name</span>
+              <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+            </label>
+            <label class="field">
+              <span>WhatsApp number</span>
+              <input type="tel" name="whatsapp" placeholder="+91 00000 00000" autocomplete="tel" required>
+            </label>
+            <label class="field">
+              <span>Which test interests you?</span>
+              <select name="test" required>
+                <option value="" disabled selected>Select a test</option>
+                <option>Premium — MDP 360° (100+ traits)</option>
+                <option>Standard — one focused area</option>
+                <option>Lite — one focused question</option>
+                <option>Not sure yet — help me choose</option>
+              </select>
+            </label>
+            <button class="lead-submit" type="submit">Submit
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <p class="lead-note" id="leadNote" hidden>Thanks! Our team will reach out on WhatsApp within 48 hours.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ S10 — PARTNER WITH US (franchise lead form) ═══ -->
+  <section class="lead lead-stack" id="partner">
+    <div class="lead-inner">
+      <div class="lead-wrap">
+        <div class="lead-head">
+          <span class="kicker">Partner with us</span>
+          <h2>Bring MyDNAPedia to your city.</h2>
+          <p>We're building India's most trusted genetic wellness network — one city at a time. Tell us about yourself and our partnerships team will be in touch.</p>
+          <ul class="lead-points">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> EU-certified product with 14 years of credibility</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Full training &amp; onboarding for your team</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Ongoing scientific &amp; marketing support</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> A product that sells through trust, not ad spend</li>
+          </ul>
+        </div>
+        <div class="lead-card">
+          <form class="lead-form" id="partnerForm" novalidate>
+            <label class="field">
+              <span>Full name</span>
+              <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+            </label>
+            <label class="field">
+              <span>Email address</span>
+              <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required>
+            </label>
+            <label class="field">
+              <span>Phone number</span>
+              <input type="tel" name="phone" placeholder="+91 00000 00000" autocomplete="tel" required>
+            </label>
+            <label class="field">
+              <span>City</span>
+              <input type="text" name="city" placeholder="Your city" autocomplete="address-level2" required>
+            </label>
+            <label class="field full">
+              <span>Current profession or business background</span>
+              <input type="text" name="background" placeholder="e.g. clinic owner, pharmacist, entrepreneur" required>
+            </label>
+            <label class="field full">
+              <span>Why are you interested in partnering?</span>
+              <textarea name="why" placeholder="Tell us a little about your interest" required></textarea>
+            </label>
+            <button class="lead-submit" type="submit">Submit inquiry
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <p class="lead-note" id="partnerNote" hidden>Thanks! Our partnerships team will reach out within 48 hours.</p>
+          </form>
+        </div>
       </div>
     </div>
   </section>
@@ -1353,6 +1511,21 @@
     requestAnimationFrame(loop);
   }
   loop();
+})();
+</script>
+
+<script>
+/* ── S9/S10 — lead + partner forms: validation + thank-you state (no backend yet) ── */
+(function(){
+  document.querySelectorAll('.lead-form').forEach(form=>{
+    form.addEventListener('submit', e=>{
+      e.preventDefault();
+      if(!form.reportValidity()) return;
+      const note = form.querySelector('.lead-note'); if(note) note.hidden = false;
+      const btn = form.querySelector('.lead-submit'); if(btn) btn.textContent = 'Submitted ✓';
+      form.querySelectorAll('input,select,textarea,button').forEach(el=>{ el.disabled = true; });
+    });
+  });
 })();
 </script>
 </body>
