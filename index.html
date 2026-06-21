@@ -644,6 +644,47 @@
     .tticker{ animation:none; }
     .tcards{ overflow-x:auto; }
   }
+
+  /* ── S9 — LEAD CAPTURE FORM ─────────────────────────── */
+  .lead{ position:relative; }
+  .lead-inner{ padding:clamp(72px,9vw,118px) max(42px,6vw); }
+  .lead-wrap{ max-width:600px; margin:0 auto; }
+  .lead-head{ text-align:center; margin-bottom:30px; }
+  .lead-head .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); }
+  .lead-head h2{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(32px,3.8vw,52px); line-height:1.07; letter-spacing:-.01em;
+    color:var(--ink); margin:14px 0 12px; }
+  .lead-head p{ font-size:clamp(15px,1.2vw,17px); line-height:1.55;
+    color:var(--muted); font-weight:500; max-width:46ch; margin:0 auto; }
+
+  .lead-card{ background:#F9F6EF; border:1px solid rgba(50,46,39,.08); border-radius:24px;
+    padding:clamp(28px,4vw,46px); box-shadow:0 22px 54px -38px rgba(74,55,18,.32); }
+  .lead-form{ display:flex; flex-direction:column; gap:18px; }
+  .field{ display:flex; flex-direction:column; gap:8px; }
+  .field > span{ font-size:13px; font-weight:600; color:var(--ink-soft); letter-spacing:.005em; }
+  .field input, .field select{ width:100%; font-family:"Satoshi",sans-serif; font-size:15px;
+    color:var(--ink); background:#fff; border:1px solid rgba(50,46,39,.16); border-radius:12px;
+    padding:14px 16px; transition:border-color .2s ease, box-shadow .2s ease; }
+  .field input::placeholder{ color:var(--muted); }
+  .field input:focus, .field select:focus{ outline:none; border-color:var(--gold-lt);
+    box-shadow:0 0 0 3px rgba(228,169,47,.18); }
+  .field select{ appearance:none; -webkit-appearance:none; cursor:pointer; padding-right:44px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23837B69' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 16px center; }
+  .lead-submit{ margin-top:6px; display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    background:rgba(247,190,40,.95); color:var(--on-gold); border:1px solid rgba(255,246,210,.85);
+    padding:15px 22px; border-radius:12px; font-family:"Satoshi",sans-serif; font-weight:700;
+    font-size:15px; cursor:pointer; box-shadow:0 12px 26px -10px rgba(214,156,26,.55);
+    transition:transform .25s cubic-bezier(.22,1,.36,1), background .25s ease; }
+  .lead-submit:hover{ transform:translateY(-1px); background:rgba(250,199,54,1); }
+  .lead-submit svg{ width:16px; height:16px; transition:transform .25s ease; }
+  .lead-submit:hover svg{ transform:translateX(3px); }
+  .lead-note{ margin-top:4px; text-align:center; font-size:14px; font-weight:600; color:var(--gold); }
+
+  @media (max-width:860px){
+    .lead-inner{ padding:64px 22px 80px; }
+  }
 </style>
 </head>
 <body>
@@ -870,6 +911,45 @@
         <span class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Approved by US FDA &amp; EMA</span>
         <span class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Founded in Finland &middot; 2012</span>
         <span class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> 1-on-1 genetic counselling</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ S9 — LEAD CAPTURE FORM ═══ -->
+  <section class="lead" id="get-results">
+    <div class="lead-inner">
+      <div class="lead-wrap">
+        <div class="lead-head">
+          <span class="kicker">Get started</span>
+          <h2>Get my results.</h2>
+          <p>Leave your details and our team will reach out on WhatsApp within 48 hours.</p>
+        </div>
+        <div class="lead-card">
+          <form class="lead-form" id="leadForm" novalidate>
+            <label class="field">
+              <span>Full name</span>
+              <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+            </label>
+            <label class="field">
+              <span>WhatsApp number</span>
+              <input type="tel" name="whatsapp" placeholder="+91 00000 00000" autocomplete="tel" required>
+            </label>
+            <label class="field">
+              <span>Which test interests you?</span>
+              <select name="test" required>
+                <option value="" disabled selected>Select a test</option>
+                <option>Premium — MDP 360° (100+ traits)</option>
+                <option>Standard — one focused area</option>
+                <option>Lite — one focused question</option>
+                <option>Not sure yet — help me choose</option>
+              </select>
+            </label>
+            <button class="lead-submit" type="submit">Submit
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <p class="lead-note" id="leadNote" hidden>Thanks! Our team will reach out on WhatsApp within 48 hours.</p>
+          </form>
+        </div>
       </div>
     </div>
   </section>
@@ -1404,6 +1484,22 @@
     requestAnimationFrame(loop);
   }
   loop();
+})();
+</script>
+
+<script>
+/* ── S9 — lead form: basic validation + thank-you state (no backend yet) ── */
+(function(){
+  const form = document.getElementById('leadForm');
+  if(!form) return;
+  const note = document.getElementById('leadNote');
+  form.addEventListener('submit', e=>{
+    e.preventDefault();
+    if(!form.reportValidity()) return;
+    if(note) note.hidden = false;
+    form.querySelector('.lead-submit').textContent = 'Submitted ✓';
+    form.querySelectorAll('input,select,button').forEach(el=>{ el.disabled = true; });
+  });
 })();
 </script>
 </body>
