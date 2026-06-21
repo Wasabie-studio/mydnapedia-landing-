@@ -151,27 +151,20 @@
 
   /* ── SECTION 3 — OUR APPROACH ─────────── */
   .approach{ position:relative; background:#FBF8F1; }
-  .approach-wrap{ padding:clamp(72px,8vw,108px) max(42px,6vw) clamp(86px,9vw,126px); }
-  .approach .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
-    text-transform:uppercase; color:var(--muted); display:block; }
+  .approach-wrap{ padding:clamp(74px,8vw,112px) max(42px,6vw) clamp(86px,9vw,126px); }
   .approach h2{ font-family:var(--font-display); font-weight:500;
-    font-size:clamp(32px,4vw,54px); line-height:1.08; letter-spacing:-.015em;
-    color:var(--ink); margin:14px 0 0; }
-  .approach-list{ margin-top:clamp(40px,4.5vw,60px);
+    font-size:clamp(34px,4.8vw,60px); line-height:1.04; letter-spacing:-.02em;
+    color:var(--ink); margin:0; text-align:center; }
+  .approach-list{ margin:clamp(48px,5.5vw,74px) auto 0; max-width:1000px;
     display:grid; grid-template-columns:1fr 1fr;
-    gap:clamp(32px,3.6vw,54px) clamp(40px,6vw,96px);
-    border-top:1px solid rgba(50,46,39,.13);
-    padding-top:clamp(36px,3.8vw,52px); }
-  .approach-head{ display:flex; gap:14px; align-items:baseline; margin-bottom:12px; }
-  .approach-num{ font-family:var(--font-display); font-weight:500;
-    font-size:clamp(14px,1vw,16px); color:var(--gold); line-height:1.4; flex:none; }
+    gap:clamp(38px,4.5vw,60px) clamp(48px,7vw,110px); }
   .approach-title{ font-family:var(--font-display); font-weight:500;
-    font-size:clamp(20px,1.8vw,25px); color:var(--ink); letter-spacing:-.01em;
-    line-height:1.18; margin:0; }
-  .approach-desc{ font-size:clamp(14.5px,1.05vw,16.5px); line-height:1.72;
-    color:var(--ink-soft); margin:0; max-width:50ch; }
+    font-size:clamp(21px,2vw,28px); color:var(--ink); letter-spacing:-.01em;
+    line-height:1.14; margin:0 0 11px; }
+  .approach-desc{ font-size:clamp(15px,1.15vw,17.5px); line-height:1.55;
+    color:var(--muted); margin:0; max-width:34ch; }
   @media(max-width:760px){
-    .approach-list{ grid-template-columns:1fr; gap:32px; }
+    .approach-list{ grid-template-columns:1fr; gap:30px; }
   }
 
   /* ── SECTION 4 — PARTNER WITH US (franchise lead form) ─────────── */
@@ -332,28 +325,27 @@
   <!-- ═══ SECTION 3 — OUR APPROACH ═══ -->
   <section class="approach" id="our-approach">
     <div class="approach-wrap">
-      <span class="kicker">Our Approach</span>
-      <h2>How we think about your health.</h2>
+      <h2>Our Approach</h2>
 
       <div class="approach-list">
         <div class="approach-item">
-          <div class="approach-head"><span class="approach-num">01</span><h3 class="approach-title">Evidence-Based, Always</h3></div>
-          <p class="approach-desc">We communicate only what established, peer-reviewed science supports. We work in probabilities, not certainties — and we say "we don't know" when we genuinely don't. No trends. No overpromising.</p>
+          <h3 class="approach-title">Evidence-Based</h3>
+          <p class="approach-desc">Grounded in peer-reviewed science. Probabilities, not promises.</p>
         </div>
 
         <div class="approach-item">
-          <div class="approach-head"><span class="approach-num">02</span><h3 class="approach-title">Trust as Infrastructure</h3></div>
-          <p class="approach-desc">Every test is analysed in our EU-certified laboratory — 99.9% accuracy, the same Finland-based research standards used across Europe since 2012. Your data is encrypted, confidential, and never used beyond what you've explicitly agreed to.</p>
+          <h3 class="approach-title">Trust as Infrastructure</h3>
+          <p class="approach-desc">EU-certified labs. Encrypted, confidential, GDPR compliant.</p>
         </div>
 
         <div class="approach-item">
-          <div class="approach-head"><span class="approach-num">03</span><h3 class="approach-title">Empowerment, Never Fear</h3></div>
-          <p class="approach-desc">The feeling we aim for is relief, not alarm. When you get your results, the response should be: "Now I know what I can do" — not anxiety. Every insight comes paired with an action, never a risk left standing alone.</p>
+          <h3 class="approach-title">Empowerment, Never Fear</h3>
+          <p class="approach-desc">Every insight comes paired with an action — not anxiety.</p>
         </div>
 
         <div class="approach-item">
-          <div class="approach-head"><span class="approach-num">04</span><h3 class="approach-title">A Lifelong Relationship, Not a Transaction</h3></div>
-          <p class="approach-desc">Our role doesn't end when your report is delivered. Counselling, follow-up, and ongoing guidance are core to what we do — because a transformed customer matters more to us than a satisfied one.</p>
+          <h3 class="approach-title">Lifelong Partnership</h3>
+          <p class="approach-desc">Counselling and follow-up, not a one-time report.</p>
         </div>
       </div>
     </div>
