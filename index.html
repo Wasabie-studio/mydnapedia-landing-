@@ -699,6 +699,35 @@
     .lead-card{ border-left:none; border-top:1px solid rgba(50,46,39,.07); padding:32px 24px; }
     .lead-points{ grid-template-columns:1fr; gap:14px; }
   }
+
+  /* ── FOOTER ─────────────────────────────────────────── */
+  .footer{ background:#2A2620; color:rgba(247,242,232,.72); }
+  .footer-inner{ padding:clamp(56px,7vw,88px) max(42px,6vw) 30px; }
+  .footer-top{ display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:clamp(30px,4vw,56px); }
+  .footer-logo{ font-family:"Satoshi",sans-serif; font-weight:800; font-size:22px;
+    letter-spacing:-.02em; color:#F7F2E8; text-decoration:none; }
+  .footer-logo .dot{ color:var(--gold-lt); }
+  .footer-tagline{ margin:14px 0 22px; font-family:var(--font-display); font-style:italic;
+    font-size:16px; color:rgba(247,242,232,.6); }
+  .footer-contact{ display:flex; flex-direction:column; gap:9px; font-size:14px; }
+  .footer-contact a, .footer-contact span{ color:rgba(247,242,232,.72); text-decoration:none; }
+  .footer-contact a:hover{ color:var(--gold-lt); }
+  .footer-col h4{ font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color:rgba(247,242,232,.5); margin:0 0 14px; }
+  .footer-col a{ display:block; font-size:15px; font-weight:500; color:rgba(247,242,232,.82);
+    text-decoration:none; padding:7px 0; transition:color .2s ease; }
+  .footer-col a:hover{ color:var(--gold-lt); }
+  .footer-bottom{ margin-top:clamp(40px,5vw,60px); padding-top:22px;
+    border-top:1px solid rgba(247,242,232,.14);
+    display:flex; flex-wrap:wrap; gap:10px 24px; align-items:center; justify-content:space-between;
+    font-size:13px; color:rgba(247,242,232,.55); }
+  @media (max-width:860px){
+    .footer-top{ grid-template-columns:1fr 1fr; gap:32px 24px; }
+    .footer-brand{ grid-column:1 / -1; }
+  }
+  @media (max-width:520px){
+    .footer-top{ grid-template-columns:1fr; }
+  }
 </style>
 </head>
 <body>
@@ -1039,6 +1068,47 @@
       </div>
     </div>
   </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="footer-logo" href="#stage">MyDNAPedia<span class="dot">.</span></a>
+          <p class="footer-tagline">Precise insights. Personalised health.</p>
+          <div class="footer-contact">
+            <a href="tel:+918800573400">+91 88005 73400</a>
+            <a href="mailto:support@mydnapedia.org">support@mydnapedia.org</a>
+            <span>INNOV8, Okhla Phase III, New Delhi 110020</span>
+          </div>
+        </div>
+        <nav class="footer-col">
+          <h4>Explore</h4>
+          <a href="#stage">Home</a>
+          <a href="#how-it-works">How it works</a>
+          <a href="#tests">Our Test</a>
+          <a href="about.html">About</a>
+          <a href="know-your-dna.html">Know your DNA</a>
+        </nav>
+        <nav class="footer-col">
+          <h4>Legal</h4>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+          <a href="disclaimer.html">Disclaimer</a>
+        </nav>
+        <nav class="footer-col">
+          <h4>Follow</h4>
+          <a href="#" target="_blank" rel="noopener">Instagram</a>
+          <a href="#" target="_blank" rel="noopener">YouTube</a>
+          <a href="#" target="_blank" rel="noopener">Facebook</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 MyDNAPedia. A unit of TVASTI Health and Wellness Private Limited.</p>
+        <p>Genetic wellness, decoded.</p>
+      </div>
+    </div>
+  </footer>
 
 <script>
 /* ───────────────────────────────────────────────────────────
