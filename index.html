@@ -658,22 +658,29 @@
   .lead-submit:hover svg{ transform:translateX(3px); }
   .lead-note{ margin-top:4px; text-align:center; font-size:14px; font-weight:600; color:var(--gold); }
 
-  /* stacked variant — text on top, form below (fields in a 2-col table) */
-  .lead-stack .lead-wrap{ display:block; }
-  .lead-stack .lead-head{ margin-bottom:clamp(28px,3.4vw,42px); max-width:none; }
-  .lead-stack .lead-head p{ max-width:64ch; }
-  .lead-stack .lead-form{ display:grid; grid-template-columns:1fr 1fr; gap:18px 24px; }
-  .lead-stack .field.full,
-  .lead-stack .lead-form .lead-submit,
-  .lead-stack .lead-form .lead-note{ grid-column:1 / -1; }
-  .lead-stack .lead-form .lead-submit{ justify-self:start; padding-left:42px; padding-right:42px; }
+  /* ── S10 — PARTNER CTA band (links to the form on the About page) ── */
+  .cta-band{ background:#F9F6EF;
+    border-top:1px solid rgba(50,46,39,.06); border-bottom:1px solid rgba(50,46,39,.06); }
+  .cta-inner{ max-width:720px; margin:0 auto; padding:clamp(64px,8vw,104px) max(42px,6vw); text-align:center; }
+  .cta-inner .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); }
+  .cta-inner h2{ font-family:var(--font-display); font-weight:500; font-size:clamp(32px,3.8vw,52px);
+    line-height:1.06; letter-spacing:-.01em; color:var(--ink); margin:14px 0 14px; }
+  .cta-inner p{ font-size:clamp(15px,1.2vw,18px); line-height:1.55; color:var(--muted);
+    font-weight:500; max-width:48ch; margin:0 auto 28px; }
+  .cta-btn{ display:inline-flex; align-items:center; gap:10px; text-decoration:none;
+    background:rgba(247,190,40,.95); color:var(--on-gold); border:1px solid rgba(255,246,210,.85);
+    padding:15px 26px; border-radius:13px; font-family:"Satoshi",sans-serif; font-weight:700; font-size:15px;
+    box-shadow:0 12px 26px -10px rgba(214,156,26,.55);
+    transition:transform .25s cubic-bezier(.22,1,.36,1), background .25s ease; }
+  .cta-btn:hover{ transform:translateY(-1px); background:rgba(250,199,54,1); }
+  .cta-btn svg{ width:16px; height:16px; transition:transform .25s ease; }
+  .cta-btn:hover svg{ transform:translateX(3px); }
 
   @media (max-width:860px){
     .lead-inner{ padding:64px 22px 80px; }
     .lead-wrap{ grid-template-columns:1fr; gap:28px; }
     .lead-points{ grid-template-columns:1fr; gap:14px; }
-    .lead-stack .lead-form{ grid-template-columns:1fr; }
-    .lead-stack .lead-form .lead-submit{ justify-self:stretch; }
   }
 </style>
 </head>
@@ -996,54 +1003,15 @@
     </div>
   </section>
 
-  <!-- ═══ S10 — PARTNER WITH US (franchise lead form) ═══ -->
-  <section class="lead lead-stack" id="partner">
-    <div class="lead-inner">
-      <div class="lead-wrap">
-        <div class="lead-head">
-          <span class="kicker">Partner with us</span>
-          <h2>Bring MyDNAPedia to your city.</h2>
-          <p>We're building India's most trusted genetic wellness network — one city at a time. Tell us about yourself and our partnerships team will be in touch.</p>
-          <ul class="lead-points">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> EU-certified product with 14 years of credibility</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Full training &amp; onboarding for your team</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Ongoing scientific &amp; marketing support</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> A product that sells through trust, not ad spend</li>
-          </ul>
-        </div>
-        <div class="lead-card">
-          <form class="lead-form" id="partnerForm" novalidate>
-            <label class="field">
-              <span>Full name</span>
-              <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
-            </label>
-            <label class="field">
-              <span>Email address</span>
-              <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required>
-            </label>
-            <label class="field">
-              <span>Phone number</span>
-              <input type="tel" name="phone" placeholder="+91 00000 00000" autocomplete="tel" required>
-            </label>
-            <label class="field">
-              <span>City</span>
-              <input type="text" name="city" placeholder="Your city" autocomplete="address-level2" required>
-            </label>
-            <label class="field full">
-              <span>Current profession or business background</span>
-              <input type="text" name="background" placeholder="e.g. clinic owner, pharmacist, entrepreneur" required>
-            </label>
-            <label class="field full">
-              <span>Why are you interested in partnering?</span>
-              <textarea name="why" placeholder="Tell us a little about your interest" required></textarea>
-            </label>
-            <button class="lead-submit" type="submit">Submit inquiry
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </button>
-            <p class="lead-note" id="partnerNote" hidden>Thanks! Our partnerships team will reach out within 48 hours.</p>
-          </form>
-        </div>
-      </div>
+  <!-- ═══ S10 — PARTNER WITH US (CTA → form lives on the About page) ═══ -->
+  <section class="cta-band" id="partner">
+    <div class="cta-inner">
+      <span class="kicker">Partner with us</span>
+      <h2>Bring MyDNAPedia to your city.</h2>
+      <p>Become a franchise partner and bring genetic wellness to your community.</p>
+      <a class="cta-btn" href="about.html#partner">Partner with us
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
     </div>
   </section>
 
