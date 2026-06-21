@@ -669,11 +669,12 @@
   .lead-form{ display:flex; flex-direction:column; gap:18px; }
   .field{ display:flex; flex-direction:column; gap:8px; }
   .field > span{ font-size:13px; font-weight:600; color:var(--ink-soft); letter-spacing:.005em; }
-  .field input, .field select{ width:100%; font-family:"Satoshi",sans-serif; font-size:15px;
+  .field input, .field select, .field textarea{ width:100%; font-family:"Satoshi",sans-serif; font-size:15px;
     color:var(--ink); background:#fff; border:1px solid rgba(50,46,39,.16); border-radius:12px;
     padding:14px 16px; transition:border-color .2s ease, box-shadow .2s ease; }
-  .field input::placeholder{ color:var(--muted); }
-  .field input:focus, .field select:focus{ outline:none; border-color:var(--gold-lt);
+  .field input::placeholder, .field textarea::placeholder{ color:var(--muted); }
+  .field textarea{ min-height:96px; resize:vertical; line-height:1.5; }
+  .field input:focus, .field select:focus, .field textarea:focus{ outline:none; border-color:var(--gold-lt);
     box-shadow:0 0 0 3px rgba(228,169,47,.18); }
   .field select{ appearance:none; -webkit-appearance:none; cursor:pointer; padding-right:44px;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23837B69' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
@@ -1028,6 +1029,57 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </button>
             <p class="lead-note" id="leadNote" hidden>Thanks! Our team will reach out on WhatsApp within 48 hours.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ S10 — PARTNER WITH US (franchise lead form) ═══ -->
+  <section class="lead" id="partner">
+    <div class="lead-inner">
+      <div class="lead-wrap">
+        <div class="lead-head">
+          <span class="kicker">Partner with us</span>
+          <h2>Bring MyDNAPedia to your city.</h2>
+          <p>We're building India's most trusted genetic wellness network — one city at a time. Tell us about yourself and our partnerships team will be in touch.</p>
+          <ul class="lead-points">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> EU-certified product with 14 years of credibility</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Full training &amp; onboarding for your team</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Ongoing scientific &amp; marketing support</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> A product that sells through trust, not ad spend</li>
+          </ul>
+        </div>
+        <div class="lead-card">
+          <form class="lead-form" id="partnerForm" novalidate>
+            <label class="field">
+              <span>Full name</span>
+              <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+            </label>
+            <label class="field">
+              <span>Email address</span>
+              <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required>
+            </label>
+            <label class="field">
+              <span>Phone number</span>
+              <input type="tel" name="phone" placeholder="+91 00000 00000" autocomplete="tel" required>
+            </label>
+            <label class="field">
+              <span>City</span>
+              <input type="text" name="city" placeholder="Your city" autocomplete="address-level2" required>
+            </label>
+            <label class="field">
+              <span>Current profession or business background</span>
+              <input type="text" name="background" placeholder="e.g. clinic owner, pharmacist, entrepreneur" required>
+            </label>
+            <label class="field">
+              <span>Why are you interested in partnering?</span>
+              <textarea name="why" placeholder="Tell us a little about your interest" required></textarea>
+            </label>
+            <button class="lead-submit" type="submit">Submit inquiry
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <p class="lead-note" id="partnerNote" hidden>Thanks! Our partnerships team will reach out within 48 hours.</p>
           </form>
         </div>
       </div>
@@ -1502,17 +1554,16 @@
 </script>
 
 <script>
-/* ── S9 — lead form: basic validation + thank-you state (no backend yet) ── */
+/* ── S9/S10 — lead + partner forms: validation + thank-you state (no backend yet) ── */
 (function(){
-  const form = document.getElementById('leadForm');
-  if(!form) return;
-  const note = document.getElementById('leadNote');
-  form.addEventListener('submit', e=>{
-    e.preventDefault();
-    if(!form.reportValidity()) return;
-    if(note) note.hidden = false;
-    form.querySelector('.lead-submit').textContent = 'Submitted ✓';
-    form.querySelectorAll('input,select,button').forEach(el=>{ el.disabled = true; });
+  document.querySelectorAll('.lead-form').forEach(form=>{
+    form.addEventListener('submit', e=>{
+      e.preventDefault();
+      if(!form.reportValidity()) return;
+      const note = form.querySelector('.lead-note'); if(note) note.hidden = false;
+      const btn = form.querySelector('.lead-submit'); if(btn) btn.textContent = 'Submitted ✓';
+      form.querySelectorAll('input,select,textarea,button').forEach(el=>{ el.disabled = true; });
+    });
   });
 })();
 </script>
