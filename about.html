@@ -222,6 +222,35 @@
     .lead-card{ border-left:none; border-top:1px solid rgba(50,46,39,.07); padding:32px 24px; }
     .lead-points{ grid-template-columns:1fr; gap:14px; }
   }
+
+  /* ── SECTION — LEADERSHIP / TEAM ─────────── */
+  .team{ position:relative; background:var(--bg); }
+  .team-wrap{ padding:clamp(70px,8vw,108px) max(42px,6vw) clamp(84px,9vw,124px); }
+  .team-head{ max-width:760px; margin:0 0 clamp(40px,5vw,60px); }
+  .team-head .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); display:block; }
+  .team-head h2{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(32px,4vw,54px); line-height:1.08; letter-spacing:-.015em;
+    color:var(--ink); margin:14px 0 0; }
+  .team-head h2 em{ font-style:italic; color:var(--gold); }
+  .team-sub{ font-size:clamp(15px,1.2vw,18px); color:var(--muted); font-weight:500; margin:16px 0 0; }
+  .team-group-label{ font-size:12px; font-weight:600; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted);
+    margin:clamp(40px,4.5vw,60px) 0 clamp(22px,2.2vw,30px);
+    padding-top:clamp(30px,3.2vw,44px); border-top:1px solid rgba(50,46,39,.12); }
+  .team-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(22px,2.4vw,34px); }
+  .team-photo{ aspect-ratio:1/1; border-radius:16px; overflow:hidden; margin-bottom:18px;
+    background:linear-gradient(150deg,#EFE9DB 0%,#E2D6BD 100%);
+    display:flex; align-items:center; justify-content:center; }
+  .team-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .team-photo span{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(30px,3.4vw,46px); color:rgba(156,107,22,.5); letter-spacing:.02em; }
+  .team-name{ font-family:"Satoshi",sans-serif; font-weight:700;
+    font-size:clamp(15px,1.15vw,17px); color:var(--ink); letter-spacing:-.01em; margin:0 0 5px; }
+  .team-role{ font-size:clamp(13.5px,1vw,15px); font-weight:600; color:var(--gold); margin:0 0 6px; }
+  .team-cred{ font-size:clamp(13px,.95vw,14.5px); line-height:1.5; color:var(--muted); margin:0; }
+  @media(max-width:980px){ .team-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:520px){ .team-grid{ gap:18px; } }
 </style>
 </head>
 <body>
@@ -334,7 +363,56 @@
     </div>
   </section>
 
-  <!-- ═══ SECTION 4 — PARTNER WITH US (franchise lead form) ═══ -->
+  <!-- ═══ SECTION 4 — LEADERSHIP / TEAM ═══ -->
+  <section class="team" id="leadership">
+    <div class="team-wrap">
+      <div class="team-head">
+        <span class="kicker">Leadership</span>
+        <h2>Built by people who've <em>done this before</em>.</h2>
+        <p class="team-sub">The team behind MyDNAPedia.</p>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-photo"><span>RG</span></div>
+          <h3 class="team-name">Rauno Granath</h3>
+          <p class="team-role">Chief Executive Officer</p>
+          <p class="team-cred">Former Senior Vice President, Nokia</p>
+        </div>
+        <div class="team-card">
+          <div class="team-photo"><span>MS</span></div>
+          <h3 class="team-name">Manoj Sharma</h3>
+          <p class="team-role">Partner</p>
+          <p class="team-cred">Former Accenture</p>
+        </div>
+      </div>
+
+      <div class="team-group-label">India Team</div>
+
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-photo"><span>MS</span></div>
+          <h3 class="team-name">Dr. Mahesh Singh</h3>
+          <p class="team-role">Executive Chairman, India</p>
+          <p class="team-cred">Former McKinsey · Fortis · Max Healthcare · Manipal</p>
+        </div>
+        <div class="team-card">
+          <div class="team-photo"><span>AF</span></div>
+          <h3 class="team-name">Dr. Ashish Faujdar</h3>
+          <p class="team-role">Scientific Advisor, India</p>
+          <p class="team-cred">Former AIIMS · Apollo · MedGenome</p>
+        </div>
+        <div class="team-card">
+          <div class="team-photo"><span>SB</span></div>
+          <h3 class="team-name">Sagar Biradar</h3>
+          <p class="team-role">Senior Scientific Officer, India</p>
+          <p class="team-cred">Former MedGenome</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 5 — PARTNER WITH US (franchise lead form) ═══ -->
   <section class="lead" id="partner">
     <div class="lead-inner">
       <div class="lead-wrap">
