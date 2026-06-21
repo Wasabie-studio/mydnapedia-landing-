@@ -234,11 +234,7 @@
     color:var(--ink); margin:14px 0 0; }
   .team-head h2 em{ font-style:italic; color:var(--gold); }
   .team-sub{ font-size:clamp(15px,1.2vw,18px); color:var(--muted); font-weight:500; margin:16px 0 0; }
-  .team-group-label{ font-size:12px; font-weight:600; letter-spacing:.18em;
-    text-transform:uppercase; color:var(--muted);
-    margin:clamp(40px,4.5vw,60px) 0 clamp(22px,2.2vw,30px);
-    padding-top:clamp(30px,3.2vw,44px); border-top:1px solid rgba(50,46,39,.12); }
-  .team-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(22px,2.4vw,34px); }
+  .team-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:clamp(20px,2vw,30px); }
   .team-photo{ aspect-ratio:1/1; border-radius:16px; overflow:hidden; margin-bottom:18px;
     background:linear-gradient(150deg,#EFE9DB 0%,#E2D6BD 100%);
     display:flex; align-items:center; justify-content:center; }
@@ -249,8 +245,8 @@
     font-size:clamp(15px,1.15vw,17px); color:var(--ink); letter-spacing:-.01em; margin:0 0 5px; }
   .team-role{ font-size:clamp(13.5px,1vw,15px); font-weight:600; color:var(--gold); margin:0 0 6px; }
   .team-cred{ font-size:clamp(13px,.95vw,14.5px); line-height:1.5; color:var(--muted); margin:0; }
-  @media(max-width:980px){ .team-grid{ grid-template-columns:repeat(2,1fr); } }
-  @media(max-width:520px){ .team-grid{ gap:18px; } }
+  @media(max-width:1100px){ .team-grid{ grid-template-columns:repeat(3,1fr); } }
+  @media(max-width:680px){ .team-grid{ grid-template-columns:repeat(2,1fr); gap:18px; } }
 </style>
 </head>
 <body>
@@ -385,11 +381,6 @@
           <p class="team-role">Partner</p>
           <p class="team-cred">Former Accenture</p>
         </div>
-      </div>
-
-      <div class="team-group-label">India Team</div>
-
-      <div class="team-grid">
         <div class="team-card">
           <div class="team-photo"><span>MS</span></div>
           <h3 class="team-name">Dr. Mahesh Singh</h3>
