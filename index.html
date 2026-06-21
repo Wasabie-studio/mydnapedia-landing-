@@ -660,16 +660,18 @@
   .lead-submit:hover svg{ transform:translateX(3px); }
   .lead-note{ margin-top:4px; text-align:center; font-size:14px; font-weight:600; color:var(--gold); }
 
-  /* ── S10 — PARTNER CTA band (links to the form on the About page) ── */
+  /* ── S10 — PARTNER CTA band (side-by-side: big headline + CTA/contact) ── */
   .cta-band{ background:#F9F6EF;
     border-top:1px solid rgba(50,46,39,.06); border-bottom:1px solid rgba(50,46,39,.06); }
-  .cta-inner{ max-width:720px; margin:0 auto; padding:clamp(64px,8vw,104px) max(42px,6vw); text-align:center; }
-  .cta-inner .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
+  .cta-inner{ display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(40px,6vw,88px);
+    align-items:center; padding:clamp(60px,8vw,104px) max(42px,6vw); }
+  .cta-head .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
     text-transform:uppercase; color:var(--muted); }
-  .cta-inner h2{ font-family:var(--font-display); font-weight:500; font-size:clamp(32px,3.8vw,52px);
-    line-height:1.06; letter-spacing:-.01em; color:var(--ink); margin:14px 0 14px; }
-  .cta-inner p{ font-size:clamp(15px,1.2vw,18px); line-height:1.55; color:var(--muted);
-    font-weight:500; max-width:48ch; margin:0 auto 28px; }
+  .cta-head h2{ font-family:var(--font-display); font-weight:500; font-size:clamp(42px,6.2vw,96px);
+    line-height:1.02; letter-spacing:-.02em; color:var(--ink); margin:16px 0 0; }
+  .cta-side{ max-width:460px; }
+  .cta-side > p{ font-size:clamp(16px,1.3vw,19px); line-height:1.55; color:var(--muted);
+    font-weight:500; margin:0 0 26px; }
   .cta-btn{ display:inline-flex; align-items:center; gap:10px; text-decoration:none;
     background:rgba(247,190,40,.95); color:var(--on-gold); border:1px solid rgba(255,246,210,.85);
     padding:15px 26px; border-radius:13px; font-family:"Satoshi",sans-serif; font-weight:700; font-size:15px;
@@ -678,6 +680,17 @@
   .cta-btn:hover{ transform:translateY(-1px); background:rgba(250,199,54,1); }
   .cta-btn svg{ width:16px; height:16px; transition:transform .25s ease; }
   .cta-btn:hover svg{ transform:translateX(3px); }
+  .cta-meta{ margin-top:20px; }
+  .cta-meta > div{ padding:15px 0; border-top:1px solid rgba(50,46,39,.12); }
+  .cta-label{ display:block; font-size:11px; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .cta-meta a, .cta-meta .val{ font-size:15px; font-weight:600; color:var(--ink); text-decoration:none; }
+  .cta-meta a:hover{ color:var(--gold); }
+  @media (max-width:860px){
+    .cta-inner{ grid-template-columns:1fr; gap:28px; padding:60px 22px 72px; }
+    .cta-head h2{ font-size:clamp(40px,12vw,60px); }
+    .cta-side{ max-width:none; }
+  }
 
   @media (max-width:860px){
     .lead-inner{ padding:44px 22px 72px; }
@@ -1010,12 +1023,20 @@
   <!-- ═══ S10 — PARTNER WITH US (CTA → form lives on the About page) ═══ -->
   <section class="cta-band" id="partner">
     <div class="cta-inner">
-      <span class="kicker">Partner with us</span>
-      <h2>Bring MyDNAPedia to your city.</h2>
-      <p>Become a franchise partner and bring genetic wellness to your community.</p>
-      <a class="cta-btn" href="about.html#partner">Partner with us
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
+      <div class="cta-head">
+        <span class="kicker">Partner with us</span>
+        <h2>Bring MyDNAPedia to your city.</h2>
+      </div>
+      <div class="cta-side">
+        <p>Become a franchise partner and bring genetic wellness to your community.</p>
+        <a class="cta-btn" href="about.html#partner">Become a partner
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <div class="cta-meta">
+          <div><span class="cta-label">Email</span><a href="mailto:support@mydnapedia.org">support@mydnapedia.org</a></div>
+          <div><span class="cta-label">Social</span><span class="val">Instagram &middot; YouTube &middot; Facebook</span></div>
+        </div>
+      </div>
     </div>
   </section>
 
