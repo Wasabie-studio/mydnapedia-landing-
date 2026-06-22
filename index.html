@@ -23,7 +23,7 @@
     --glass-sep: rgba(60,48,20,.18);
     --glass-sh:  0 20px 50px -20px rgba(74,55,18,.34), 0 3px 12px -4px rgba(74,55,18,.16);
     --glass-hi:  inset 0 1px 0 rgba(255,255,255,.85), inset 0 0 0 1px rgba(255,255,255,.16);
-    --blur:      saturate(165%) blur(28px);
+    --blur:      saturate(150%) blur(16px);
 
     --font-display: "Sentient", Georgia, serif;
   }
@@ -338,6 +338,25 @@
   .helix-stage{ position:relative; border-radius:18px; overflow:hidden; aspect-ratio:1/1;
     background:radial-gradient(120% 100% at 50% 34%, rgba(231,180,62,.16), rgba(247,242,232,.5)); }
   #planHelix{ width:100%; height:100%; display:block; }
+  /* Option B — zoom/depth-of-field marker callouts over the helix */
+  .helix-markers{ position:absolute; inset:0; pointer-events:none; z-index:3; }
+  .hm{ position:absolute; transform:translate(-50%,-50%); opacity:0; transition:opacity .5s ease; }
+  .helix-markers.in .hm{ opacity:1; }
+  .hm-dot{ width:11px; height:11px; border-radius:50%; background:var(--gold-lt);
+    box-shadow:0 0 0 4px rgba(228,169,47,.22), 0 4px 10px -2px rgba(214,156,26,.55); }
+  .hm.small .hm-dot{ width:8px; height:8px; box-shadow:0 0 0 3px rgba(228,169,47,.18); }
+  .hm.focus .hm-dot{ width:16px; height:16px;
+    box-shadow:0 0 0 6px rgba(228,169,47,.25), 0 6px 16px -3px rgba(214,156,26,.7); }
+  .hm.focus::before{ content:""; position:absolute; left:50%; top:50%; width:30px; height:30px;
+    transform:translate(-50%,-50%); border-radius:50%; border:2px solid var(--gold-lt);
+    animation:hmpulse 2.4s ease-out infinite; }
+  @keyframes hmpulse{ 0%{ transform:translate(-50%,-50%) scale(.6); opacity:.8; }
+    70%{ opacity:0; } 100%{ transform:translate(-50%,-50%) scale(2.6); opacity:0; } }
+  .hm-label{ position:absolute; left:50%; bottom:150%; transform:translateX(-50%); white-space:nowrap;
+    font-family:"Satoshi",sans-serif; font-size:12px; font-weight:700; color:var(--ink);
+    background:rgba(255,255,255,.92); border:1px solid rgba(50,46,39,.12);
+    padding:6px 11px; border-radius:100px; box-shadow:0 8px 20px -8px rgba(74,55,18,.4);
+    -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); }
   .plan-toggle{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:14px;
     background:rgba(120,110,80,.12); border-radius:14px; padding:6px; }
   .plan-toggle button{ font-family:"Satoshi",sans-serif; font-size:14px; font-weight:600;
@@ -408,25 +427,9 @@
     box-shadow:0 12px 48px rgba(50,46,39,.13), 0 2px 8px rgba(50,46,39,.06);
     transform:translateY(110%);
     will-change:transform;
-    overflow:hidden;
   }
   .step-card[data-settled]{
     transition:transform .45s cubic-bezier(.25,.46,.45,.94);
-  }
-  .step-photo{
-    position:absolute; right:30px; top:50%;
-    transform:translateY(-50%) rotate(-4deg);
-    width:clamp(320px,27vw,460px); height:auto;
-    display:block; pointer-events:none;
-  }
-  .step-photo-glow{
-    position:absolute; right:-110px; top:50%;
-    transform:translateY(-50%);
-    width:clamp(400px,35vw,520px); aspect-ratio:1;
-    border-radius:50%;
-    background:rgba(228,169,47,.14);
-    border:1px solid rgba(228,169,47,.22);
-    pointer-events:none;
   }
   .step-left{
     display:flex; flex-direction:column; align-items:center; gap:10px;
@@ -463,13 +466,60 @@
   }
   .how-footer.vis{ opacity:1; }
 
+  /* ── step-card icon animations ──────────── */
+  .icon-order{ perspective:180px; }
+  .icon-order svg{ animation:box-bounce 3s ease-in-out infinite; }
+  .icon-order .box-lid{ transform-origin:50% 100%; animation:lid-open 3s ease-in-out infinite; }
+  @keyframes box-bounce{
+    0%,35%{ transform:translateY(0); }
+    43%{ transform:translateY(-3px); }
+    51%{ transform:translateY(0); }
+    58%{ transform:translateY(-2px); }
+    66%,100%{ transform:translateY(0); }
+  }
+  @keyframes lid-open{
+    0%,35%{ transform:rotateX(0deg); }
+    55%,78%{ transform:rotateX(-52deg); }
+    100%{ transform:rotateX(0deg); }
+  }
+
+  .icon-swab svg{ animation:swab-rock 2s ease-in-out infinite; transform-origin:center; }
+  .icon-swab .swab-tip{ animation:tip-glow 2s ease-in-out infinite; }
+  @keyframes swab-rock{ 0%,100%{ transform:rotate(-20deg); } 50%{ transform:rotate(20deg); } }
+  @keyframes tip-glow{ 0%,100%{ opacity:.6; } 50%{ opacity:1; filter:drop-shadow(0 0 3px rgba(228,169,47,.9)); } }
+
+  .icon-post svg{ animation:env-fly 3.2s ease-in-out infinite; }
+  .icon-post .env-flap{ transform-origin:50% 0%; animation:flap-fold 3.2s ease-in-out infinite; }
+  @keyframes flap-fold{ 0%,18%{ transform:scaleY(-.6); } 42%,100%{ transform:scaleY(1); } }
+  @keyframes env-fly{
+    0%,38%{ transform:translate(0,1px) rotate(0deg); opacity:1; }
+    64%{ transform:translate(7px,-7px) rotate(13deg); opacity:.5; }
+    65%{ transform:translate(-10px,6px) rotate(-3deg); opacity:0; }
+    88%{ transform:translate(0,1px) rotate(0deg); opacity:0; }
+    100%{ transform:translate(0,1px) rotate(0deg); opacity:1; }
+  }
+
+  .icon-dna{ perspective:130px; }
+  .icon-dna svg{ animation:helix-spin 4s linear infinite; }
+  @keyframes helix-spin{ from{ transform:rotateY(0deg); } to{ transform:rotateY(360deg); } }
+
+  .step-check{
+    stroke-dasharray:22;
+    stroke-dashoffset:22;
+    animation:draw-check 3s ease-in-out infinite;
+  }
+  @keyframes draw-check{
+    0%,15%{ stroke-dashoffset:22; }
+    50%,80%{ stroke-dashoffset:0; }
+    100%{ stroke-dashoffset:22; }
+  }
+
   @media(max-width:860px){
     .how{ height:calc(100vh + 5 * 95vh); }
     .how-pin{ padding:0 22px 36px; }
     .how-head{ padding-top:88px; padding-bottom:28px; }
     .step-card{ padding:28px 24px; gap:0 20px; }
     .step-num{ font-size:clamp(44px,10vw,68px); }
-    .step-photo,.step-photo-glow{ display:none; }
   }
 
   /* ── S7 — TRUST & CREDENTIALS (designer's rework) ───── */
@@ -566,7 +616,7 @@
 
   /* ── S8 — TESTIMONIALS (auto-running ticker) ─────────── */
   .tmonials{ position:relative; }
-  .tmonials-wrap{ --gut:max(42px,6vw); padding:58px var(--gut) 56px; position:relative; }
+  .tmonials-wrap{ --gut:max(42px,6vw); padding:58px var(--gut) 120px; position:relative; }
   .tmonials-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; }
   .tmonials-wrap .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
     text-transform:uppercase; color:var(--muted); }
@@ -604,7 +654,7 @@
   .tcard-name small{ display:block; font-weight:500; font-size:12.5px; opacity:.8; margin-top:2px; }
 
   @media (max-width:860px){
-    .tmonials-wrap{ --gut:22px; padding:40px var(--gut) 44px; }
+    .tmonials-wrap{ --gut:22px; padding:40px var(--gut) 84px; }
     .tcards{ margin-top:30px; }
     .tcard{ flex-basis:72vw; margin-right:16px; }
     .tticker{ animation-duration:38s; }
@@ -791,7 +841,7 @@
     <div class="plans-grid">
       <div class="plans-list" id="planList"><!-- accordion rendered by JS --></div>
       <aside class="plans-card glass" id="planCard">
-        <div class="helix-stage"><canvas id="planHelix" aria-label="DNA helix"></canvas></div>
+        <div class="helix-stage"><canvas id="planHelix" aria-label="DNA helix"></canvas><div class="helix-markers" id="planMarkers"></div></div>
         <div class="plan-toggle" id="planToggle">
           <button data-plan="premium" class="active">Premium</button>
           <button data-plan="standard">Standard</button>
@@ -813,8 +863,11 @@
 
         <div class="step-card">
           <div class="step-left">
-            <div class="step-icon">
-              <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            <div class="step-icon icon-order">
+              <svg viewBox="0 0 24 24">
+                <g class="box-body"><rect x="3" y="9" width="18" height="13" rx="1.5"/><line x1="12" y1="9" x2="12" y2="22"/></g>
+                <g class="box-lid"><rect x="2" y="5" width="20" height="4.5" rx="1.5"/><path d="M9 5V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V5"/></g>
+              </svg>
             </div>
             <span class="step-num">Step 01</span>
           </div>
@@ -822,14 +875,16 @@
             <h3 class="step-title">Order</h3>
             <p class="step-desc">Your kit is delivered to your door. Everything you need is inside.</p>
           </div>
-          <span class="step-photo-glow"></span>
-          <img class="step-photo" src="assets/box-product.png" alt="MyDNAPedia kit box" />
         </div>
 
         <div class="step-card">
           <div class="step-left">
-            <div class="step-icon">
-              <svg viewBox="0 0 24 24"><rect x="10" y="2" width="4" height="5" rx="2"/><rect x="11" y="7" width="2" height="10" rx="1"/><rect x="10" y="17" width="4" height="5" rx="2"/></svg>
+            <div class="step-icon icon-swab">
+              <svg viewBox="0 0 24 24">
+                <rect class="swab-tip" x="10" y="2" width="4" height="5" rx="2"/>
+                <rect x="11" y="7" width="2" height="10" rx="1"/>
+                <rect class="swab-tip" x="10" y="17" width="4" height="5" rx="2"/>
+              </svg>
             </div>
             <span class="step-num">Step 02</span>
           </div>
@@ -841,8 +896,11 @@
 
         <div class="step-card">
           <div class="step-left">
-            <div class="step-icon">
-              <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <div class="step-icon icon-post">
+              <svg viewBox="0 0 24 24">
+                <g class="env-body"><rect x="2" y="4" width="20" height="16" rx="2"/></g>
+                <path class="env-flap" d="M2 4l10 8 10-8"/>
+              </svg>
             </div>
             <span class="step-num">Step 03</span>
           </div>
@@ -854,8 +912,14 @@
 
         <div class="step-card">
           <div class="step-left">
-            <div class="step-icon">
-              <svg viewBox="0 0 24 24"><path d="M10 2v7.31l-4.72 6.29A2 2 0 0 0 6.9 18.5h10.2a2 2 0 0 0 1.62-3.19L14 9.31V2"/><line x1="8.5" y1="2" x2="15.5" y2="2"/><path d="M7 15.5h10"/></svg>
+            <div class="step-icon icon-dna">
+              <svg viewBox="0 0 24 24">
+                <path d="M5,2 C16,5 8,10 16,12 C8,14 16,19 5,22"/>
+                <path d="M19,2 C8,5 16,10 8,12 C16,14 8,19 19,22"/>
+                <line x1="5" y1="2" x2="19" y2="2"/>
+                <line x1="8" y1="12" x2="16" y2="12"/>
+                <line x1="5" y1="22" x2="19" y2="22"/>
+              </svg>
             </div>
             <span class="step-num">Step 04</span>
           </div>
@@ -867,8 +931,14 @@
 
         <div class="step-card">
           <div class="step-left">
-            <div class="step-icon">
-              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+            <div class="step-icon icon-report">
+              <svg viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13" opacity="0.4"/>
+                <line x1="13" y1="17" x2="8" y2="17" opacity="0.4"/>
+                <polyline class="step-check" points="7 13 10 16 16 10"/>
+              </svg>
             </div>
             <span class="step-num">Step 05</span>
           </div>
@@ -1253,7 +1323,7 @@
   const ADDONS = "Add-on consultations: Nutritionist · Wellness consultant · Health check planning";
   const PLANS = {
     premium: {
-      target:0, caption:"Premium · the complete helix",
+      caption:"Premium · the whole picture",
       items:[{
         title:"Premium — MDP 360°", badge:"Most complete", sub:"100+ traits · everything, in one kit",
         tag:"Everything. All at once.",
@@ -1271,7 +1341,7 @@
       }]
     },
     standard: {
-      target:33, caption:"Standard · one area, full depth",
+      caption:"Standard · one area, in full depth",
       items:[
         {title:"MDP Fitness", sub:"40+ traits", desc:"How your body performs, recovers, and what risks to manage.", price:"₹14,999", addons:ADDONS},
         {title:"MDP Cardiac Health", sub:"50+ traits", desc:"Heart disease, diabetes, blood pressure, and cholesterol genetics.", price:"₹14,999", addons:ADDONS},
@@ -1279,7 +1349,7 @@
       ]
     },
     lite: {
-      target:67, caption:"Lite · one question, one answer",
+      caption:"Lite · one question, answered in full depth",
       items:[
         {title:"Weight Management", sub:"Metabolism & fat storage", desc:"Why your body stores fat and how it responds to diet and exercise.", price:"₹9,999", addons:ADDONS},
         {title:"Effects of Alcohol", sub:"Tolerance & liver", desc:"Your genetic tolerance, dependency risk, and liver markers.", price:"₹9,999", addons:ADDONS},
@@ -1297,24 +1367,53 @@
   if(!list || !canvas) return;
   const ctx = canvas.getContext('2d');
 
-  const PN = 68, PPATH = i => 'frames-plan/h_'+String(i).padStart(4,'0')+'.webp';
-  const pf = new Array(PN); let cur = 0, raf = null;
-  for(let i=0;i<PN;i++){ const im=new Image();
-    im.onload=()=>{ if(i===0) sizePF(); if(i===cur) drawPF(cur); }; im.src=PPATH(i+1); pf[i]=im; }
-  function sizePF(){ const d=Math.min(window.devicePixelRatio||1,2);
-    canvas.width=Math.round(canvas.clientWidth*d); canvas.height=Math.round(canvas.clientHeight*d); drawPF(cur); }
+  // Option B: single complete helix image, zoom/pan/blur per plan
+  const markersEl = document.getElementById('planMarkers');
   const PZOOM = 1.4;
-  function drawPF(idx){ const im=pf[idx]; if(!im||!im.complete||!im.naturalWidth) return; cur=idx;
-    const cw=canvas.width,ch=canvas.height,s=Math.max(cw/im.naturalWidth,ch/im.naturalHeight)*PZOOM,
-      w=im.naturalWidth*s,h=im.naturalHeight*s; ctx.clearRect(0,0,cw,ch); ctx.drawImage(im,(cw-w)/2,(ch-h)/2,w,h); }
-  function animateTo(target){
-    cancelAnimationFrame(raf);
-    const start=cur, dist=target-start;
-    if(!dist){ drawPF(target); return; }
-    const dur=Math.min(950,Math.max(340,Math.abs(dist)*15)), t0=performance.now(), ease=t=>1-Math.pow(1-t,3);
-    (function tick(now){ let p=(now-t0)/dur; if(p>1)p=1;
-      drawPF(Math.round(start+dist*ease(p))); if(p<1) raf=requestAnimationFrame(tick); })(t0);
+  const helix = new Image(); let helixReady = false; let raf = null;
+  let view = { zoom:1, cx:0.5, cy:0.5, blur:0 };
+  helix.onload = ()=>{ helixReady = true; sizePF(); };
+  helix.src = 'frames-plan/h_0001.webp';
+
+  function sizePF(){ const d=Math.min(window.devicePixelRatio||1,2);
+    canvas.width=Math.round(canvas.clientWidth*d); canvas.height=Math.round(canvas.clientHeight*d); draw(); }
+  function draw(){
+    if(!helixReady) return;
+    const cw=canvas.width, ch=canvas.height;
+    const base=Math.max(cw/helix.naturalWidth, ch/helix.naturalHeight)*PZOOM;
+    const s=base*view.zoom, w=helix.naturalWidth*s, h=helix.naturalHeight*s;
+    ctx.clearRect(0,0,cw,ch);
+    ctx.drawImage(helix, cw/2 - view.cx*w, ch/2 - view.cy*h, w, h);
+    canvas.style.filter = view.blur>0.05 ? 'blur('+view.blur.toFixed(2)+'px)' : 'none';
   }
+  function animateView(t){
+    cancelAnimationFrame(raf);
+    const s0={...view}, t0=performance.now(), dur=780, ease=p=>1-Math.pow(1-p,3);
+    (function tick(now){ let p=(now-t0)/dur; if(p>1)p=1; const e=ease(p);
+      view.zoom=s0.zoom+(t.zoom-s0.zoom)*e; view.cx=s0.cx+(t.cx-s0.cx)*e;
+      view.cy=s0.cy+(t.cy-s0.cy)*e; view.blur=s0.blur+(t.blur-s0.blur)*e;
+      draw(); if(p<1) raf=requestAnimationFrame(tick); })(t0);
+  }
+  function buildMarkers(arr){
+    if(!markersEl) return;
+    markersEl.classList.remove('in');
+    markersEl.innerHTML = (arr||[]).map(m=>{
+      const cls='hm'+(m.focus?' focus':'')+(m.small?' small':'');
+      const label=m.label?'<span class="hm-label">'+m.label+'</span>':'';
+      return '<span class="'+cls+'" style="left:'+m.x+'%;top:'+m.y+'%"><span class="hm-dot"></span>'+label+'</span>';
+    }).join('');
+    requestAnimationFrame(()=>markersEl.classList.add('in'));
+  }
+  const VIEW = {
+    premium:{ zoom:1.0, cx:0.5, cy:0.5, blur:0, markers:[
+      {x:33,y:30,small:true},{x:63,y:25,small:true},{x:44,y:50,small:true},
+      {x:70,y:57,small:true},{x:34,y:73,small:true},{x:60,y:80,small:true} ]},
+    standard:{ zoom:1.7, cx:0.52, cy:0.42, blur:1.2, markers:[
+      {x:50,y:40,label:'One area, full depth'},{x:63,y:53,small:true},{x:41,y:56,small:true} ]},
+    lite:{ zoom:2.5, cx:0.52, cy:0.36, blur:2.6, markers:[
+      {x:50,y:50,label:'One question · full depth',focus:true} ]}
+  };
+  function applyView(key){ const v=VIEW[key]||VIEW.premium; animateView(v); buildMarkers(v.markers); }
   window.addEventListener('resize', sizePF);
 
   const chev = '<svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
@@ -1339,7 +1438,7 @@
 
   function render(key){
     const plan = PLANS[key];
-    animateTo(plan.target);
+    applyView(key);
     if(caption) caption.textContent = plan.caption;
     list.innerHTML = plan.items.map((it,i)=>accHTML(it, i===0)).join('');
     toggle.querySelectorAll('button').forEach(b=>b.classList.toggle('active', b.dataset.plan===key));
