@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Disclaimer — MyDNAPedia</title>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=sentient@400,500,700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:        #FFFFFF;
+    --ink:       #322E27;
+    --ink-soft:  #4a443a;
+    --muted:     #837B69;
+    --gold:      #9C6B16;
+    --gold-lt:   #E4A92F;
+    --on-gold:   #1c1406;
+
+    --glass:     rgba(255,255,255,.32);
+    --glass-cta: rgba(255,255,255,.4);
+    --glass-brd: rgba(255,255,255,.55);
+    --glass-sh:  0 20px 50px -20px rgba(74,55,18,.34), 0 3px 12px -4px rgba(74,55,18,.16);
+    --glass-hi:  inset 0 1px 0 rgba(255,255,255,.85), inset 0 0 0 1px rgba(255,255,255,.16);
+    --blur:      saturate(165%) blur(28px);
+
+    --font-display: "Sentient", Georgia, serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Satoshi", system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* ── FLOATING GLASS NAV ──────────────────────────────── */
+  .nav{
+    position:fixed; top:22px; left:50%; transform:translateX(-50%);
+    z-index:50; display:flex; align-items:center; gap:10px;
+    padding:10px 10px 10px 26px; border-radius:20px;
+    background:var(--glass);
+    -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+    border:1px solid var(--glass-brd);
+    box-shadow:var(--glass-sh), var(--glass-hi);
+    animation:navrise .9s cubic-bezier(.22,1,.36,1) .1s both;
+  }
+  @keyframes navrise{
+    from{ opacity:0; transform:translateX(-50%) translateY(-16px); }
+    to  { opacity:1; transform:translateX(-50%) translateY(0); }
+  }
+  .nav-logo{
+    font-family:"Satoshi", sans-serif; font-weight:800; font-size:18px;
+    letter-spacing:-.02em; color:var(--ink); text-decoration:none; white-space:nowrap;
+    padding-right:10px;
+  }
+  .nav-logo .dot{ color:var(--gold-lt); }
+  .nav-links{ display:flex; align-items:center; gap:2px; }
+  .nav-links a{
+    font-family:"Satoshi", sans-serif; font-size:14.5px; font-weight:500;
+    color:var(--ink-soft); text-decoration:none; white-space:nowrap;
+    padding:10px 16px; border-radius:11px;
+    transition:color .25s ease, background .25s ease;
+  }
+  .nav-links a:hover{ color:var(--ink); background:rgba(255,255,255,.38); }
+  .nav-cta{
+    display:inline-flex; align-items:center; gap:8px; margin-left:6px;
+    background:rgba(247,190,40,.82);
+    -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+    color:var(--on-gold);
+    padding:11px 16px 11px 20px; border-radius:13px;
+    font-family:"Satoshi", sans-serif; font-size:14.5px; font-weight:700;
+    border:1px solid rgba(255,246,210,.85); cursor:pointer; white-space:nowrap;
+    box-shadow:0 10px 26px -9px rgba(214,156,26,.6), inset 0 1px 0 rgba(255,255,255,.7);
+    transition:transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s ease, background .3s ease;
+  }
+  .nav-cta:hover{ transform:translateY(-1px); background:rgba(250,199,54,.92);
+    box-shadow:0 14px 32px -9px rgba(214,156,26,.7), inset 0 1px 0 rgba(255,255,255,.75); }
+  .nav-cta svg{ width:15px; height:15px; transition:transform .3s cubic-bezier(.22,1,.36,1); }
+  .nav-cta:hover svg{ transform:translateX(3px); }
+  @media(max-width:620px){ .nav-links{ display:none; } }
+
+  /* ── LEGAL DOCUMENT ─────────────────────────── */
+  .legal{ background:#FBF8F1; }
+  .legal-head{ padding:clamp(120px,15vh,168px) max(42px,6vw) clamp(34px,4vw,48px);
+    border-bottom:1px solid rgba(50,46,39,.10); }
+  .legal-head .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); display:block; }
+  .legal-head h1{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(34px,5vw,60px); line-height:1.06; letter-spacing:-.02em;
+    color:var(--ink); margin:14px 0 0; }
+  .legal-head .meta{ margin-top:16px; font-size:14.5px; color:var(--muted); line-height:1.6; }
+
+  .legal-wrap{
+    padding:clamp(40px,5vw,64px) max(42px,6vw) clamp(60px,7vw,96px); }
+
+  .legal-section{ margin-top:clamp(36px,4vw,52px); }
+  .legal-section:first-child{ margin-top:0; }
+  .legal-section > h2{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(21px,2.2vw,28px); letter-spacing:-.015em; color:var(--ink);
+    line-height:1.2; margin:0 0 18px; padding-bottom:14px;
+    border-bottom:1px solid rgba(50,46,39,.10); }
+  .legal-section > h2 .num{ color:var(--gold-lt); font-weight:500; margin-right:.5em; }
+
+  .legal-block{ margin-top:22px; }
+  .legal-block:first-of-type{ margin-top:0; }
+  .legal-block h3{ font-size:15.5px; font-weight:700; color:var(--ink);
+    letter-spacing:-.005em; margin:0 0 7px; }
+  .legal-block p{ font-size:clamp(14.5px,1.05vw,16px); line-height:1.72;
+    color:var(--ink-soft); margin:0 0 12px; }
+  .legal-block p:last-child{ margin-bottom:0; }
+  .legal-block a{ color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(156,107,22,.3); }
+  .legal-block a:hover{ border-bottom-color:var(--gold); }
+  .legal-block ul{ margin:10px 0 0; padding-left:0; list-style:none; }
+  .legal-block li{ position:relative; padding-left:22px; margin:0 0 10px;
+    font-size:clamp(14.5px,1.05vw,16px); line-height:1.7; color:var(--ink-soft); }
+  .legal-block li::before{ content:""; position:absolute; left:2px; top:11px;
+    width:6px; height:6px; border-radius:50%; background:var(--gold-lt); }
+
+  .legal-callout{ margin-top:clamp(40px,5vw,60px);
+    background:#fff; border:1px solid rgba(50,46,39,.10); border-radius:18px;
+    padding:clamp(26px,3vw,38px); box-shadow:0 8px 30px -18px rgba(74,55,18,.22); }
+  .legal-callout h2{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(18px,1.8vw,24px); color:var(--ink); letter-spacing:-.01em;
+    line-height:1.25; margin:0 0 6px; }
+  .legal-callout .sub{ font-size:13.5px; color:var(--muted); line-height:1.65; margin:0 0 8px; }
+
+  .legal-contact-card{ margin-top:14px; padding:18px 20px;
+    background:#FBF8F1; border-radius:12px; }
+  .legal-contact-card strong{ display:block; color:var(--ink); font-size:15px; margin-bottom:4px; }
+  .legal-contact-card span{ display:block; font-size:14.5px; color:var(--ink-soft); line-height:1.6; }
+
+  /* ── FOOTER ─────────────────────────── */
+  .footer{ background:#2A2620; color:rgba(247,242,232,.72); }
+  .footer-inner{ padding:clamp(56px,7vw,88px) max(42px,6vw) 30px; }
+  .footer-top{ display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:clamp(30px,4vw,56px); }
+  .footer-logo{ font-family:"Satoshi",sans-serif; font-weight:800; font-size:22px;
+    letter-spacing:-.02em; color:#F7F2E8; text-decoration:none; }
+  .footer-logo .dot{ color:var(--gold-lt); }
+  .footer-tagline{ margin:14px 0 22px; font-family:var(--font-display); font-style:italic;
+    font-size:16px; color:rgba(247,242,232,.6); }
+  .footer-contact{ display:flex; flex-direction:column; gap:9px; font-size:14px; }
+  .footer-contact a, .footer-contact span{ color:rgba(247,242,232,.72); text-decoration:none; }
+  .footer-contact a:hover{ color:var(--gold-lt); }
+  .footer-col h4{ font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color:rgba(247,242,232,.5); margin:0 0 14px; }
+  .footer-col a{ display:block; font-size:15px; font-weight:500; color:rgba(247,242,232,.82);
+    text-decoration:none; padding:7px 0; transition:color .2s ease; }
+  .footer-col a:hover{ color:var(--gold-lt); }
+  .footer-col a.active{ color:var(--gold-lt); }
+  .footer-bottom{ margin-top:clamp(40px,5vw,60px); padding-top:22px;
+    border-top:1px solid rgba(247,242,232,.14);
+    display:flex; flex-wrap:wrap; gap:10px 24px; align-items:center; justify-content:space-between;
+    font-size:13px; color:rgba(247,242,232,.55); }
+  @media (max-width:860px){
+    .footer-top{ grid-template-columns:1fr 1fr; gap:32px 24px; }
+    .footer-brand{ grid-column:1 / -1; }
+  }
+  @media (max-width:520px){
+    .footer-top{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a class="nav-logo" href="index.html">MyDNAPedia<span class="dot">.</span></a>
+    <div class="nav-links">
+      <a href="index.html#tests">Our Tests</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="about.html">About</a>
+    </div>
+    <button class="nav-cta" onclick="location.href='index.html#tests'">Get My Results
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </nav>
+
+  <!-- ═══ HEADER ═══ -->
+  <section class="legal">
+    <div class="legal-head">
+      <span class="kicker">Legal</span>
+      <h1>Disclaimer</h1>
+      <p class="meta">MyDNAPedia, a unit of TVASTI Health and Wellness Private Limited, New Delhi. Please read this disclaimer carefully before using this site.</p>
+    </div>
+
+    <div class="legal-wrap">
+
+      <div class="legal-section">
+        <h2><span class="num">1</span>&ldquo;As Is&rdquo; and &ldquo;As Available&rdquo;</h2>
+        <div class="legal-block">
+          <p>This site is provided by MYDNAPEDIA on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo; basis. MYDNAPEDIA makes no representations or warranties of any kind, express or implied, as to the operation of this site or the information, content, materials, or products included on this site. MYDNAPEDIA may discontinue the site anytime and may impose limits on the service without prior notice. To the full extent permissible by applicable law, MYDNAPEDIA disclaims all warranties, express or implied, including, but not limited to, implied warranties of merchantability and fitness for a particular purpose.</p>
+        </div>
+      </div>
+
+      <div class="legal-section">
+        <h2><span class="num">2</span>Use at Your Own Risk</h2>
+        <div class="legal-block">
+          <p>You expressly agree that your use of this site is at your sole risk. MYDNAPEDIA does not guarantee or warrant that this site, its servers, emails sent by this site or any files available for downloading through the site will be free of infectious viruses or other harmful components that may contain contaminating or destructive properties to your computer or corresponding device. MYDNAPEDIA will not be liable for any damages of any kind arising from the use of this site including, but not limited to, direct, indirect, incidental, punitive, and consequential damages.</p>
+        </div>
+      </div>
+
+      <div class="legal-section">
+        <h2><span class="num">3</span>Third-Party Sites and Content</h2>
+        <div class="legal-block">
+          <p>MYDNAPEDIA does not warrant that any tutorials taught on this site will be guaranteed to render the desired results. MYDNAPEDIA does not warrant that the links on the site will be working and are only brought to you on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo; basis. Any third-party sites or web stores to which this site may link are not under MYDNAPEDIA&acute;s control, and MYDNAPEDIA does not assume any responsibility or liability for any information, content, communications or materials available on such third-party sites. MYDNAPEDIA is not responsible for any flaws or availability regarding products, deliveries, or content provided by third-party sites or web stores to which this site may link. MYDNAPEDIA is not responsible for such ways of usage of products or results purchased from third-party sites or web stores this site may link that they are intended to or not intended to, such as diagnostic procedures. MYDNAPEDIA is not responsible for any misconceptions the results provided by third-party sites or web stores to which this site may link may cause.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="footer-logo" href="index.html">MyDNAPedia<span class="dot">.</span></a>
+          <p class="footer-tagline">Precise insights. Personalised health.</p>
+          <div class="footer-contact">
+            <a href="tel:+918800573400">+91 88005 73400</a>
+            <a href="mailto:support@mydnapedia.org">support@mydnapedia.org</a>
+            <span>INNOV8, Okhla Phase III, New Delhi 110020</span>
+          </div>
+        </div>
+        <nav class="footer-col">
+          <h4>Explore</h4>
+          <a href="index.html#stage">Home</a>
+          <a href="index.html#how-it-works">How it works</a>
+          <a href="index.html#tests">Our Test</a>
+          <a href="about.html">About</a>
+          <a href="about.html#partner">Partner with us</a>
+          <a href="mailto:support@mydnapedia.org">Contact</a>
+        </nav>
+        <nav class="footer-col">
+          <h4>Legal</h4>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+          <a href="disclaimer.html" class="active">Disclaimer</a>
+        </nav>
+        <nav class="footer-col">
+          <h4>Follow</h4>
+          <a href="#" target="_blank" rel="noopener">Instagram</a>
+          <a href="#" target="_blank" rel="noopener">YouTube</a>
+          <a href="#" target="_blank" rel="noopener">Facebook</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 MyDNAPedia. A unit of TVASTI Health and Wellness Private Limited.</p>
+        <p>Genetic wellness, decoded.</p>
+      </div>
+    </div>
+  </footer>
+
+<script>
+/* custom gold cursor + particle trail (shared with landing) */
+(function(){
+  if(window.matchMedia('(hover:none)').matches) return;
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+
+  document.documentElement.style.cursor = 'none';
+
+  const cv = document.createElement('canvas');
+  cv.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999';
+  document.body.appendChild(cv);
+  const ctx = cv.getContext('2d');
+  let dpr = 1;
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width  = Math.round(innerWidth  * dpr);
+    cv.height = Math.round(innerHeight * dpr);
+  }
+  resize(); window.addEventListener('resize', resize);
+
+  const GRAINS = [
+    [233,180,62, 0.80],
+    [242,205,120,0.60],
+    [156,107,22, 0.75],
+    [255,246,210,0.65],
+    [50, 46, 39, 0.45],
+  ];
+
+  const P = [];
+  let mx = -9999, my = -9999, pmx = -9999, pmy = -9999;
+  let active = false;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY; active = true;
+  }, {passive: true});
+  document.addEventListener('mouseleave', () => { active = false; });
+
+  function spawn(cx, cy, speed){
+    const n = speed > 1.2 ? 3 : 2;
+    for(let i = 0; i < n; i++){
+      const c  = GRAINS[(Math.random() * GRAINS.length) | 0];
+      const a  = Math.random() * Math.PI * 2;
+      const sp = (Math.random() * 0.6 + 0.2) * dpr * Math.min(speed * 0.35, 1.8);
+      P.push({
+        x: cx * dpr, y: cy * dpr,
+        vx: Math.cos(a) * sp,
+        vy: Math.sin(a) * sp - 0.3 * dpr,
+        life: 1,
+        decay: 0.022 + Math.random() * 0.018,
+        size: (Math.random() * 1.4 + 0.3) * dpr,
+        rot: Math.random() * Math.PI * 2,
+        rotV: (Math.random() - 0.5) * 0.18,
+        c,
+        rect: Math.random() > 0.5
+      });
+    }
+  }
+
+  function loop(){
+    ctx.clearRect(0, 0, cv.width, cv.height);
+
+    if(active){
+      const speed = Math.hypot(mx - pmx, my - pmy);
+      if(speed > 0.5) spawn(mx, my, speed);
+      pmx = mx; pmy = my;
+
+      const cx = mx * dpr, cy = my * dpr, r = 5 * dpr;
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, 6.283);
+      ctx.fillStyle = 'rgba(156,107,22,0.85)';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    for(let i = P.length - 1; i >= 0; i--){
+      const p = P[i];
+      p.x += p.vx; p.y += p.vy;
+      p.vy += 0.018 * dpr;
+      p.vx *= 0.968;
+      p.rot += p.rotV;
+      p.life -= p.decay;
+      if(p.life <= 0){ P.splice(i, 1); continue; }
+      const sz = p.size * Math.max(0.05, p.life);
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.life) * p.c[3];
+      ctx.fillStyle   = `rgb(${p.c[0]},${p.c[1]},${p.c[2]})`;
+      ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      if(p.rect){
+        ctx.fillRect(-sz * 0.45, -sz * 0.65, sz * 0.9, sz * 1.3);
+      } else {
+        ctx.beginPath(); ctx.arc(0, 0, sz, 0, 6.283); ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+</script>
+
+</body>
+</html>
