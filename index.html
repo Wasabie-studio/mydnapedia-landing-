@@ -694,12 +694,13 @@
   /* ── S10 — PARTNER CTA band (side-by-side: big headline + CTA/contact) ── */
   .cta-band{ background:#F9F6EF;
     border-top:1px solid rgba(50,46,39,.06); border-bottom:1px solid rgba(50,46,39,.06); }
-  .cta-inner{ display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(40px,5vw,80px);
+  .cta-inner{ display:grid; grid-template-columns:1.5fr .8fr; gap:clamp(36px,4.5vw,72px);
     align-items:center; padding:clamp(60px,8vw,100px) max(42px,6vw); }
   .cta-head .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
     text-transform:uppercase; color:var(--muted); }
-  .cta-head h2{ font-family:var(--font-display); font-weight:500; font-size:clamp(44px,6.4vw,96px);
-    line-height:1.02; letter-spacing:-.02em; color:var(--ink); margin:16px 0 0; }
+  .cta-head h2{ font-family:var(--font-display); font-weight:500; font-size:clamp(36px,5.2vw,80px);
+    line-height:1.04; letter-spacing:-.02em; color:var(--ink); margin:16px 0 0; }
+  .cta-head h2 .nw{ white-space:nowrap; }
   .cta-side{ max-width:460px; }
   .cta-side > p{ font-size:clamp(16px,1.3vw,19px); line-height:1.55; color:var(--muted);
     font-weight:500; margin:0 0 26px; }
@@ -1123,7 +1124,7 @@
     <div class="cta-inner">
       <div class="cta-head">
         <span class="kicker">Partner with us</span>
-        <h2>Bring MyDNAPedia to your city.</h2>
+        <h2><span class="nw">Bring MyDNAPedia</span><br>to your city.</h2>
       </div>
       <div class="cta-side">
         <p>Become a franchise partner and bring genetic wellness to your community.</p>
