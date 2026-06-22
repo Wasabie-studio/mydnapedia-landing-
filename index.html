@@ -532,21 +532,21 @@
     .how{ height:calc(100vh + 5 * 95vh); }
     .how-pin{ padding:0 22px 36px; }
     .how-head{ padding-top:88px; padding-bottom:28px; }
-    .step-card{ padding:24px; grid-template-columns:1fr; grid-template-rows:auto auto;
-      align-content:center; gap:10px 0; overflow:hidden; }
+    .step-card{ padding:26px 24px 0; grid-template-columns:1fr; grid-template-rows:auto 1fr;
+      align-content:start; gap:8px 0; overflow:hidden; }
     .step-content{ padding-right:0; }
-    /* mobile: text + image kept as one centered group (no big middle gap);
-       circle = semicircle at the bottom of the visual, image upright & centered */
-    .step-visual{ display:block; position:relative; overflow:hidden; height:226px; }
-    .step-circle{ width:300px; height:300px; left:50%; right:auto; top:auto; bottom:0;
-      transform:translate(-50%,50%); }
+    /* visual fills to the card's bottom edge; large cream circle sits flush at the
+       bottom (no gap below), product image resting on it, upright & centered */
+    .step-visual{ display:block; position:relative; overflow:hidden; min-height:200px; }
+    .step-circle{ width:118%; height:auto; aspect-ratio:1/1; left:50%; right:auto; top:auto; bottom:0;
+      transform:translate(-50%,30%); }
     .step-img{ position:absolute; left:50%; right:auto; top:auto; bottom:0; height:auto;
       transform-origin:center bottom; }
-    .step-img.tilt-1{ width:250px; transform:translate(-50%,-30%) rotate(0); }   /* box — bigger, upright, fully on circle */
-    .step-img.tilt-2{ width:188px; transform:translate(-50%,-40%) rotate(0); }   /* swab — centered, fully visible */
-    .step-img.tilt-3{ width:210px; transform:translate(-50%,-20%) rotate(0); }   /* envelope — upright, centered on circle */
-    .step-img.tilt-4{ width:232px; transform:translate(-50%,-30%) rotate(0); }   /* helix — upright, centered */
-    .step-img.tilt-5{ width:250px; transform:translate(-50%,18%) rotate(0); }    /* report — upright, big, ~70% visible */
+    .step-img.tilt-1{ width:250px; transform:translate(-50%,-24%) rotate(0); }   /* box */
+    .step-img.tilt-2{ width:186px; transform:translate(-50%,-32%) rotate(0); }   /* swab */
+    .step-img.tilt-3{ width:208px; transform:translate(-50%,-14%) rotate(0); }   /* envelope */
+    .step-img.tilt-4{ width:230px; transform:translate(-50%,-22%) rotate(0); }   /* helix */
+    .step-img.tilt-5{ width:248px; transform:translate(-50%,6%) rotate(0); }     /* report — slight bottom crop */
   }
 
   /* ── S7 — TRUST & CREDENTIALS (designer's rework) ───── */
