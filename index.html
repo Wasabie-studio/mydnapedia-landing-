@@ -625,6 +625,8 @@
     background:rgba(20,15,8,.38); border:1px solid rgba(255,255,255,.35);
     padding:5px 11px; border-radius:100px;
     -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
+  .tcard.has-photo .tcard-ph{ display:none; }
+  .tcard.has-photo .tcard-photo svg{ display:none; }
   .tcard::after{ content:""; position:absolute; inset:0; z-index:1;
     background:linear-gradient(to top, rgba(18,13,6,.82) 0%, rgba(18,13,6,.32) 34%, rgba(18,13,6,0) 60%); }
   .tcard-quote{ position:absolute; left:0; right:0; bottom:0; z-index:2;
@@ -1021,7 +1023,7 @@
 
       <div class="tcards">
        <div class="tticker">
-        <figure class="tcard">
+        <figure class="tcard" data-photo="assets/testimonials/member-1.webp">
           <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
           <span class="tcard-ph">Photo placeholder</span>
           <figcaption class="tcard-quote">
@@ -1029,7 +1031,7 @@
             <span class="tcard-name">Name Surname<small>Delhi &middot; MDP 360°</small></span>
           </figcaption>
         </figure>
-        <figure class="tcard">
+        <figure class="tcard" data-photo="assets/testimonials/member-2.webp">
           <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
           <span class="tcard-ph">Photo placeholder</span>
           <figcaption class="tcard-quote">
@@ -1037,7 +1039,7 @@
             <span class="tcard-name">Name Surname<small>Mumbai &middot; MDP Fitness</small></span>
           </figcaption>
         </figure>
-        <figure class="tcard">
+        <figure class="tcard" data-photo="assets/testimonials/member-3.webp">
           <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
           <span class="tcard-ph">Photo placeholder</span>
           <figcaption class="tcard-quote">
@@ -1045,7 +1047,7 @@
             <span class="tcard-name">Name Surname<small>Bengaluru &middot; MDP Skin Health</small></span>
           </figcaption>
         </figure>
-        <figure class="tcard">
+        <figure class="tcard" data-photo="assets/testimonials/member-4.webp">
           <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
           <span class="tcard-ph">Photo placeholder</span>
           <figcaption class="tcard-quote">
@@ -1053,7 +1055,7 @@
             <span class="tcard-name">Name Surname<small>Pune &middot; MDP Cardiac Health</small></span>
           </figcaption>
         </figure>
-        <figure class="tcard">
+        <figure class="tcard" data-photo="assets/testimonials/member-5.webp">
           <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
           <span class="tcard-ph">Photo placeholder</span>
           <figcaption class="tcard-quote">
@@ -1061,7 +1063,7 @@
             <span class="tcard-name">Name Surname<small>Hyderabad &middot; Nutrition</small></span>
           </figcaption>
         </figure>
-        <figure class="tcard">
+        <figure class="tcard" data-photo="assets/testimonials/member-6.webp">
           <div class="tcard-photo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.6-9 6v2h18v-2c0-3.4-4-6-9-6z"/></svg></div>
           <span class="tcard-ph">Photo placeholder</span>
           <figcaption class="tcard-quote">
@@ -1567,11 +1569,24 @@
 (function(){
   const track = document.querySelector('.tticker');
   if(!track) return;
-  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  track.querySelectorAll('.tcard').forEach(card=>{
-    const clone = card.cloneNode(true);
-    clone.setAttribute('aria-hidden','true');
-    track.appendChild(clone);
+  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(!reduce){
+    track.querySelectorAll('.tcard').forEach(card=>{
+      const clone = card.cloneNode(true);
+      clone.setAttribute('aria-hidden','true');
+      track.appendChild(clone);
+    });
+  }
+  // plug-and-play photos: when assets/testimonials/member-N.webp exists, swap it in
+  track.querySelectorAll('.tcard[data-photo]').forEach(card=>{
+    const src = card.getAttribute('data-photo');
+    const probe = new Image();
+    probe.onload = ()=>{
+      const ph = card.querySelector('.tcard-photo');
+      if(ph) ph.style.backgroundImage = "url('"+src+"')";
+      card.classList.add('has-photo');
+    };
+    probe.src = src;
   });
 })();
 </script>
