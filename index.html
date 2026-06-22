@@ -256,24 +256,34 @@
   /* ── RESPONSIVE: unpin on mobile, stack naturally ───── */
   @media (max-width:860px){
     .stage{ height:auto; }
-    .stage-sticky{ position:static; height:auto; overflow:visible;
-      display:flex; flex-direction:column; }
-    .stage-sticky::before{ display:none; }
+    .stage-sticky{ position:relative; height:auto; overflow:hidden; display:block; }
+    /* hero band: helix video stays in-frame (cropped) on the right,
+       text pushed to the left and overlaid on a white scrim */
+    .hero{ position:relative; z-index:5; left:auto; top:auto; transform:none;
+      width:100%; min-height:90vh; box-sizing:border-box;
+      display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
+      padding:120px 22px 36px; }
+    .hero .eyebrow{ margin-bottom:22px; }
+    .hero h1{ font-size:clamp(32px,8vw,44px); margin-bottom:18px; max-width:66%; }
+    .hero .sub{ font-size:clamp(15px,4vw,17px); max-width:62%; margin-bottom:30px; }
+    #dna{ position:absolute; top:0; right:0; left:auto; bottom:auto;
+      width:100%; height:90vh; object-fit:cover; object-position:84% center;
+      z-index:1; margin-top:0; }
+    .stage-sticky::before{ display:block; content:""; inset:auto; top:0; left:0; right:0;
+      height:90vh; z-index:2; pointer-events:none;
+      background:linear-gradient(95deg,
+        #fff 0%, rgba(255,255,255,.97) 30%, rgba(255,255,255,.62) 54%, rgba(255,255,255,0) 80%); }
     .ambient{ display:none; }
-    .hero{ position:static; transform:none; width:auto; padding:104px 24px 8px; order:1; }
-    .hero h1{ font-size:clamp(34px,8.6vw,46px); }
-    .hero .sub{ max-width:none; }
-    #dna{ position:relative; height:46vh; order:2; margin-top:16px; }
-    .trust{ position:static; margin:24px 24px 4px; order:3;
-      display:grid; grid-template-columns:1fr 1fr; gap:16px 0; padding:20px 6px; }
+    .trust{ position:static; z-index:5; right:auto; bottom:auto; transform:none;
+      margin:6px 22px; display:grid; grid-template-columns:1fr 1fr; gap:16px 0; padding:24px 6px; }
     .trust .item{ padding:4px 18px; border-right:1px solid var(--glass-sep); }
     .trust .item:nth-child(2n){ border-right:none; }
     .nav{ top:14px; padding:7px 7px 7px 18px; gap:4px; }
     .nav-links{ display:none; }
     .nav-logo{ font-size:16px; padding-right:6px; }
     .nav-cta{ font-size:13px; padding:9px 9px 9px 15px; margin-left:6px; }
-    .tension{ position:static; order:4; opacity:1 !important; transform:none !important;
-      padding:60px 24px 92px; }
+    .tension{ position:static; opacity:1 !important; transform:none !important;
+      padding:64px 24px 92px; }
     .tension .lead{ font-size:clamp(16px,4.4vw,20px); }
     .tension .lead br{ display:none; }
     .tension .word{ font-size:clamp(40px,11vw,64px); }
@@ -498,9 +508,20 @@
     .how{ height:calc(100vh + 5 * 95vh); }
     .how-pin{ padding:0 22px 36px; }
     .how-head{ padding-top:88px; padding-bottom:28px; }
-    .step-card{ padding:28px 24px; grid-template-columns:1fr; }
-    .step-visual{ display:none; }
+    .step-card{ padding:30px 24px; grid-template-columns:1fr; grid-template-rows:auto 1fr;
+      align-items:stretch; gap:12px 0; }
     .step-content{ padding-right:0; }
+    /* mobile: product image moves below the text, centered in the leftover space */
+    .step-visual{ display:flex; align-items:center; justify-content:center;
+      position:relative; min-height:0; }
+    .step-circle{ width:196px; height:196px; left:50%; right:auto; top:50%;
+      transform:translate(-50%,-50%); }
+    .step-img{ position:absolute; left:50%; right:auto; top:50%; bottom:auto; height:auto; }
+    .step-img.tilt-1{ width:200px; transform:translate(-50%,-50%) rotate(-4deg); }
+    .step-img.tilt-2{ width:208px; transform:translate(-50%,-50%) scaleX(-1) rotate(6.1deg); }
+    .step-img.tilt-3{ width:184px; transform:translate(-50%,-46%) rotate(0deg); }
+    .step-img.tilt-4{ width:224px; transform:translate(-50%,-50%) rotate(-52deg); }
+    .step-img.tilt-5{ width:206px; transform:translate(-50%,-48%) rotate(11deg); }
   }
 
   /* ── S7 — TRUST & CREDENTIALS (designer's rework) ───── */
