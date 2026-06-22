@@ -80,6 +80,32 @@
   .nav-cta svg{ width:15px; height:15px; transition:transform .3s cubic-bezier(.22,1,.36,1); }
   .nav-cta:hover svg{ transform:translateX(3px); }
 
+  /* hamburger — hidden on desktop, shown on mobile */
+  .nav-burger{ display:none; width:40px; height:40px; border:none; background:transparent;
+    cursor:pointer; padding:0; flex-direction:column; align-items:center; justify-content:center;
+    gap:6px; border-radius:10px; }
+  .nav-burger span{ display:block; height:2px; width:22px; border-radius:2px;
+    background:var(--ink); transition:transform .3s ease, opacity .2s ease; }
+  .nav.open .nav-burger span:nth-child(1){ transform:translateY(8px) rotate(45deg); }
+  .nav.open .nav-burger span:nth-child(2){ opacity:0; }
+  .nav.open .nav-burger span:nth-child(3){ transform:translateY(-8px) rotate(-45deg); }
+  @media(max-width:860px){
+    .nav{ top:14px; left:14px; right:14px; width:auto; transform:none; animation:none;
+      padding:8px 10px; gap:0; justify-content:space-between; }
+    .nav-burger{ display:flex; }
+    .nav-logo{ display:none; }
+    .nav-cta{ font-size:13px; padding:9px 11px 9px 16px; margin-left:0; }
+    .nav-links{ position:absolute; top:calc(100% + 10px); left:0; right:0;
+      flex-direction:column; gap:2px; padding:10px;
+      background:rgba(255,255,255,.94);
+      -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+      border:1px solid var(--glass-brd); border-radius:16px; box-shadow:var(--glass-sh);
+      opacity:0; visibility:hidden; transform:translateY(-8px);
+      transition:opacity .25s ease, transform .25s ease, visibility .25s; }
+    .nav.open .nav-links{ opacity:1; visibility:visible; transform:translateY(0); }
+    .nav-links a{ padding:13px 16px; font-size:15px; border-radius:11px; }
+  }
+
   /* ── SECTION 1 — THE WHY / ABOUT ─────────── */
   .about{ position:relative; background:#FBF8F1; }
   .about-wrap{ padding:clamp(112px,13vh,150px) max(42px,6vw) clamp(56px,6vw,84px); }
@@ -281,6 +307,9 @@
 <body>
 
   <nav class="nav">
+    <button class="nav-burger" aria-label="Menu" aria-expanded="false" onclick="this.closest('.nav').classList.toggle('open'); this.setAttribute('aria-expanded', this.closest('.nav').classList.contains('open'))">
+      <span></span><span></span><span></span>
+    </button>
     <a class="nav-logo" href="index.html">MyDNAPedia<span class="dot">.</span></a>
     <div class="nav-links">
       <a href="index.html#tests">Our Tests</a>
