@@ -1758,5 +1758,17 @@
   });
 })();
 </script>
+
+<script>
+/* Every "Get My Results" CTA (hero + per-plan accordion buttons) scrolls to the lead form */
+(function(){
+  document.addEventListener('click', function(e){
+    if(e.target.closest('.cta, .acc-cta')){
+      const el = document.getElementById('get-results');
+      if(el) el.scrollIntoView({ behavior:'smooth' });
+    }
+  });
+})();
+</script>
 </body>
 </html>
