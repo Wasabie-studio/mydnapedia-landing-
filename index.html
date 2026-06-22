@@ -28,13 +28,14 @@
     --font-display: "Sentient", Georgia, serif;
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
-  html{ overflow-x:hidden; }
   body{
     background:var(--bg);
     color:var(--ink);
     font-family:"Satoshi", system-ui, sans-serif;
     -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
+    /* clip (not hidden) — hidden would make body a scroll container and
+       break position:sticky on the hero stage and the How-It-Works pin */
+    overflow-x:clip;
     width:100%; max-width:100%;
   }
 
@@ -531,12 +532,12 @@
     .how{ height:calc(100vh + 5 * 95vh); }
     .how-pin{ padding:0 22px 36px; }
     .how-head{ padding-top:88px; padding-bottom:28px; }
-    .step-card{ padding:30px 24px 0; grid-template-columns:1fr; grid-template-rows:auto 1fr;
-      align-items:stretch; gap:10px 0; overflow:hidden; }
+    .step-card{ padding:24px; grid-template-columns:1fr; grid-template-rows:auto auto;
+      align-content:center; gap:10px 0; overflow:hidden; }
     .step-content{ padding-right:0; }
-    /* mobile: text on top; circle = centered semicircle at the bottom,
-       product image upright & centered, larger, ~70% visible (cropped at the card edge) */
-    .step-visual{ display:block; position:relative; overflow:hidden; min-height:200px; }
+    /* mobile: text + image kept as one centered group (no big middle gap);
+       circle = semicircle at the bottom of the visual, image upright & centered */
+    .step-visual{ display:block; position:relative; overflow:hidden; height:226px; }
     .step-circle{ width:300px; height:300px; left:50%; right:auto; top:auto; bottom:0;
       transform:translate(-50%,50%); }
     .step-img{ position:absolute; left:50%; right:auto; top:auto; bottom:0; height:auto;
