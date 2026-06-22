@@ -155,15 +155,23 @@
   .approach h2{ font-family:var(--font-display); font-weight:500;
     font-size:clamp(32px,4vw,54px); line-height:1.08; letter-spacing:-.015em;
     color:var(--ink); margin:0; text-align:center; }
-  .approach-list{ margin:clamp(34px,4vw,52px) 0 0;
-    display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(26px,3vw,44px); }
+  .approach-list{ margin:clamp(34px,4vw,52px) auto 0; max-width:1180px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
+  .approach-item{ text-align:center; padding:4px clamp(22px,2.4vw,38px); }
+  .approach-item + .approach-item{ border-left:1px solid rgba(50,46,39,.10); }
+  .approach-index{ display:block; font-size:12px; font-weight:700;
+    letter-spacing:.16em; color:var(--gold-lt); margin:0 0 14px; }
   .approach-title{ font-family:var(--font-display); font-weight:500;
     font-size:clamp(18px,1.6vw,23px); color:var(--ink); letter-spacing:-.01em;
-    line-height:1.18; margin:0 0 9px; }
+    line-height:1.18; margin:0 0 10px; }
   .approach-desc{ font-size:clamp(14.5px,1.05vw,16.5px); line-height:1.55;
-    color:var(--muted); margin:0; }
-  @media(max-width:900px){ .approach-list{ grid-template-columns:repeat(2,1fr); gap:32px; } }
-  @media(max-width:560px){ .approach-list{ grid-template-columns:1fr; gap:26px; } }
+    color:var(--muted); margin:0 auto; max-width:24ch; }
+  @media(max-width:900px){
+    .approach-list{ grid-template-columns:1fr; max-width:420px; }
+    .approach-item{ padding:24px 0; }
+    .approach-item + .approach-item{ border-left:none; border-top:1px solid rgba(50,46,39,.10); }
+    .approach-desc{ max-width:36ch; }
+  }
 
   /* ── SECTION 4 — PARTNER WITH US (franchise lead form) ─────────── */
   .lead{ position:relative; scroll-margin-top:96px; background:var(--bg); }
@@ -327,21 +335,25 @@
 
       <div class="approach-list">
         <div class="approach-item">
+          <span class="approach-index">01</span>
           <h3 class="approach-title">Evidence-Based</h3>
           <p class="approach-desc">Grounded in peer-reviewed science. Probabilities, not promises.</p>
         </div>
 
         <div class="approach-item">
+          <span class="approach-index">02</span>
           <h3 class="approach-title">Trust as Infrastructure</h3>
           <p class="approach-desc">EU-certified labs. Encrypted, confidential, GDPR compliant.</p>
         </div>
 
         <div class="approach-item">
+          <span class="approach-index">03</span>
           <h3 class="approach-title">Empowerment, Never Fear</h3>
           <p class="approach-desc">Every insight comes paired with an action — not anxiety.</p>
         </div>
 
         <div class="approach-item">
+          <span class="approach-index">04</span>
           <h3 class="approach-title">Lifelong Partnership</h3>
           <p class="approach-desc">Counselling and follow-up, not a one-time report.</p>
         </div>
