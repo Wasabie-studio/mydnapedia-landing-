@@ -28,12 +28,14 @@
     --font-display: "Sentient", Georgia, serif;
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ overflow-x:hidden; }
   body{
     background:var(--bg);
     color:var(--ink);
     font-family:"Satoshi", system-ui, sans-serif;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
+    width:100%; max-width:100%;
   }
 
   /* ── FLOATING GLASS NAV ──────────────────────────────── */
@@ -80,6 +82,16 @@
     box-shadow:0 14px 32px -9px rgba(214,156,26,.7), inset 0 1px 0 rgba(255,255,255,.75); }
   .nav-cta svg{ width:15px; height:15px; transition:transform .3s cubic-bezier(.22,1,.36,1); }
   .nav-cta:hover svg{ transform:translateX(3px); }
+
+  /* hamburger — hidden on desktop, shown on mobile */
+  .nav-burger{ display:none; width:38px; height:38px; border:none; background:transparent;
+    cursor:pointer; padding:9px 8px; flex-direction:column; justify-content:space-between;
+    border-radius:10px; }
+  .nav-burger span{ display:block; height:2px; width:100%; border-radius:2px;
+    background:var(--ink); transition:transform .3s ease, opacity .25s ease; }
+  .nav.open .nav-burger span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .nav.open .nav-burger span:nth-child(2){ opacity:0; }
+  .nav.open .nav-burger span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
 
   /* ── PINNED STAGE (hero + tension share one pin) ─────── */
   .stage{ position:relative; height:300vh; }
@@ -278,15 +290,26 @@
       margin:6px 22px; display:grid; grid-template-columns:1fr 1fr; gap:16px 0; padding:24px 6px; }
     .trust .item{ padding:4px 18px; border-right:1px solid var(--glass-sep); }
     .trust .item:nth-child(2n){ border-right:none; }
-    .nav{ top:14px; padding:7px 7px 7px 18px; gap:4px; }
-    .nav-links{ display:none; }
-    .nav-logo{ font-size:16px; padding-right:6px; }
-    .nav-cta{ font-size:13px; padding:9px 9px 9px 15px; margin-left:6px; }
+    .nav{ top:14px; left:14px; right:14px; width:auto; transform:none; animation:none;
+      padding:8px 10px; gap:0; justify-content:space-between; }
+    .nav-burger{ display:flex; }
+    .nav-logo{ display:none; }
+    .nav-cta{ font-size:13px; padding:9px 11px 9px 16px; margin-left:0; }
+    /* links become a dropdown panel toggled by the hamburger */
+    .nav-links{ position:absolute; top:calc(100% + 10px); left:0; right:0;
+      flex-direction:column; gap:2px; padding:10px;
+      background:rgba(255,255,255,.94);
+      -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+      border:1px solid var(--glass-brd); border-radius:16px; box-shadow:var(--glass-sh);
+      opacity:0; visibility:hidden; transform:translateY(-8px);
+      transition:opacity .25s ease, transform .25s ease, visibility .25s; }
+    .nav.open .nav-links{ opacity:1; visibility:visible; transform:translateY(0); }
+    .nav-links a{ padding:13px 16px; font-size:15px; border-radius:11px; }
     .tension{ position:static; opacity:1 !important; transform:none !important;
       padding:64px 24px 92px; }
     .tension .lead{ font-size:clamp(16px,4.4vw,20px); }
     .tension .lead br{ display:none; }
-    .tension .word{ font-size:clamp(40px,11vw,64px); }
+    .tension .word{ font-size:clamp(24px,6.6vw,42px); }
     .tension .q{ margin-top:40px; }
   }
 
@@ -508,20 +531,21 @@
     .how{ height:calc(100vh + 5 * 95vh); }
     .how-pin{ padding:0 22px 36px; }
     .how-head{ padding-top:88px; padding-bottom:28px; }
-    .step-card{ padding:30px 24px; grid-template-columns:1fr; grid-template-rows:auto 1fr;
-      align-items:stretch; gap:12px 0; }
+    .step-card{ padding:30px 24px 0; grid-template-columns:1fr; grid-template-rows:auto 1fr;
+      align-items:stretch; gap:10px 0; overflow:hidden; }
     .step-content{ padding-right:0; }
-    /* mobile: product image moves below the text, centered in the leftover space */
-    .step-visual{ display:flex; align-items:center; justify-content:center;
-      position:relative; min-height:0; }
-    .step-circle{ width:196px; height:196px; left:50%; right:auto; top:50%;
-      transform:translate(-50%,-50%); }
-    .step-img{ position:absolute; left:50%; right:auto; top:50%; bottom:auto; height:auto; }
-    .step-img.tilt-1{ width:200px; transform:translate(-50%,-50%) rotate(-4deg); }
-    .step-img.tilt-2{ width:208px; transform:translate(-50%,-50%) scaleX(-1) rotate(6.1deg); }
-    .step-img.tilt-3{ width:184px; transform:translate(-50%,-46%) rotate(0deg); }
-    .step-img.tilt-4{ width:224px; transform:translate(-50%,-50%) rotate(-52deg); }
-    .step-img.tilt-5{ width:206px; transform:translate(-50%,-48%) rotate(11deg); }
+    /* mobile: text on top; circle = centered semicircle at the bottom,
+       product image upright & centered, larger, ~70% visible (cropped at the card edge) */
+    .step-visual{ display:block; position:relative; overflow:hidden; min-height:200px; }
+    .step-circle{ width:300px; height:300px; left:50%; right:auto; top:auto; bottom:0;
+      transform:translate(-50%,50%); }
+    .step-img{ position:absolute; left:50%; right:auto; top:auto; bottom:0; height:auto;
+      transform-origin:center bottom; }
+    .step-img.tilt-1{ width:250px; transform:translate(-50%,-30%) rotate(0); }   /* box — bigger, upright, fully on circle */
+    .step-img.tilt-2{ width:188px; transform:translate(-50%,-40%) rotate(0); }   /* swab — centered, fully visible */
+    .step-img.tilt-3{ width:210px; transform:translate(-50%,-20%) rotate(0); }   /* envelope — upright, centered on circle */
+    .step-img.tilt-4{ width:232px; transform:translate(-50%,-30%) rotate(0); }   /* helix — upright, centered */
+    .step-img.tilt-5{ width:250px; transform:translate(-50%,18%) rotate(0); }    /* report — upright, big, ~70% visible */
   }
 
   /* ── S7 — TRUST & CREDENTIALS (designer's rework) ───── */
@@ -788,10 +812,13 @@
 <body>
 
   <nav class="nav">
+    <button class="nav-burger" aria-label="Menu" aria-expanded="false" onclick="this.closest('.nav').classList.toggle('open'); this.setAttribute('aria-expanded', this.closest('.nav').classList.contains('open'))">
+      <span></span><span></span><span></span>
+    </button>
     <a class="nav-logo" href="#">MyDNAPedia<span class="dot">.</span></a>
     <div class="nav-links">
-      <a href="#tests">Our Tests</a>
-      <a href="#how">How It Works</a>
+      <a href="#tests" onclick="this.closest('.nav').classList.remove('open')">Our Tests</a>
+      <a href="#how" onclick="this.closest('.nav').classList.remove('open')">How It Works</a>
       <a href="about.html">About</a>
     </div>
     <button class="nav-cta" onclick="document.getElementById('get-results').scrollIntoView({behavior:'smooth'})">Get My Results
