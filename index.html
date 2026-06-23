@@ -815,9 +815,11 @@
   @media (max-width:860px){
     .footer-top{ grid-template-columns:1fr 1fr; gap:32px 24px; }
     .footer-brand{ grid-column:1 / -1; }
+    /* Legal sits beside Explore, right-aligned */
+    .footer-col:nth-of-type(2){ text-align:right; }
   }
   @media (max-width:520px){
-    .footer-top{ grid-template-columns:1fr; }
+    .footer-top{ grid-template-columns:1fr 1fr; gap:30px 18px; }
   }
 </style>
 </head>
