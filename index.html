@@ -377,7 +377,7 @@
     background:#FCFCFC; }
   /* progressive body-glow animation — one webp per plan, crossfaded */
   .dna-anim{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-    display:block; opacity:0; transition:opacity .65s cubic-bezier(.4,0,.2,1); }
+    display:block; opacity:0; transition:opacity .28s cubic-bezier(.4,0,.2,1); }
   .dna-anim.active{ opacity:1; }
   .plan-toggle{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:14px;
     background:rgba(120,110,80,.12); border-radius:14px; padding:6px; }
@@ -871,9 +871,9 @@
       <div class="plans-list" id="planList"><!-- accordion rendered by JS --></div>
       <aside class="plans-card glass" id="planCard">
         <div class="helix-stage" id="planStage">
-          <img class="dna-anim" data-plan="lite" src="assets/plan/dna-lite.webp?v=4" alt="" decoding="async">
-          <img class="dna-anim" data-plan="standard" src="assets/plan/dna-standard.webp?v=4" alt="" decoding="async">
-          <img class="dna-anim active" data-plan="premium" src="assets/plan/dna-premium.webp?v=4" alt="DNA wellness — your whole body, decoded" decoding="async">
+          <img class="dna-anim" data-plan="lite" src="assets/plan/dna-lite.webp?v=5" alt="" decoding="async">
+          <img class="dna-anim" data-plan="standard" src="assets/plan/dna-standard.webp?v=5" alt="" decoding="async">
+          <img class="dna-anim active" data-plan="premium" src="assets/plan/dna-premium.webp?v=5" alt="DNA wellness — your whole body, decoded" decoding="async">
         </div>
         <div class="plan-toggle" id="planToggle">
           <button data-plan="premium" class="active">Premium</button>
