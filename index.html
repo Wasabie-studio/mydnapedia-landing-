@@ -871,9 +871,9 @@
       <div class="plans-list" id="planList"><!-- accordion rendered by JS --></div>
       <aside class="plans-card glass" id="planCard">
         <div class="helix-stage" id="planStage">
-          <img class="dna-anim" data-plan="lite" src="assets/plan/dna-lite.webp?v=8" alt="" decoding="async">
-          <img class="dna-anim" data-plan="standard" src="assets/plan/dna-standard.webp?v=8" alt="" decoding="async">
-          <img class="dna-anim active" data-plan="premium" src="assets/plan/dna-premium.webp?v=8" alt="DNA wellness — your whole body, decoded" decoding="async">
+          <img class="dna-anim" data-plan="lite" src="assets/plan/dna-lite.webp?v=9" alt="" decoding="async">
+          <img class="dna-anim" data-plan="standard" src="assets/plan/dna-standard.webp?v=9" alt="" decoding="async">
+          <img class="dna-anim active" data-plan="premium" src="assets/plan/dna-premium.webp?v=9" alt="DNA wellness — your whole body, decoded" decoding="async">
         </div>
         <div class="plan-toggle" id="planToggle">
           <button data-plan="premium" class="active">Premium</button>
@@ -1420,10 +1420,16 @@
   if(!list || !toggle) return;
 
   // Body-glow animation: crossfade between per-plan webp segments.
-  // lite = core glow · standard = mid-body glow · premium (360°) = the whole body glows.
+  // lite = static core glow · standard/premium = glow travels once into place then stops.
   const frames = stage ? stage.querySelectorAll('.dna-anim') : [];
+  frames.forEach(img=>{ img.dataset.base = img.getAttribute('src'); });
   function applyView(key){
-    frames.forEach(img=>img.classList.toggle('active', img.dataset.plan===key));
+    frames.forEach(img=>{
+      const on = img.dataset.plan===key;
+      img.classList.toggle('active', on);
+      // restart the one-shot glow travel each time the plan is selected
+      if(on){ const b=img.dataset.base; img.src = b + (b.indexOf('?')>-1?'&':'?') + 'r=' + Date.now(); }
+    });
   }
 
   const chev = '<svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
