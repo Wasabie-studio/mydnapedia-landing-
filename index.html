@@ -1478,71 +1478,79 @@
 </script>
 
 <script>
-/* ── S4 — ambient drifting dots behind the plan figure (very subtle) ── */
+/* ── S4 — tiny glowing particles behind the plan figure; static, stir on plan switch ── */
 (function(){
   const cv = document.getElementById('planDots');
   if(!cv) return;
   const ctx = cv.getContext('2d');
   const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  let W=0, H=0, dpr=Math.min(window.devicePixelRatio||1, 2), dots=[], raf=null;
+  let W=0, H=0, dpr=Math.min(window.devicePixelRatio||1, 2), dots=[], raf=null, animUntil=0, last=0, ready=false;
 
   function build(){
     const r = cv.getBoundingClientRect();
     W = r.width; H = r.height;
     cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
     ctx.setTransform(dpr,0,0,dpr,0,0);
-    // density scales with area; ~ one dot per 30px grid cell
-    const n = Math.max(40, Math.round((W*H)/900));
+    const n = Math.max(60, Math.round((W*H)/650));   // lots of tiny specks
     dots = [];
     for(let i=0;i<n;i++){
       dots.push({
         x: Math.random()*W, y: Math.random()*H,
-        r: 1.0 + Math.random()*1.4,            // glow core radius
-        a: 0.16 + Math.random()*0.14,          // base opacity
-        // very slow drift: ~3–8 px/sec
-        vx: (Math.random()-0.5)*0.10,
-        vy: (Math.random()-0.5)*0.10,
-        tw: Math.random()*Math.PI*2,           // twinkle phase
-        ts: 0.6 + Math.random()*0.8            // twinkle speed
+        r: 0.4 + Math.random()*0.5,            // tiniest specks
+        a: 0.16 + Math.random()*0.16,
+        vx: 0, vy: 0
       });
     }
+    ready = true;
   }
-  function draw(dt){
+  function draw(){
     ctx.clearRect(0,0,W,H);
     for(const d of dots){
-      d.x += d.vx*dt; d.y += d.vy*dt;
-      const m = d.r*4 + 2;
-      if(d.x < -m) d.x = W+m; else if(d.x > W+m) d.x = -m;
-      if(d.y < -m) d.y = H+m; else if(d.y > H+m) d.y = -m;
-      d.tw += d.ts*dt*0.001;
-      const a = d.a * (0.65 + 0.35*Math.sin(d.tw));   // gentle twinkle
-      // warm gold ember: bright core fading to a soft halo (like the body glow)
-      const R = d.r*4;
+      const R = d.r*2.2;   // small soft glow halo
       const g = ctx.createRadialGradient(d.x,d.y,0, d.x,d.y,R);
-      g.addColorStop(0,    'rgba(245,196,96,'+a.toFixed(3)+')');
-      g.addColorStop(0.35, 'rgba(228,169,47,'+(a*0.55).toFixed(3)+')');
-      g.addColorStop(1,    'rgba(228,169,47,0)');
+      g.addColorStop(0,   'rgba(245,196,96,'+d.a.toFixed(3)+')');
+      g.addColorStop(0.4, 'rgba(228,169,47,'+(d.a*0.5).toFixed(3)+')');
+      g.addColorStop(1,   'rgba(228,169,47,0)');
       ctx.fillStyle = g;
       ctx.beginPath();
       ctx.arc(d.x, d.y, R, 0, Math.PI*2);
       ctx.fill();
     }
   }
-  let last=performance.now();
-  function tick(now){
+  function step(now){
     const dt = Math.min(now-last, 60); last = now;
-    draw(dt);
-    raf = requestAnimationFrame(tick);
+    let moving = false;
+    for(const d of dots){
+      d.x += d.vx*dt; d.y += d.vy*dt;
+      d.vx *= 0.92; d.vy *= 0.92;             // damping → settles
+      if(Math.abs(d.vx) > 0.003 || Math.abs(d.vy) > 0.003) moving = true;
+    }
+    draw();
+    if(moving && now < animUntil){ raf = requestAnimationFrame(step); }
+    else { raf = null; }                       // freeze when settled
   }
-  let started=false;
-  function start(){ if(started) return; started=true; build(); if(reduce){ draw(0); } else { last=performance.now(); raf=requestAnimationFrame(tick); } }
-  function stop(){ started=false; if(raf) cancelAnimationFrame(raf); raf=null; }
-  window.addEventListener('resize', ()=>{ if(started) build(); });
-  // only animate while the plans card is on screen
+  function stir(){
+    if(!ready) build();
+    if(reduce){ draw(); return; }
+    for(const d of dots){
+      const ang = Math.random()*Math.PI*2, sp = 0.05 + Math.random()*0.07; // gentle impulse
+      d.vx = Math.cos(ang)*sp; d.vy = Math.sin(ang)*sp;
+    }
+    animUntil = performance.now() + 1600;
+    if(!raf){ last = performance.now(); raf = requestAnimationFrame(step); }
+  }
+  function show(){ if(!ready) build(); draw(); }     // static render, no motion
+  window.addEventListener('resize', ()=>{ build(); draw(); });
+
+  // movement happens only when a plan button is clicked
+  const toggle = document.getElementById('planToggle');
+  if(toggle){ toggle.querySelectorAll('button').forEach(b=> b.addEventListener('click', stir)); }
+
+  // draw the static field once the card scrolls into view
   const card = document.getElementById('planCard');
   if('IntersectionObserver' in window && card){
-    new IntersectionObserver((es)=>{ es.forEach(e=> e.isIntersecting ? start() : stop()); }, {threshold:0.05}).observe(card);
-  } else { start(); }
+    new IntersectionObserver((es)=>{ es.forEach(e=>{ if(e.isIntersecting) show(); }); }, {threshold:0.05}).observe(card);
+  } else { show(); }
 })();
 </script>
 
