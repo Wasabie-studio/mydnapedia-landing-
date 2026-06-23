@@ -201,10 +201,14 @@
   .approach-desc{ font-size:clamp(14.5px,1.05vw,16.5px); line-height:1.55;
     color:var(--muted); margin:0 auto; max-width:24ch; }
   @media(max-width:900px){
-    .approach-list{ grid-template-columns:1fr; max-width:420px; }
-    .approach-item{ padding:24px 0; }
-    .approach-item + .approach-item{ border-left:none; border-top:1px solid rgba(50,46,39,.10); }
-    .approach-desc{ max-width:36ch; }
+    .approach-list{ grid-template-columns:1fr 1fr; max-width:540px; }
+    .approach-item{ padding:24px 14px; }
+    /* 2x2 grid: cross divider (vertical between cols, horizontal between rows) */
+    .approach-item + .approach-item{ border-left:none; border-top:none; }
+    .approach-item:nth-child(2), .approach-item:nth-child(4){ border-left:1px solid rgba(50,46,39,.10); }
+    .approach-item:nth-child(3), .approach-item:nth-child(4){ border-top:1px solid rgba(50,46,39,.10); }
+    .approach-index{ margin-bottom:10px; }
+    .approach-desc{ max-width:22ch; }
   }
 
   /* ── SECTION 4 — PARTNER WITH US (franchise lead form) ─────────── */
