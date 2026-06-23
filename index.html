@@ -294,10 +294,11 @@
     .trust .item{ padding:4px 18px; border-right:1px solid var(--glass-sep); }
     .trust .item:nth-child(2n){ border-right:none; }
     .nav{ top:14px; left:14px; right:14px; width:auto; transform:none; animation:none;
-      padding:8px 10px; gap:0; justify-content:space-between; }
+      padding:8px 12px; gap:10px; justify-content:flex-start; }
     .nav-burger{ display:flex; }
-    .nav-logo{ display:none; }
-    .nav-cta{ font-size:13px; padding:9px 11px 9px 16px; margin-left:0; }
+    .nav-logo{ display:block; padding-right:0; }
+    .nav-logo img{ height:24px; }
+    .nav-cta{ font-size:13px; padding:9px 11px 9px 16px; margin-left:auto; }
     /* links become a dropdown panel toggled by the hamburger */
     .nav-links{ position:absolute; top:calc(100% + 10px); left:0; right:0;
       flex-direction:column; gap:2px; padding:10px;
