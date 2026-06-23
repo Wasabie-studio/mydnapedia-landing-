@@ -374,15 +374,14 @@
 
   .plans-card{ border-radius:24px; padding:14px; align-self:start; }
   .helix-stage{ position:relative; border-radius:18px; overflow:hidden; aspect-ratio:1/1;
-    background-color:#FCFCFC;
-    /* subtle dot texture, eased off near centre; sits behind the figure */
-    background-image:
-      radial-gradient(circle at 50% 44%, #FCFCFC 8%, rgba(252,252,252,0) 52%),
-      radial-gradient(rgba(110,98,70,.13) 1px, transparent 1.7px);
-    background-size: 100% 100%, 22px 22px; }
+    background-color:#FCFCFC; }
+  /* ambient drifting dots behind the figure, faded out near the centre */
+  .dna-dots{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index:0;
+    -webkit-mask-image:radial-gradient(circle at 50% 44%, transparent 6%, #000 56%);
+    mask-image:radial-gradient(circle at 50% 44%, transparent 6%, #000 56%); }
   /* progressive body-glow animation — one webp per plan, crossfaded.
-     figures have a transparent bg so the rings stay BEHIND the body (not over it) */
-  .dna-anim{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+     figures have a transparent bg so the dots stay BEHIND the body (not over it) */
+  .dna-anim{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1;
     display:block; opacity:0;
     transition:opacity .28s cubic-bezier(.4,0,.2,1); }
   .dna-anim.active{ opacity:1; }
@@ -878,6 +877,7 @@
       <div class="plans-list" id="planList"><!-- accordion rendered by JS --></div>
       <aside class="plans-card glass" id="planCard">
         <div class="helix-stage" id="planStage">
+          <canvas class="dna-dots" id="planDots" aria-hidden="true"></canvas>
           <img class="dna-anim" data-plan="lite" src="assets/plan/bodyglow2-lite.webp" alt="" decoding="async">
           <img class="dna-anim" data-plan="standard" src="assets/plan/bodyglow2-standard.webp" alt="" decoding="async">
           <img class="dna-anim active" data-plan="premium" src="assets/plan/bodyglow2-premium.webp" alt="DNA wellness — your whole body, decoded" decoding="async">
@@ -1474,6 +1474,68 @@
 
   toggle.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>render(b.dataset.plan)));
   render('premium');
+})();
+</script>
+
+<script>
+/* ── S4 — ambient drifting dots behind the plan figure (very subtle) ── */
+(function(){
+  const cv = document.getElementById('planDots');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let W=0, H=0, dpr=Math.min(window.devicePixelRatio||1, 2), dots=[], raf=null;
+
+  function build(){
+    const r = cv.getBoundingClientRect();
+    W = r.width; H = r.height;
+    cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    // density scales with area; ~ one dot per 30px grid cell
+    const n = Math.max(40, Math.round((W*H)/900));
+    dots = [];
+    for(let i=0;i<n;i++){
+      dots.push({
+        x: Math.random()*W, y: Math.random()*H,
+        r: 0.8 + Math.random()*0.9,
+        a: 0.10 + Math.random()*0.10,          // base opacity
+        // very slow drift: ~3–8 px/sec
+        vx: (Math.random()-0.5)*0.10,
+        vy: (Math.random()-0.5)*0.10,
+        tw: Math.random()*Math.PI*2,           // twinkle phase
+        ts: 0.6 + Math.random()*0.8            // twinkle speed
+      });
+    }
+  }
+  function draw(dt){
+    ctx.clearRect(0,0,W,H);
+    for(const d of dots){
+      d.x += d.vx*dt; d.y += d.vy*dt;
+      if(d.x < -2) d.x = W+2; else if(d.x > W+2) d.x = -2;
+      if(d.y < -2) d.y = H+2; else if(d.y > H+2) d.y = -2;
+      d.tw += d.ts*dt*0.001;
+      const a = d.a * (0.7 + 0.3*Math.sin(d.tw));   // gentle twinkle
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(110,98,70,'+a.toFixed(3)+')';
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+      ctx.fill();
+    }
+  }
+  let last=performance.now();
+  function tick(now){
+    const dt = Math.min(now-last, 60); last = now;
+    draw(dt);
+    raf = requestAnimationFrame(tick);
+  }
+  let started=false;
+  function start(){ if(started) return; started=true; build(); if(reduce){ draw(0); } else { last=performance.now(); raf=requestAnimationFrame(tick); } }
+  function stop(){ started=false; if(raf) cancelAnimationFrame(raf); raf=null; }
+  window.addEventListener('resize', ()=>{ if(started) build(); });
+  // only animate while the plans card is on screen
+  const card = document.getElementById('planCard');
+  if('IntersectionObserver' in window && card){
+    new IntersectionObserver((es)=>{ es.forEach(e=> e.isIntersecting ? start() : stop()); }, {threshold:0.05}).observe(card);
+  } else { start(); }
 })();
 </script>
 
