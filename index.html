@@ -1478,12 +1478,13 @@
   if(!cv) return;
   const ctx = cv.getContext('2d');
   const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const COLS=8, ROWS=6, CELL=380, N=48;
-  const FRAME = { lite:8, standard:27, premium:47 };   // playhead per plan
+  const N=32;
+  const FRAME = { lite:5, standard:18, premium:31 };   // playhead per plan
   let W=0, H=0, dpr=Math.min(window.devicePixelRatio||1, 2), ready=false, raf=null;
-  let head=FRAME.premium, from=FRAME.premium, target=FRAME.premium, t0=0, dur=650;
+  let head=FRAME.premium, from=FRAME.premium, target=FRAME.premium, t0=0, dur=800;
 
-  const sheet = new Image();
+  // individual hi-res transparent frames (no giant sprite → stays crisp on mobile)
+  const imgs = new Array(N);
   function size(){
     const r = cv.getBoundingClientRect(); W=r.width; H=r.height;
     cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
@@ -1491,10 +1492,10 @@
     if(ready) drawFrame(head);
   }
   function cell(i, alpha){
-    const j = Math.max(0, Math.min(N-1, i));
-    const col=j%COLS, row=Math.floor(j/COLS);
+    const im = imgs[Math.max(0, Math.min(N-1, i))];
+    if(!im || !im.complete || !im.naturalWidth) return;
     ctx.globalAlpha = alpha;
-    ctx.drawImage(sheet, col*CELL, row*CELL, CELL, CELL, 0,0, W,H);
+    ctx.drawImage(im, 0, 0, W, H);
     ctx.globalAlpha = 1;
   }
   function drawFrame(f){
@@ -1516,16 +1517,25 @@
     target = t;
     if(!ready || reduce){ head=from=t; if(ready) drawFrame(head); return; }
     from = head; t0 = performance.now();
-    dur = 800 + Math.abs(target-from)/N * 2400;         // slow, smooth travel (~2.5s full range)
+    dur = 800 + Math.abs(target-from)/N * 2400;         // slow, smooth travel (~2.7s full range)
     if(!raf) raf = requestAnimationFrame(tick);
   }
-  sheet.onload = ()=>{
+  const activeBtn = document.querySelector('#planToggle button.active');
+  const activeIdx = (activeBtn && FRAME[activeBtn.dataset.plan]!=null) ? FRAME[activeBtn.dataset.plan] : FRAME.premium;
+  function initOnce(){
+    if(ready) return;
     ready = true;
-    const a = document.querySelector('#planToggle button.active');
-    head = from = target = (a && FRAME[a.dataset.plan]!=null) ? FRAME[a.dataset.plan] : FRAME.premium;
+    head = from = target = activeIdx;
     size(); drawFrame(head);
-  };
-  sheet.src = 'assets/plan/plan-seq.webp';
+  }
+  for(let i=0;i<N;i++){
+    const im = new Image();
+    im.onload = ()=>{ if(i===activeIdx) initOnce(); else if(ready && !raf) drawFrame(head); };
+    im.onerror = ()=>{ if(i===activeIdx) initOnce(); };
+    im.src = 'assets/plan/seq/f' + String(i).padStart(2,'0') + '.webp';
+    imgs[i] = im;
+    if(im.complete && i===activeIdx) initOnce();   // already cached
+  }
   window.addEventListener('resize', size);
   window.__planFigure = { setPlan };
 })();
