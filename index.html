@@ -1497,8 +1497,8 @@
     for(let i=0;i<n;i++){
       dots.push({
         x: Math.random()*W, y: Math.random()*H,
-        r: 0.8 + Math.random()*0.9,
-        a: 0.10 + Math.random()*0.10,          // base opacity
+        r: 1.0 + Math.random()*1.4,            // glow core radius
+        a: 0.16 + Math.random()*0.14,          // base opacity
         // very slow drift: ~3–8 px/sec
         vx: (Math.random()-0.5)*0.10,
         vy: (Math.random()-0.5)*0.10,
@@ -1511,13 +1511,20 @@
     ctx.clearRect(0,0,W,H);
     for(const d of dots){
       d.x += d.vx*dt; d.y += d.vy*dt;
-      if(d.x < -2) d.x = W+2; else if(d.x > W+2) d.x = -2;
-      if(d.y < -2) d.y = H+2; else if(d.y > H+2) d.y = -2;
+      const m = d.r*4 + 2;
+      if(d.x < -m) d.x = W+m; else if(d.x > W+m) d.x = -m;
+      if(d.y < -m) d.y = H+m; else if(d.y > H+m) d.y = -m;
       d.tw += d.ts*dt*0.001;
-      const a = d.a * (0.7 + 0.3*Math.sin(d.tw));   // gentle twinkle
+      const a = d.a * (0.65 + 0.35*Math.sin(d.tw));   // gentle twinkle
+      // warm gold ember: bright core fading to a soft halo (like the body glow)
+      const R = d.r*4;
+      const g = ctx.createRadialGradient(d.x,d.y,0, d.x,d.y,R);
+      g.addColorStop(0,    'rgba(245,196,96,'+a.toFixed(3)+')');
+      g.addColorStop(0.35, 'rgba(228,169,47,'+(a*0.55).toFixed(3)+')');
+      g.addColorStop(1,    'rgba(228,169,47,0)');
+      ctx.fillStyle = g;
       ctx.beginPath();
-      ctx.fillStyle = 'rgba(110,98,70,'+a.toFixed(3)+')';
-      ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+      ctx.arc(d.x, d.y, R, 0, Math.PI*2);
       ctx.fill();
     }
   }
