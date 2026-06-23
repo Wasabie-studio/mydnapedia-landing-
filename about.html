@@ -157,11 +157,13 @@
     border-radius:22px;
     padding:clamp(28px,2.6vw,40px);
     box-shadow:0 4px 20px rgba(50,46,39,.05);
-    opacity:0; transform:translateY(28px);
+    opacity:0; transform:translateY(46px) scale(.965); filter:blur(8px);
     transition:box-shadow .3s ease, border-color .3s ease,
-               opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+               opacity .85s cubic-bezier(.22,1,.36,1),
+               transform .9s cubic-bezier(.2,.7,.2,1),
+               filter .8s ease;
   }
-  .pillar.in{ opacity:1; transform:translateY(0); }
+  .pillar.in{ opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
   .pillar:hover{ box-shadow:0 8px 26px rgba(50,46,39,.08); border-color:rgba(50,46,39,.16); }
   @media(prefers-reduced-motion:reduce){
     .pillar{ opacity:1; transform:none; transition:box-shadow .3s ease, border-color .3s ease; }
@@ -709,7 +711,7 @@
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
-        pillars.forEach((p,i)=> setTimeout(()=>p.classList.add('in'), i*130));
+        pillars.forEach((p,i)=> setTimeout(()=>p.classList.add('in'), i*200));
         io.disconnect();
       }
     });
