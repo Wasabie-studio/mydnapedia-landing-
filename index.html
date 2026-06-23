@@ -653,8 +653,9 @@
     color:var(--ink); margin:16px 0 14px; }
   .tmonials-sub{ font-size:clamp(15px,1.2vw,18px); line-height:1.6;
     color:var(--muted); font-weight:500; max-width:48ch; }
-  .tcards{ margin-top:44px; overflow:hidden; padding:8px 0;
+  .tcards{ margin-top:44px; overflow:hidden; padding:8px 0; scrollbar-width:none;
     margin-left:calc(-1 * var(--gut)); margin-right:calc(-1 * var(--gut)); }
+  .tcards::-webkit-scrollbar{ display:none; }
   .tticker{ display:flex; width:max-content; will-change:transform;
     animation:ticker 55s linear infinite; }
   @keyframes ticker{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
@@ -771,7 +772,8 @@
   .cta-meta a:hover{ color:var(--gold); }
   @media (max-width:860px){
     .cta-inner{ grid-template-columns:1fr; gap:28px; padding:60px 22px 72px; }
-    .cta-head h2{ font-size:clamp(40px,12vw,60px); }
+    .cta-head h2{ font-size:clamp(34px,9vw,52px); }
+    .cta-head h2 .nw{ white-space:normal; }
     .cta-side{ max-width:none; }
   }
 
@@ -871,7 +873,7 @@
   <section class="plans" id="tests">
     <div class="plans-head">
       <span class="kicker">Our Plans</span>
-      <h2>Find the right plan<br>for your journey.</h2>
+      <h2>Find the right plan <br>for your journey.</h2>
       <p class="plans-sub">Every plan starts with a single cheek swab. Choose how deep you want to go.</p>
     </div>
     <div class="plans-grid">
@@ -1011,7 +1013,7 @@
   <section class="trust-sec" id="credibility">
     <div class="trust-wrap">
       <span class="kicker">Why MyDNAPedia</span>
-      <h2>Precise insights,<br>proven at scale.</h2>
+      <h2>Precise insights, <br>proven at scale.</h2>
       <p class="trust-lead">Founded in Finland in 2012, we brought a decade of genetic science to India — every test analysed in our EU-certified laboratory using ASPCR technology.</p>
 
       <div class="trust-stats">
