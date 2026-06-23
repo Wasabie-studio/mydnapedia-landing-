@@ -1514,19 +1514,21 @@
     dur = 800 + Math.abs(target-from)/N * 2400;         // slow, smooth travel (~2.7s full range)
     if(!raf) raf = requestAnimationFrame(tick);
   }
-  let pending = N;
+  const activeBtn = document.querySelector('#planToggle button.active');
+  const activeIdx = (activeBtn && FRAME[activeBtn.dataset.plan]!=null) ? FRAME[activeBtn.dataset.plan] : FRAME.premium;
+  function initOnce(){
+    if(ready) return;
+    ready = true;
+    head = from = target = activeIdx;
+    size(); drawFrame(head);
+  }
   for(let i=0;i<N;i++){
     const im = new Image();
-    im.onload = im.onerror = ()=>{
-      if(--pending === 0){
-        ready = true;
-        const a = document.querySelector('#planToggle button.active');
-        head = from = target = (a && FRAME[a.dataset.plan]!=null) ? FRAME[a.dataset.plan] : FRAME.premium;
-        size(); drawFrame(head);
-      }
-    };
+    im.onload = ()=>{ if(i===activeIdx) initOnce(); else if(ready && !raf) drawFrame(head); };
+    im.onerror = ()=>{ if(i===activeIdx) initOnce(); };
     im.src = 'assets/plan/seq/f' + String(i).padStart(2,'0') + '.webp';
     imgs[i] = im;
+    if(im.complete && i===activeIdx) initOnce();   // already cached
   }
   window.addEventListener('resize', size);
   window.__planFigure = { setPlan };
