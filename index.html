@@ -1484,25 +1484,33 @@
     ctx.setTransform(dpr,0,0,dpr,0,0);
     if(ready) drawFrame(head);
   }
-  function drawFrame(f){
-    const i = Math.max(0, Math.min(N-1, Math.round(f)));
-    const col=i%COLS, row=Math.floor(i/COLS);
-    ctx.clearRect(0,0,W,H);
+  function cell(i, alpha){
+    const j = Math.max(0, Math.min(N-1, i));
+    const col=j%COLS, row=Math.floor(j/COLS);
+    ctx.globalAlpha = alpha;
     ctx.drawImage(sheet, col*CELL, row*CELL, CELL, CELL, 0,0, W,H);
+    ctx.globalAlpha = 1;
+  }
+  function drawFrame(f){
+    f = Math.max(0, Math.min(N-1, f));
+    const lo = Math.floor(f), hi = Math.min(N-1, lo+1), frac = f - lo;
+    ctx.clearRect(0,0,W,H);
+    cell(lo, 1);                 // base frame
+    if(hi!==lo && frac>0.001) cell(hi, frac);   // crossfade to next → continuous morph
   }
   function tick(now){
     let p=(now-t0)/dur; if(p>1)p=1;
-    const e = p<0.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2;   // easeInOutQuad
+    const e = 0.5*(1 - Math.cos(Math.PI*p));     // easeInOutSine (gentle)
     head = from + (target-from)*e;
     drawFrame(head);
-    if(p<1){ raf=requestAnimationFrame(tick); } else { head=target; raf=null; }
+    if(p<1){ raf=requestAnimationFrame(tick); } else { head=target; drawFrame(head); raf=null; }
   }
   function setPlan(key){
     const t = FRAME[key]; if(t==null) return;
     target = t;
     if(!ready || reduce){ head=from=t; if(ready) drawFrame(head); return; }
     from = head; t0 = performance.now();
-    dur = 300 + Math.abs(target-from)/N * 900;          // longer travel = a bit longer
+    dur = 800 + Math.abs(target-from)/N * 2400;         // slow, smooth travel (~2.5s full range)
     if(!raf) raf = requestAnimationFrame(tick);
   }
   sheet.onload = ()=>{
