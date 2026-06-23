@@ -1472,7 +1472,7 @@
   if(!cv) return;
   const ctx = cv.getContext('2d');
   const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const COLS=8, ROWS=6, CELL=380, N=48;
+  const COLS=8, ROWS=6, CELL=800, N=48;
   const FRAME = { lite:8, standard:27, premium:47 };   // playhead per plan
   let W=0, H=0, dpr=Math.min(window.devicePixelRatio||1, 2), ready=false, raf=null;
   let head=FRAME.premium, from=FRAME.premium, target=FRAME.premium, t0=0, dur=650;
