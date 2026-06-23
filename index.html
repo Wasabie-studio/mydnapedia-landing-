@@ -379,12 +379,9 @@
   .dna-dots{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index:0;
     -webkit-mask-image:radial-gradient(circle at 50% 44%, transparent 6%, #000 56%);
     mask-image:radial-gradient(circle at 50% 44%, transparent 6%, #000 56%); }
-  /* progressive body-glow animation — one webp per plan, crossfaded.
-     figures have a transparent bg so the dots stay BEHIND the body (not over it) */
-  .dna-anim{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1;
-    display:block; opacity:0;
-    transition:opacity .6s cubic-bezier(.33,0,.2,1); }
-  .dna-anim.active{ opacity:1; }
+  /* body-glow figure drawn as a frame sequence on canvas — glow travels
+     smoothly forward (lite→premium) or in reverse (premium→lite) */
+  .dna-figure{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index:1; }
   .plan-toggle{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:14px;
     background:rgba(120,110,80,.12); border-radius:14px; padding:6px; }
   .plan-toggle button{ font-family:"Satoshi",sans-serif; font-size:14px; font-weight:600;
@@ -884,9 +881,7 @@
       <aside class="plans-card glass" id="planCard">
         <div class="helix-stage" id="planStage">
           <canvas class="dna-dots" id="planDots" aria-hidden="true"></canvas>
-          <img class="dna-anim" data-plan="lite" src="assets/plan/bodyglow2-lite.webp" alt="" decoding="async">
-          <img class="dna-anim" data-plan="standard" src="assets/plan/bodyglow2-standard.webp" alt="" decoding="async">
-          <img class="dna-anim active" data-plan="premium" src="assets/plan/bodyglow2-premium.webp" alt="DNA wellness — your whole body, decoded" decoding="async">
+          <canvas class="dna-figure" id="planFigure" aria-label="DNA wellness — your body, decoded"></canvas>
         </div>
         <div class="plan-toggle" id="planToggle">
           <button data-plan="premium" class="active">Premium</button>
@@ -1432,17 +1427,10 @@
   const caption = document.getElementById('planCaption');
   if(!list || !toggle) return;
 
-  // Body-glow animation: crossfade between per-plan webp segments.
-  // lite = static core glow · standard/premium = glow travels once into place then stops.
-  const frames = stage ? stage.querySelectorAll('.dna-anim') : [];
-  frames.forEach(img=>{ img.dataset.base = img.getAttribute('src'); });
+  // Body-glow figure is a canvas frame-sequence; selecting a plan smoothly
+  // travels the glow to that plan's state (reverses when going to a lower plan).
   function applyView(key){
-    frames.forEach(img=>{
-      const on = img.dataset.plan===key;
-      img.classList.toggle('active', on);
-      // restart the one-shot glow travel each time the plan is selected
-      if(on){ const b=img.dataset.base; img.src = b + (b.indexOf('?')>-1?'&':'?') + 'r=' + Date.now(); }
-    });
+    if(window.__planFigure) window.__planFigure.setPlan(key);
   }
 
   const chev = '<svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
@@ -1480,6 +1468,66 @@
 
   toggle.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>render(b.dataset.plan)));
   render('premium');
+})();
+</script>
+
+<script>
+/* ── S4 — body-glow figure as a canvas frame sequence (smooth fwd/reverse travel) ── */
+(function(){
+  const cv = document.getElementById('planFigure');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const COLS=8, ROWS=6, CELL=380, N=48;
+  const FRAME = { lite:8, standard:27, premium:47 };   // playhead per plan
+  let W=0, H=0, dpr=Math.min(window.devicePixelRatio||1, 2), ready=false, raf=null;
+  let head=FRAME.premium, from=FRAME.premium, target=FRAME.premium, t0=0, dur=650;
+
+  const sheet = new Image();
+  function size(){
+    const r = cv.getBoundingClientRect(); W=r.width; H=r.height;
+    cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    if(ready) drawFrame(head);
+  }
+  function cell(i, alpha){
+    const j = Math.max(0, Math.min(N-1, i));
+    const col=j%COLS, row=Math.floor(j/COLS);
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(sheet, col*CELL, row*CELL, CELL, CELL, 0,0, W,H);
+    ctx.globalAlpha = 1;
+  }
+  function drawFrame(f){
+    f = Math.max(0, Math.min(N-1, f));
+    const lo = Math.floor(f), hi = Math.min(N-1, lo+1), frac = f - lo;
+    ctx.clearRect(0,0,W,H);
+    cell(lo, 1);                 // base frame
+    if(hi!==lo && frac>0.001) cell(hi, frac);   // crossfade to next → continuous morph
+  }
+  function tick(now){
+    let p=(now-t0)/dur; if(p>1)p=1;
+    const e = 0.5*(1 - Math.cos(Math.PI*p));     // easeInOutSine (gentle)
+    head = from + (target-from)*e;
+    drawFrame(head);
+    if(p<1){ raf=requestAnimationFrame(tick); } else { head=target; drawFrame(head); raf=null; }
+  }
+  function setPlan(key){
+    const t = FRAME[key]; if(t==null) return;
+    target = t;
+    if(!ready || reduce){ head=from=t; if(ready) drawFrame(head); return; }
+    from = head; t0 = performance.now();
+    dur = 800 + Math.abs(target-from)/N * 2400;         // slow, smooth travel (~2.5s full range)
+    if(!raf) raf = requestAnimationFrame(tick);
+  }
+  sheet.onload = ()=>{
+    ready = true;
+    const a = document.querySelector('#planToggle button.active');
+    head = from = target = (a && FRAME[a.dataset.plan]!=null) ? FRAME[a.dataset.plan] : FRAME.premium;
+    size(); drawFrame(head);
+  };
+  sheet.src = 'assets/plan/plan-seq.webp';
+  window.addEventListener('resize', size);
+  window.__planFigure = { setPlan };
 })();
 </script>
 
