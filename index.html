@@ -374,27 +374,17 @@
 
   .plans-card{ border-radius:24px; padding:14px; align-self:start; }
   .helix-stage{ position:relative; border-radius:18px; overflow:hidden; aspect-ratio:1/1;
-    background:radial-gradient(120% 100% at 50% 34%, rgba(231,180,62,.16), rgba(247,242,232,.5)); }
-  #planHelix{ width:100%; height:100%; display:block; }
-  /* Option B — zoom/depth-of-field marker callouts over the helix */
-  .helix-markers{ position:absolute; inset:0; pointer-events:none; z-index:3; }
-  .hm{ position:absolute; transform:translate(-50%,-50%); opacity:0; transition:opacity .5s ease; }
-  .helix-markers.in .hm{ opacity:1; }
-  .hm-dot{ width:11px; height:11px; border-radius:50%; background:var(--gold-lt);
-    box-shadow:0 0 0 4px rgba(228,169,47,.22), 0 4px 10px -2px rgba(214,156,26,.55); }
-  .hm.small .hm-dot{ width:8px; height:8px; box-shadow:0 0 0 3px rgba(228,169,47,.18); }
-  .hm.focus .hm-dot{ width:16px; height:16px;
-    box-shadow:0 0 0 6px rgba(228,169,47,.25), 0 6px 16px -3px rgba(214,156,26,.7); }
-  .hm.focus::before{ content:""; position:absolute; left:50%; top:50%; width:30px; height:30px;
-    transform:translate(-50%,-50%); border-radius:50%; border:2px solid var(--gold-lt);
-    animation:hmpulse 2.4s ease-out infinite; }
-  @keyframes hmpulse{ 0%{ transform:translate(-50%,-50%) scale(.6); opacity:.8; }
-    70%{ opacity:0; } 100%{ transform:translate(-50%,-50%) scale(2.6); opacity:0; } }
-  .hm-label{ position:absolute; left:50%; bottom:150%; transform:translateX(-50%); white-space:nowrap;
-    font-family:"Satoshi",sans-serif; font-size:12px; font-weight:700; color:var(--ink);
-    background:rgba(255,255,255,.92); border:1px solid rgba(50,46,39,.12);
-    padding:6px 11px; border-radius:100px; box-shadow:0 8px 20px -8px rgba(74,55,18,.4);
-    -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); }
+    background-color:#FCFCFC; }
+  /* ambient drifting dots behind the figure, faded out near the centre */
+  .dna-dots{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index:0;
+    -webkit-mask-image:radial-gradient(circle at 50% 44%, transparent 6%, #000 56%);
+    mask-image:radial-gradient(circle at 50% 44%, transparent 6%, #000 56%); }
+  /* progressive body-glow animation — one webp per plan, crossfaded.
+     figures have a transparent bg so the dots stay BEHIND the body (not over it) */
+  .dna-anim{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1;
+    display:block; opacity:0;
+    transition:opacity .28s cubic-bezier(.4,0,.2,1); }
+  .dna-anim.active{ opacity:1; }
   .plan-toggle{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:14px;
     background:rgba(120,110,80,.12); border-radius:14px; padding:6px; }
   .plan-toggle button{ font-family:"Satoshi",sans-serif; font-size:14px; font-weight:600;
@@ -667,9 +657,8 @@
   @keyframes ticker{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
   .tcard{ position:relative; flex:0 0 clamp(258px,27vw,326px); aspect-ratio:4/5;
     margin-right:22px; border-radius:24px; overflow:hidden;
-    box-shadow:0 18px 50px -34px rgba(74,55,18,.42);
-    transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s ease; }
-  .tcard:hover{ transform:translateY(-4px); box-shadow:0 30px 62px -34px rgba(74,55,18,.52); }
+    transition:transform .4s cubic-bezier(.22,1,.36,1); }
+  .tcard:hover{ transform:translateY(-4px); }
   .tcard-photo{ position:absolute; inset:0; background-size:cover; background-position:center;
     background-image:linear-gradient(155deg,#cfc8ba 0%,#b4ab98 48%,#928975 100%); }
   .tcard-photo svg{ position:absolute; top:40%; left:50%; transform:translate(-50%,-50%);
@@ -815,9 +804,11 @@
   @media (max-width:860px){
     .footer-top{ grid-template-columns:1fr 1fr; gap:32px 24px; }
     .footer-brand{ grid-column:1 / -1; }
+    /* Legal sits beside Explore, right-aligned */
+    .footer-col:nth-of-type(2){ text-align:right; }
   }
   @media (max-width:520px){
-    .footer-top{ grid-template-columns:1fr; }
+    .footer-top{ grid-template-columns:1fr 1fr; gap:30px 18px; }
   }
 </style>
 </head>
@@ -885,7 +876,12 @@
     <div class="plans-grid">
       <div class="plans-list" id="planList"><!-- accordion rendered by JS --></div>
       <aside class="plans-card glass" id="planCard">
-        <div class="helix-stage"><canvas id="planHelix" aria-label="DNA helix"></canvas><div class="helix-markers" id="planMarkers"></div></div>
+        <div class="helix-stage" id="planStage">
+          <canvas class="dna-dots" id="planDots" aria-hidden="true"></canvas>
+          <img class="dna-anim" data-plan="lite" src="assets/plan/bodyglow2-lite.webp" alt="" decoding="async">
+          <img class="dna-anim" data-plan="standard" src="assets/plan/bodyglow2-standard.webp" alt="" decoding="async">
+          <img class="dna-anim active" data-plan="premium" src="assets/plan/bodyglow2-premium.webp" alt="DNA wellness — your whole body, decoded" decoding="async">
+        </div>
         <div class="plan-toggle" id="planToggle">
           <button data-plan="premium" class="active">Premium</button>
           <button data-plan="standard">Standard</button>
@@ -1425,60 +1421,23 @@
   };
 
   const list    = document.getElementById('planList');
-  const canvas  = document.getElementById('planHelix');
+  const stage   = document.getElementById('planStage');
   const toggle  = document.getElementById('planToggle');
   const caption = document.getElementById('planCaption');
-  if(!list || !canvas) return;
-  const ctx = canvas.getContext('2d');
+  if(!list || !toggle) return;
 
-  // Option B: single complete helix image, zoom/pan/blur per plan
-  const markersEl = document.getElementById('planMarkers');
-  const PZOOM = 1.4;
-  const helix = new Image(); let helixReady = false; let raf = null;
-  let view = { zoom:1, cx:0.5, cy:0.5, blur:0 };
-  helix.onload = ()=>{ helixReady = true; sizePF(); };
-  helix.src = 'frames-plan/h_0001.webp';
-
-  function sizePF(){ const d=Math.min(window.devicePixelRatio||1,2);
-    canvas.width=Math.round(canvas.clientWidth*d); canvas.height=Math.round(canvas.clientHeight*d); draw(); }
-  function draw(){
-    if(!helixReady) return;
-    const cw=canvas.width, ch=canvas.height;
-    const base=Math.max(cw/helix.naturalWidth, ch/helix.naturalHeight)*PZOOM;
-    const s=base*view.zoom, w=helix.naturalWidth*s, h=helix.naturalHeight*s;
-    ctx.clearRect(0,0,cw,ch);
-    ctx.drawImage(helix, cw/2 - view.cx*w, ch/2 - view.cy*h, w, h);
-    canvas.style.filter = view.blur>0.05 ? 'blur('+view.blur.toFixed(2)+'px)' : 'none';
+  // Body-glow animation: crossfade between per-plan webp segments.
+  // lite = static core glow · standard/premium = glow travels once into place then stops.
+  const frames = stage ? stage.querySelectorAll('.dna-anim') : [];
+  frames.forEach(img=>{ img.dataset.base = img.getAttribute('src'); });
+  function applyView(key){
+    frames.forEach(img=>{
+      const on = img.dataset.plan===key;
+      img.classList.toggle('active', on);
+      // restart the one-shot glow travel each time the plan is selected
+      if(on){ const b=img.dataset.base; img.src = b + (b.indexOf('?')>-1?'&':'?') + 'r=' + Date.now(); }
+    });
   }
-  function animateView(t){
-    cancelAnimationFrame(raf);
-    const s0={...view}, t0=performance.now(), dur=780, ease=p=>1-Math.pow(1-p,3);
-    (function tick(now){ let p=(now-t0)/dur; if(p>1)p=1; const e=ease(p);
-      view.zoom=s0.zoom+(t.zoom-s0.zoom)*e; view.cx=s0.cx+(t.cx-s0.cx)*e;
-      view.cy=s0.cy+(t.cy-s0.cy)*e; view.blur=s0.blur+(t.blur-s0.blur)*e;
-      draw(); if(p<1) raf=requestAnimationFrame(tick); })(t0);
-  }
-  function buildMarkers(arr){
-    if(!markersEl) return;
-    markersEl.classList.remove('in');
-    markersEl.innerHTML = (arr||[]).map(m=>{
-      const cls='hm'+(m.focus?' focus':'')+(m.small?' small':'');
-      const label=m.label?'<span class="hm-label">'+m.label+'</span>':'';
-      return '<span class="'+cls+'" style="left:'+m.x+'%;top:'+m.y+'%"><span class="hm-dot"></span>'+label+'</span>';
-    }).join('');
-    requestAnimationFrame(()=>markersEl.classList.add('in'));
-  }
-  const VIEW = {
-    premium:{ zoom:1.0, cx:0.5, cy:0.5, blur:0, markers:[
-      {x:33,y:30,small:true},{x:63,y:25,small:true},{x:44,y:50,small:true},
-      {x:70,y:57,small:true},{x:34,y:73,small:true},{x:60,y:80,small:true} ]},
-    standard:{ zoom:1.7, cx:0.52, cy:0.42, blur:1.2, markers:[
-      {x:50,y:40,label:'One area, full depth'},{x:63,y:53,small:true},{x:41,y:56,small:true} ]},
-    lite:{ zoom:2.5, cx:0.52, cy:0.36, blur:2.6, markers:[
-      {x:50,y:50,label:'One question · full depth',focus:true} ]}
-  };
-  function applyView(key){ const v=VIEW[key]||VIEW.premium; animateView(v); buildMarkers(v.markers); }
-  window.addEventListener('resize', sizePF);
 
   const chev = '<svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
   const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
@@ -1515,6 +1474,78 @@
 
   toggle.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>render(b.dataset.plan)));
   render('premium');
+})();
+</script>
+
+<script>
+/* ── S4 — tiny glowing particles behind the plan figure; static, stir on plan switch ── */
+(function(){
+  const cv = document.getElementById('planDots');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let W=0, H=0, dpr=Math.min(window.devicePixelRatio||1, 2), dots=[], raf=null, animUntil=0, last=0, ready=false;
+
+  function build(){
+    const r = cv.getBoundingClientRect();
+    W = r.width; H = r.height;
+    cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const n = Math.max(60, Math.round((W*H)/650));   // lots of tiny specks
+    dots = [];
+    for(let i=0;i<n;i++){
+      dots.push({
+        x: Math.random()*W, y: Math.random()*H,
+        r: 0.7 + Math.random()*0.6,            // tiny plain specks
+        a: 0.16 + Math.random()*0.16,
+        vx: 0, vy: 0
+      });
+    }
+    ready = true;
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(const d of dots){
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(110,98,70,'+d.a.toFixed(3)+')';   // plain dot, no glow
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+      ctx.fill();
+    }
+  }
+  function step(now){
+    const dt = Math.min(now-last, 60); last = now;
+    let moving = false;
+    for(const d of dots){
+      d.x += d.vx*dt; d.y += d.vy*dt;
+      d.vx *= 0.92; d.vy *= 0.92;             // damping → settles
+      if(Math.abs(d.vx) > 0.003 || Math.abs(d.vy) > 0.003) moving = true;
+    }
+    draw();
+    if(moving && now < animUntil){ raf = requestAnimationFrame(step); }
+    else { raf = null; }                       // freeze when settled
+  }
+  function stir(){
+    if(!ready) build();
+    if(reduce){ draw(); return; }
+    for(const d of dots){
+      const ang = Math.random()*Math.PI*2, sp = 0.05 + Math.random()*0.07; // gentle impulse
+      d.vx = Math.cos(ang)*sp; d.vy = Math.sin(ang)*sp;
+    }
+    animUntil = performance.now() + 1600;
+    if(!raf){ last = performance.now(); raf = requestAnimationFrame(step); }
+  }
+  function show(){ if(!ready) build(); draw(); }     // static render, no motion
+  window.addEventListener('resize', ()=>{ build(); draw(); });
+
+  // movement happens only when a plan button is clicked
+  const toggle = document.getElementById('planToggle');
+  if(toggle){ toggle.querySelectorAll('button').forEach(b=> b.addEventListener('click', stir)); }
+
+  // draw the static field once the card scrolls into view
+  const card = document.getElementById('planCard');
+  if('IntersectionObserver' in window && card){
+    new IntersectionObserver((es)=>{ es.forEach(e=>{ if(e.isIntersecting) show(); }); }, {threshold:0.05}).observe(card);
+  } else { show(); }
 })();
 </script>
 
