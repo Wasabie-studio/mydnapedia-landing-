@@ -310,11 +310,12 @@
     .nav.open .nav-links{ opacity:1; visibility:visible; transform:translateY(0); }
     .nav-links a{ padding:13px 16px; font-size:15px; border-radius:11px; }
     .tension{ position:static; opacity:1 !important; transform:none !important;
-      padding:64px 24px 92px; }
+      padding:52px 24px 44px; }
     .tension .lead{ font-size:clamp(16px,4.4vw,20px); }
     .tension .lead br{ display:none; }
-    .tension .word{ font-size:clamp(24px,6.6vw,42px); }
-    .tension .q{ margin-top:40px; }
+    .tension .wordwrap{ margin-top:14px; }
+    .tension .word{ font-size:clamp(36px,10vw,56px); line-height:1.08; }
+    .tension .q{ margin-top:30px; }
   }
 
   /* ── S4 — PLANS / PRICING ──────────────────────────── */
@@ -1358,7 +1359,7 @@
     wi = (wi+1) % WORDS.length;
     tword.classList.add('swap');
     setTimeout(()=>{
-      tword.innerHTML = WORDS[wi].replace(/ /g,'&nbsp;');
+      tword.innerHTML = (window.innerWidth > 860) ? WORDS[wi].replace(/ /g,'&nbsp;') : WORDS[wi];
       tword.classList.remove('swap');
     }, 430);
   }
