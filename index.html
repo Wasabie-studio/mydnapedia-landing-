@@ -331,7 +331,7 @@
   .pcol{ display:flex; flex-direction:column; gap:clamp(14px,1.5vw,22px); }
 
   /* image card — persona name overlaid; image is a placeholder for now */
-  .pcard{ position:relative; border-radius:20px; overflow:hidden; aspect-ratio:1/1;
+  .pcard{ position:relative; border-radius:20px; overflow:hidden; aspect-ratio:3/4;
     background:linear-gradient(155deg,#d8d1c4 0%,#bdb4a2 52%,#9a917e 100%);
     box-shadow:0 16px 44px -30px rgba(74,55,18,.4); }
   .pcard-ph{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
@@ -339,40 +339,18 @@
   .pcard-ph svg{ width:46px; height:46px; }
   .pcard::after{ content:""; position:absolute; inset:0; z-index:1;
     background:linear-gradient(to top, rgba(20,15,8,.82) 0%, rgba(20,15,8,.28) 34%, rgba(20,15,8,0) 56%); }
-  .pcard-num{ position:absolute; top:14px; left:14px; z-index:2;
-    font-family:"Satoshi",sans-serif; font-weight:700; font-size:11.5px; color:#fff;
-    background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.34);
-    padding:5px 11px; border-radius:100px;
-    -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px); }
   .pcard-name{ position:absolute; left:0; right:0; bottom:0; z-index:2;
     padding:clamp(16px,1.5vw,22px); color:#fff;
     font-family:"Satoshi",sans-serif; font-weight:600; font-size:clamp(16px,1.4vw,20px);
     line-height:1.25; letter-spacing:-.01em; }
-  .pcard-name small{ display:block; margin-top:6px; font-weight:500; font-size:13px;
-    line-height:1.4; color:rgba(255,255,255,.82); letter-spacing:0; }
 
   /* small tag card — the segment(s) it includes */
-  .ptag{ position:relative; overflow:hidden;
-    display:flex; flex-direction:column; justify-content:center; gap:14px;
+  .ptag{ display:flex; align-items:center; justify-content:center; text-align:center;
     border-radius:20px; background:#F1EBDD; border:1px solid rgba(120,100,50,.12);
-    padding:clamp(20px,2vw,26px); min-height:clamp(104px,11vw,140px);
-    transition:transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease; }
-  /* pretty warm-gold glow behind the card */
-  .ptag::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
-    background:
-      radial-gradient(100% 85% at 115% -15%, rgba(228,169,47,.34), rgba(228,169,47,0) 58%),
-      radial-gradient(90% 80% at -15% 120%, rgba(214,156,26,.18), rgba(214,156,26,0) 60%); }
-  .ptag::after{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
-    background:radial-gradient(70% 60% at 50% -10%, rgba(255,255,255,.4), rgba(255,255,255,0) 72%); }
-  .ptag > *{ position:relative; z-index:1; }
-  .ptag:hover{ transform:translateY(-3px); box-shadow:0 22px 46px -30px rgba(120,80,16,.5); }
-  .ptag-label{ display:block; font-size:10.5px; font-weight:700; letter-spacing:.13em;
-    text-transform:uppercase; color:var(--gold); }
-  .ptag-chips{ display:flex; flex-wrap:wrap; gap:8px; }
-  .ptag-chips span{ font-family:"Satoshi",sans-serif; font-size:clamp(13px,1.02vw,15px);
-    font-weight:600; color:var(--ink-soft); background:#FCFAF4;
-    border:1px solid rgba(120,100,50,.18); padding:7px 14px; border-radius:100px;
-    letter-spacing:-.005em; }
+    padding:clamp(20px,2vw,30px); min-height:clamp(108px,12vw,150px); }
+  .ptag span{ font-family:"Satoshi",sans-serif; font-weight:600;
+    font-size:clamp(14px,1.15vw,17px); line-height:1.4; color:var(--ink-soft); letter-spacing:-.005em; }
+  .ptag b{ color:var(--gold); font-weight:700; }
 
   @media (max-width:860px){
     .personas{ padding:64px 22px 76px; }
@@ -948,48 +926,36 @@
       <!-- Column 1: persona on top, segments below -->
       <div class="pcol">
         <div class="pcard">
-          <span class="pcard-num">01</span>
           <div class="pcard-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></div>
-          <div class="pcard-name">Health-Conscious Professionals<small>Proactive about staying ahead of their health.</small></div>
+          <div class="pcard-name">Health-Conscious Professionals</div>
         </div>
-        <div class="ptag">
-          <span class="ptag-label">Prevention first</span><div class="ptag-chips"><span>Urban Professionals</span><span>HNW Health-Conscious</span></div>
-        </div>
+        <div class="ptag"><span>Urban Professionals <b>+</b> HNW Health-Conscious</span></div>
       </div>
 
       <!-- Column 2: segments on top, persona below -->
       <div class="pcol">
-        <div class="ptag">
-          <span class="ptag-label">Peak performance</span><div class="ptag-chips"><span>Gym Goers</span><span>Coaches</span><span>Professional Athletes</span></div>
-        </div>
+        <div class="ptag"><span>Gym Goers <b>+</b> Coaches <b>+</b> Professional Athletes</span></div>
         <div class="pcard">
-          <span class="pcard-num">02</span>
           <div class="pcard-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></div>
-          <div class="pcard-name">Performance Optimizers<small>Training, recovery and the extra edge.</small></div>
+          <div class="pcard-name">Performance Optimizers</div>
         </div>
       </div>
 
       <!-- Column 3: persona on top, segments below -->
       <div class="pcol">
         <div class="pcard">
-          <span class="pcard-num">03</span>
           <div class="pcard-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></div>
-          <div class="pcard-name">Appearance &amp; Wellness Enthusiasts<small>Skin, energy and longevity.</small></div>
+          <div class="pcard-name">Appearance &amp; Wellness Enthusiasts</div>
         </div>
-        <div class="ptag">
-          <span class="ptag-label">Look &amp; longevity</span><div class="ptag-chips"><span>Skincare Obsessed</span><span>Wellness/Longevity</span></div>
-        </div>
+        <div class="ptag"><span>Skincare Obsessed <b>+</b> Wellness/Longevity</span></div>
       </div>
 
       <!-- Column 4: segments on top, persona below -->
       <div class="pcol">
-        <div class="ptag">
-          <span class="ptag-label">Just exploring</span><div class="ptag-chips"><span>Curious Lite Buyers</span></div>
-        </div>
+        <div class="ptag"><span>Curious Lite Buyers</span></div>
         <div class="pcard">
-          <span class="pcard-num">04</span>
           <div class="pcard-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></div>
-          <div class="pcard-name">Curious Information Seekers<small>Curious to finally understand their body.</small></div>
+          <div class="pcard-name">Curious Information Seekers</div>
         </div>
       </div>
 
