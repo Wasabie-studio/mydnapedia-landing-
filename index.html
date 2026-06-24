@@ -352,9 +352,20 @@
     line-height:1.4; color:rgba(255,255,255,.82); letter-spacing:0; }
 
   /* small tag card — the segment(s) it includes */
-  .ptag{ display:flex; flex-direction:column; justify-content:center; gap:14px;
+  .ptag{ position:relative; overflow:hidden;
+    display:flex; flex-direction:column; justify-content:center; gap:14px;
     border-radius:20px; background:#F1EBDD; border:1px solid rgba(120,100,50,.12);
-    padding:clamp(22px,2.2vw,30px); min-height:clamp(140px,14vw,182px); }
+    padding:clamp(22px,2.2vw,30px); min-height:clamp(140px,14vw,182px);
+    transition:transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease; }
+  /* pretty warm-gold glow behind the card */
+  .ptag::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(100% 85% at 115% -15%, rgba(228,169,47,.34), rgba(228,169,47,0) 58%),
+      radial-gradient(90% 80% at -15% 120%, rgba(214,156,26,.18), rgba(214,156,26,0) 60%); }
+  .ptag::after{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:radial-gradient(70% 60% at 50% -10%, rgba(255,255,255,.4), rgba(255,255,255,0) 72%); }
+  .ptag > *{ position:relative; z-index:1; }
+  .ptag:hover{ transform:translateY(-3px); box-shadow:0 22px 46px -30px rgba(120,80,16,.5); }
   .ptag-label{ display:block; font-size:10.5px; font-weight:700; letter-spacing:.13em;
     text-transform:uppercase; color:var(--gold); }
   .ptag-chips{ display:flex; flex-wrap:wrap; gap:8px; }
