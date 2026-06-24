@@ -742,7 +742,10 @@
   .lead-note{ margin-top:4px; text-align:center; font-size:14px; font-weight:600; color:var(--gold); }
 
   /* ── S10 — PARTNER CTA band (side-by-side: big headline + CTA/contact) ── */
-  .cta-band{ background:#F9F6EF;
+  .cta-band{
+    background:
+      linear-gradient(rgba(249,246,239,.93), rgba(249,246,239,.95)),
+      url('assets/partner-office.webp') no-repeat center / cover;
     border-top:1px solid rgba(50,46,39,.06); border-bottom:1px solid rgba(50,46,39,.06); }
   .cta-inner{ display:grid; grid-template-columns:1.5fr .8fr; gap:clamp(36px,4.5vw,72px);
     align-items:center; padding:clamp(60px,8vw,100px) max(42px,6vw); }
