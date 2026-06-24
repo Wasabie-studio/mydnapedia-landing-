@@ -1681,13 +1681,20 @@
 
   function easeInOut(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
 
+  let maxCf = 0;   // highest progress reached this pass — keeps the stack from un-stacking on scroll-up
+
   function tick(){
     const rect = how.getBoundingClientRect();
     const travel = how.offsetHeight - window.innerHeight;
     if(travel <= 0) return;
     const scrolled = Math.max(0, Math.min(travel, -rect.top));
-    // cf: 0..N representing how far through all cards we are
-    const cf = (scrolled / travel) * N;
+    // raw progress for the current scroll position
+    const cfNow = (scrolled / travel) * N;
+    // re-arm only when the section is fully below the viewport (off-screen, no visible pop)
+    if(rect.top >= window.innerHeight) maxCf = 0;
+    // monotonic: never roll backward → no reverse un-stacking when scrolling up
+    const cf = Math.max(cfNow, maxCf);
+    maxCf = cf;
 
     // topmost card index that is fully settled
     let topInIdx = -1;
