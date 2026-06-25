@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wasabie-studio.github.io/mydnapedia-landing-/sitemap.xml
