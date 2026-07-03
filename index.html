@@ -342,10 +342,9 @@
     font-size:clamp(30px,3.8vw,54px); line-height:1.08; letter-spacing:-.01em;
     color:var(--ink); margin:0; }
   .personas-grid{ display:grid; grid-template-columns:repeat(4,1fr);
-    gap:clamp(14px,1.5vw,22px); align-items:start; }
-  .pcol{ display:flex; flex-direction:column; gap:clamp(14px,1.5vw,22px); }
+    gap:clamp(14px,1.5vw,22px); align-items:stretch; }
 
-  /* image card — persona name overlaid; image is a placeholder for now */
+  /* image card — persona name overlaid */
   .pcard{ position:relative; border-radius:20px; overflow:hidden; aspect-ratio:3/4;
     background:linear-gradient(155deg,#d8d1c4 0%,#bdb4a2 52%,#9a917e 100%);
     box-shadow:0 16px 44px -30px rgba(74,55,18,.4); }
@@ -360,14 +359,6 @@
     padding:clamp(16px,1.5vw,22px); color:#fff;
     font-family:"Satoshi",sans-serif; font-weight:600; font-size:clamp(16px,1.4vw,20px);
     line-height:1.25; letter-spacing:-.01em; }
-
-  /* small tag card — the segment(s) it includes */
-  .ptag{ display:flex; align-items:center; justify-content:center; text-align:center;
-    border-radius:20px; background:#F1EBDD; border:1px solid rgba(120,100,50,.12);
-    padding:clamp(20px,2vw,30px); min-height:clamp(108px,12vw,150px); }
-  .ptag span{ font-family:"Satoshi",sans-serif; font-weight:600;
-    font-size:clamp(14px,1.15vw,17px); line-height:1.4; color:var(--ink-soft); letter-spacing:-.005em; }
-  .ptag b{ color:var(--gold); font-weight:700; }
 
   @media (max-width:860px){
     .personas{ padding:64px 22px 76px; }
@@ -973,40 +964,24 @@
     </div>
     <div class="personas-grid">
 
-      <!-- Column 1: persona on top, segments below -->
-      <div class="pcol">
-        <div class="pcard">
-          <img class="pcard-img" src="assets/personas/p1.webp" alt="Health-conscious professional" loading="lazy">
-          <div class="pcard-name">The Health Optimizer</div>
-        </div>
-        <div class="ptag"><span>Urban Professionals <b>+</b> Wellness Investors</span></div>
+      <div class="pcard">
+        <img class="pcard-img" src="assets/personas/p1.webp" alt="Health-conscious professional at work" loading="lazy">
+        <div class="pcard-name">The Health Optimizer</div>
       </div>
 
-      <!-- Column 2: segments on top, persona below -->
-      <div class="pcol">
-        <div class="ptag"><span>Pro Athletes <b>+</b> Coaches <b>+</b> Sportspeople</span></div>
-        <div class="pcard">
-          <img class="pcard-img" src="assets/personas/p2.webp" alt="Performance optimizer at the gym" loading="lazy">
-          <div class="pcard-name">The Competitive Athlete / Sportsperson</div>
-        </div>
+      <div class="pcard">
+        <img class="pcard-img" src="assets/personas/p2.webp" alt="Competitive athlete training in the gym" loading="lazy">
+        <div class="pcard-name">The Competitive Athlete / Sportsperson</div>
       </div>
 
-      <!-- Column 3: persona on top, segments below -->
-      <div class="pcol">
-        <div class="pcard">
-          <img class="pcard-img" src="assets/personas/p5.webp" alt="Older patient managing a lifestyle condition" loading="lazy">
-          <div class="pcard-name">The Medication-Confused Patient</div>
-        </div>
-        <div class="ptag"><span>Chronic Conditions <b>+</b> Medication Response</span></div>
+      <div class="pcard">
+        <img class="pcard-img" src="assets/personas/p5.webp" alt="Older patient managing a lifestyle condition" loading="lazy">
+        <div class="pcard-name">The Medication-Confused Patient</div>
       </div>
 
-      <!-- Column 4: segments on top, persona below -->
-      <div class="pcol">
-        <div class="ptag"><span>Family Risk <b>+</b> Early Detection</span></div>
-        <div class="pcard">
-          <img class="pcard-img" src="assets/personas/p4.webp" alt="Curious information seeker" loading="lazy">
-          <div class="pcard-name">The Family History Carrier</div>
-        </div>
+      <div class="pcard">
+        <img class="pcard-img" src="assets/personas/p4.webp" alt="Person researching their family health history" loading="lazy">
+        <div class="pcard-name">The Family History Carrier</div>
       </div>
 
     </div>
