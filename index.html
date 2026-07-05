@@ -1271,10 +1271,15 @@
           </ul>
         </div>
         <div class="lead-card">
-          <form class="lead-form" id="leadForm" novalidate>
+          <form class="lead-form" id="leadForm" action="https://formspree.io/f/xeebnrlq" method="POST" novalidate>
+            <input type="hidden" name="_subject" value="New MyDNAPedia lead">
             <label class="field">
               <span>Full name</span>
               <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+            </label>
+            <label class="field">
+              <span>Email</span>
+              <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required>
             </label>
             <label class="field">
               <span>WhatsApp number</span>
@@ -1999,15 +2004,42 @@
 </script>
 
 <script>
-/* ── S9/S10 — lead + partner forms: validation + thank-you state (no backend yet) ── */
+/* ── S9/S10 — lead form: validation, Formspree POST, thank-you state ── */
 (function(){
   document.querySelectorAll('.lead-form').forEach(form=>{
-    form.addEventListener('submit', e=>{
+    const note = form.querySelector('.lead-note');
+    const successMsg = note ? note.textContent : '';
+    form.addEventListener('submit', async e=>{
       e.preventDefault();
       if(!form.reportValidity()) return;
-      const note = form.querySelector('.lead-note'); if(note) note.hidden = false;
-      const btn = form.querySelector('.lead-submit'); if(btn) btn.textContent = 'Submitted ✓';
-      form.querySelectorAll('input,select,textarea,button').forEach(el=>{ el.disabled = true; });
+      const btn = form.querySelector('.lead-submit');
+      const endpoint = form.getAttribute('action');
+      const lock = ()=> form.querySelectorAll('input,select,textarea,button').forEach(el=>{ el.disabled = true; });
+
+      /* No endpoint wired for this form yet — keep the original thank-you behaviour. */
+      if(!endpoint){
+        if(note) note.hidden = false;
+        if(btn) btn.textContent = 'Submitted ✓';
+        lock();
+        return;
+      }
+
+      const original = btn ? btn.textContent : '';
+      if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
+      try{
+        const res = await fetch(endpoint, {
+          method:'POST',
+          body:new FormData(form),
+          headers:{ 'Accept':'application/json' }
+        });
+        if(!res.ok) throw new Error('Bad response');
+        if(note){ note.textContent = successMsg; note.hidden = false; }
+        if(btn) btn.textContent = 'Submitted ✓';
+        lock();
+      }catch(err){
+        if(btn){ btn.disabled = false; btn.textContent = original; }
+        if(note){ note.textContent = 'Something went wrong — please try again, or WhatsApp us directly.'; note.hidden = false; }
+      }
     });
   });
 })();
