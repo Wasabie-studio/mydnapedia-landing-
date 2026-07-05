@@ -1271,8 +1271,7 @@
           </ul>
         </div>
         <div class="lead-card">
-          <form class="lead-form" id="leadForm" action="https://formspree.io/f/xeebnrlq" method="POST" novalidate>
-            <input type="hidden" name="_subject" value="New MyDNAPedia lead">
+          <form class="lead-form" id="leadForm" action="https://script.google.com/macros/s/AKfycbzL9TXmYWeQVQdLh62GJGU7wcmbyAmzz5HkyrRLQhX6QIL6OwenqCz4OxhEIIEoODuVjA/exec" method="POST" novalidate>
             <label class="field">
               <span>Full name</span>
               <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
@@ -2027,12 +2026,10 @@
       const original = btn ? btn.textContent : '';
       if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
       try{
-        const res = await fetch(endpoint, {
-          method:'POST',
-          body:new FormData(form),
-          headers:{ 'Accept':'application/json' }
-        });
-        if(!res.ok) throw new Error('Bad response');
+        /* Google Apps Script Web Apps don't send CORS headers, so we POST in
+           no-cors mode. The response is opaque (unreadable) — a resolved fetch
+           means the request was delivered, so we treat that as success. */
+        await fetch(endpoint, { method:'POST', mode:'no-cors', body:new FormData(form) });
         if(note){ note.textContent = successMsg; note.hidden = false; }
         if(btn) btn.textContent = 'Submitted ✓';
         lock();
