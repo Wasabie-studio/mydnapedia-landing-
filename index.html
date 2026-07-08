@@ -128,6 +128,8 @@
   /* hero video is pure background — hide the native play button / media controls */
   #dna::-webkit-media-controls,
   #dna::-webkit-media-controls-enclosure,
+  #dna::-webkit-media-controls-overlay-enclosure,
+  #dna::-webkit-media-controls-overlay-play-button,
   #dna::-webkit-media-controls-panel,
   #dna::-webkit-media-controls-start-playback-button,
   #dna::-webkit-media-controls-play-button{ display:none !important; -webkit-appearance:none; }
@@ -948,7 +950,7 @@
   <!-- ═══ PINNED STAGE: S1 hero + S2 tension share one scroll pin ═══ -->
   <section class="stage" id="stage">
     <div class="stage-sticky">
-      <video id="dna" autoplay loop muted playsinline preload="auto">
+      <video id="dna" autoplay loop muted playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true">
         <source src="assets/hero-loop.mp4" type="video/mp4" />
       </video>
       <div class="ambient"></div>
@@ -1412,6 +1414,7 @@
           <h4>Follow</h4>
           <a href="https://www.instagram.com/mydnapedia_asiapacific" target="_blank" rel="noopener">Instagram</a>
           <a href="https://youtube.com/@mydnapedia_apac" target="_blank" rel="noopener">YouTube</a>
+          <a href="https://www.facebook.com/profile.php?id=61583165129268" target="_blank" rel="noopener">Facebook</a>
         </nav>
       </div>
       <div class="footer-bottom">
