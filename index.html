@@ -727,9 +727,9 @@
   .tcards{ margin-top:44px; overflow:hidden; padding:8px 0; scrollbar-width:none;
     margin-left:calc(-1 * var(--gut)); margin-right:calc(-1 * var(--gut)); }
   .tcards::-webkit-scrollbar{ display:none; }
-  .tticker{ display:flex; width:max-content; will-change:transform;
-    animation:ticker 64s linear infinite; }
-  @keyframes ticker{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  /* movement is driven by JS (requestAnimationFrame) — more robust than a CSS
+     keyframe animation, which iOS can freeze (Low Power Mode / large layers) */
+  .tticker{ display:flex; width:max-content; will-change:transform; }
   .tcard{ position:relative; flex:0 0 clamp(258px,27vw,326px); aspect-ratio:4/5;
     margin-right:22px; border-radius:24px; overflow:hidden;
     transition:transform .4s cubic-bezier(.22,1,.36,1); }
@@ -763,7 +763,6 @@
        card — all its children are absolutely positioned. 72vw × 5/4 = 90vw
        keeps the same 4/5 proportion. */
     .tcard{ flex-basis:72vw; margin-right:16px; aspect-ratio:auto; height:90vw; }
-    .tticker{ animation-duration:50s; }
   }
   /* testimonials ticker keeps auto-scrolling even when the OS has
      "reduce motion" on — it's a core part of this section (client request) */
@@ -1910,16 +1909,19 @@
 </script>
 
 <script>
-/* ── S8 — testimonials ticker: clone cards for seamless loop ── */
+/* ── S8 — testimonials ticker: JS-driven marquee (robust on iOS) ── */
 (function(){
   const track = document.querySelector('.tticker');
   if(!track) return;
-  /* always clone for the seamless -50% loop (ticker runs regardless of reduce-motion) */
-  track.querySelectorAll('.tcard').forEach(card=>{
+
+  // duplicate the cards once so the loop can reset seamlessly
+  const originals = Array.from(track.querySelectorAll('.tcard'));
+  originals.forEach(card=>{
     const clone = card.cloneNode(true);
     clone.setAttribute('aria-hidden','true');
     track.appendChild(clone);
   });
+
   // plug-and-play photos: when assets/testimonials/member-N.webp exists, swap it in
   track.querySelectorAll('.tcard[data-photo]').forEach(card=>{
     const src = card.getAttribute('data-photo');
@@ -1931,6 +1933,26 @@
     };
     probe.src = src;
   });
+
+  // requestAnimationFrame marquee — keeps running where CSS animations get
+  // frozen by iOS (Low Power Mode, large compositor layers, reduced-motion).
+  const SPEED = 42;           // px per second (balanced pace)
+  let x = 0, last = 0, half = 0;
+  const measureHalf = ()=>{ half = track.scrollWidth / 2; };
+  measureHalf();
+  window.addEventListener('resize', measureHalf, { passive:true });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(measureHalf);
+
+  function frame(now){
+    if(last){
+      x -= SPEED * (now - last) / 1000;
+      if(half && -x >= half) x += half;   // seamless wrap
+      track.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)';
+    }
+    last = now;
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 })();
 </script>
 
