@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3VM23JCP35"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3VM23JCP35');
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="MyDNAPedia is a wellness company that uses your DNA. Founded in 2012 and now across India, we map 100+ DNA health insights and translate them through one-on-one counselling." />
 <meta name="robots" content="index, follow" />
@@ -721,6 +729,7 @@
         /* Apps Script sends no CORS headers, so post in no-cors mode.
            The response is opaque — a resolved fetch means it was delivered. */
         await fetch(endpoint, { method:'POST', mode:'no-cors', body:new FormData(form) });
+        if(window.gtag) gtag('event','partner_inquiry',{ form_name:'partner_inquiry' });
         if(note){ note.textContent = successMsg; note.hidden = false; }
         if(btn) btn.textContent = 'Submitted ✓';
         lock();

@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3VM23JCP35"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3VM23JCP35');
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="Your health is written in your DNA. MyDNAPedia turns a simple cheek swab into a detailed report and a 1-on-1 genetic counselling session, analysed in an EU-certified lab at 99.9% accuracy." />
 <meta name="robots" content="index, follow" />
@@ -2031,6 +2039,7 @@
            no-cors mode. The response is opaque (unreadable) — a resolved fetch
            means the request was delivered, so we treat that as success. */
         await fetch(endpoint, { method:'POST', mode:'no-cors', body:new FormData(form) });
+        if(window.gtag) gtag('event','generate_lead',{ form_name:'lead_capture' });
         if(note){ note.textContent = successMsg; note.hidden = false; }
         if(btn) btn.textContent = 'Submitted ✓';
         lock();
