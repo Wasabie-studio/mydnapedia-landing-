@@ -757,7 +757,10 @@
   @media (max-width:860px){
     .tmonials-wrap{ --gut:22px; padding:40px var(--gut) 84px; }
     .tcards{ margin-top:30px; }
-    .tcard{ flex-basis:72vw; margin-right:16px; }
+    /* explicit height (not aspect-ratio) so iOS Safari can't collapse the
+       card — all its children are absolutely positioned. 72vw × 5/4 = 90vw
+       keeps the same 4/5 proportion. */
+    .tcard{ flex-basis:72vw; margin-right:16px; aspect-ratio:auto; height:90vw; }
     .tticker{ animation-duration:38s; }
   }
   @media (prefers-reduced-motion:reduce){
