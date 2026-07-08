@@ -614,7 +614,7 @@
     .step-img.tilt-3{ width:351px; transform:translate(-50%,-4%) rotate(0); }   /* envelope (post) — pushed down so top isn't cropped */
     .step-img.tilt-4{ width:280px; bottom:auto; top:50%; transform-origin:center;
       transform:translate(-50%,-48%) rotate(-45deg) scale(1.2); }   /* helix (analysis) — nudged down so top isn't cropped */
-    .step-img.tilt-5{ width:325px; transform:translate(-50%,0%) rotate(0); }   /* report — pushed down so top isn't cropped */
+    .step-img.tilt-5{ width:325px; transform:translate(-50%,6%) rotate(0); }   /* report — pushed further down so top isn't cropped */
   }
 
   /* ── S7 — TRUST & CREDENTIALS (designer's rework) ───── */
@@ -763,10 +763,8 @@
     .tcard{ flex-basis:72vw; margin-right:16px; aspect-ratio:auto; height:90vw; }
     .tticker{ animation-duration:50s; }
   }
-  @media (prefers-reduced-motion:reduce){
-    .tticker{ animation:none; }
-    .tcards{ overflow-x:auto; }
-  }
+  /* testimonials ticker keeps auto-scrolling even when the OS has
+     "reduce motion" on — it's a core part of this section (client request) */
 
   /* ── S9 — LEAD CAPTURE FORM ─────────────────────────── */
   .lead{ position:relative; }
@@ -1913,14 +1911,12 @@
 (function(){
   const track = document.querySelector('.tticker');
   if(!track) return;
-  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  if(!reduce){
-    track.querySelectorAll('.tcard').forEach(card=>{
-      const clone = card.cloneNode(true);
-      clone.setAttribute('aria-hidden','true');
-      track.appendChild(clone);
-    });
-  }
+  /* always clone for the seamless -50% loop (ticker runs regardless of reduce-motion) */
+  track.querySelectorAll('.tcard').forEach(card=>{
+    const clone = card.cloneNode(true);
+    clone.setAttribute('aria-hidden','true');
+    track.appendChild(clone);
+  });
   // plug-and-play photos: when assets/testimonials/member-N.webp exists, swap it in
   track.querySelectorAll('.tcard[data-photo]').forEach(card=>{
     const src = card.getAttribute('data-photo');
