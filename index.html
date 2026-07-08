@@ -124,7 +124,13 @@
   .stage-sticky{ position:sticky; top:0; height:100vh; width:100%; overflow:hidden; }
   /* EXPERIMENT: looping video. Helix is centered in the source, placed on the RIGHT. */
   #dna{ position:absolute; top:0; right:0; bottom:0; width:58%; height:100%; display:block; z-index:1;
-    object-fit:cover; object-position:78% center; }
+    object-fit:cover; object-position:78% center; pointer-events:none; }
+  /* hero video is pure background — hide the native play button / media controls */
+  #dna::-webkit-media-controls,
+  #dna::-webkit-media-controls-enclosure,
+  #dna::-webkit-media-controls-panel,
+  #dna::-webkit-media-controls-start-playback-button,
+  #dna::-webkit-media-controls-play-button{ display:none !important; -webkit-appearance:none; }
 
   .stage-sticky::before{
     content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
@@ -1447,6 +1453,18 @@
   // ctx is null for a <video>, so all frame-scrub code below no-ops.
   const ctx     = canvas.getContext ? canvas.getContext('2d') : null;
   const mobile  = () => window.matchMedia('(max-width:860px)').matches;
+
+  // Force the hero video to autoplay muted inline — some browsers show a play
+  // button unless muted is set as a property and play() is called explicitly.
+  const heroVid = document.getElementById('dna');
+  if(heroVid && heroVid.tagName === 'VIDEO'){
+    heroVid.muted = true;
+    heroVid.setAttribute('muted','');
+    const tryPlay = () => { const p = heroVid.play(); if(p && p.catch) p.catch(()=>{}); };
+    tryPlay();
+    heroVid.addEventListener('canplay', tryPlay, { once:true });
+    document.addEventListener('visibilitychange', () => { if(!document.hidden) tryPlay(); });
+  }
 
   // ── preload frames ──────────────────────────────────────
   const frames = new Array(N);
