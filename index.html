@@ -609,12 +609,12 @@
       transform:translate(-50%,30%); }
     .step-img{ position:absolute; left:50%; right:auto; top:auto; bottom:0; height:auto;
       transform-origin:center bottom; }
-    .step-img.tilt-1{ width:325px; transform:translate(-50%,-24%) rotate(0); }   /* box */
+    .step-img.tilt-1{ width:325px; transform:translate(-50%,-34%) rotate(0); }   /* box (order) — nudged up */
     .step-img.tilt-2{ width:303px; transform:translate(-50%,-32%) rotate(0); }   /* swab — +25% */
-    .step-img.tilt-3{ width:351px; transform:translate(-50%,-15%) rotate(0); }   /* envelope — pushed down so top isn't cropped */
+    .step-img.tilt-3{ width:351px; transform:translate(-50%,-4%) rotate(0); }   /* envelope (post) — pushed down so top isn't cropped */
     .step-img.tilt-4{ width:280px; bottom:auto; top:50%; transform-origin:center;
-      transform:translate(-50%,-58%) rotate(-45deg) scale(1.2); }   /* helix — uplifted + 45deg dynamic tilt, +20% from center */
-    .step-img.tilt-5{ width:325px; transform:translate(-50%,-10%) rotate(0); }   /* report — +30% */
+      transform:translate(-50%,-48%) rotate(-45deg) scale(1.2); }   /* helix (analysis) — nudged down so top isn't cropped */
+    .step-img.tilt-5{ width:325px; transform:translate(-50%,0%) rotate(0); }   /* report — pushed down so top isn't cropped */
   }
 
   /* ── S7 — TRUST & CREDENTIALS (designer's rework) ───── */
@@ -726,7 +726,7 @@
     margin-left:calc(-1 * var(--gut)); margin-right:calc(-1 * var(--gut)); }
   .tcards::-webkit-scrollbar{ display:none; }
   .tticker{ display:flex; width:max-content; will-change:transform;
-    animation:ticker 55s linear infinite; }
+    animation:ticker 64s linear infinite; }
   @keyframes ticker{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
   .tcard{ position:relative; flex:0 0 clamp(258px,27vw,326px); aspect-ratio:4/5;
     margin-right:22px; border-radius:24px; overflow:hidden;
@@ -761,7 +761,7 @@
        card — all its children are absolutely positioned. 72vw × 5/4 = 90vw
        keeps the same 4/5 proportion. */
     .tcard{ flex-basis:72vw; margin-right:16px; aspect-ratio:auto; height:90vw; }
-    .tticker{ animation-duration:38s; }
+    .tticker{ animation-duration:50s; }
   }
   @media (prefers-reduced-motion:reduce){
     .tticker{ animation:none; }
