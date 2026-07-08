@@ -616,7 +616,8 @@
     .step-img.tilt-3{ width:351px; transform:translate(-50%,-4%) rotate(0); }   /* envelope (post) — pushed down so top isn't cropped */
     .step-img.tilt-4{ width:280px; bottom:auto; top:50%; transform-origin:center;
       transform:translate(-50%,-48%) rotate(-45deg) scale(1.2); }   /* helix (analysis) — nudged down so top isn't cropped */
-    .step-img.tilt-5{ width:325px; transform:translate(-50%,8%) rotate(0); }   /* report — shifted down so the report's top header isn't cropped on small phones */
+    .step-img.tilt-5{ width:325px; top:0; bottom:auto; transform-origin:center top;
+      transform:translate(-50%,0) rotate(0); }   /* report — TOP-anchored so the paper's top edge is always visible (fixes Safari clipping the header when the 1fr container computes short) */
   }
 
   /* ── S7 — TRUST & CREDENTIALS (designer's rework) ───── */
