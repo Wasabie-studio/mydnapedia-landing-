@@ -385,11 +385,13 @@
   }
   @media (max-width:520px){
     .personas-grid{ grid-template-columns:1fr; gap:16px; }
-    .pcard{ aspect-ratio:4/5; }
-    /* single column — no need to reserve equal-height text rows */
-    .pcard-title{ min-height:0; font-size:19px; }
-    .pcard-desc{ min-height:0; font-size:13.5px; }
-    .pcard-name{ padding:18px 18px 20px; }
+    /* Use an explicit height, not aspect-ratio: iOS Safari collapses
+       aspect-ratio boxes whose children are all absolutely positioned,
+       which made the cards vanish. Fixed height also keeps them compact. */
+    .pcard{ aspect-ratio:auto; height:clamp(270px,80vw,330px); }
+    .pcard-title{ min-height:0; font-size:18px; }
+    .pcard-desc{ min-height:0; font-size:13px; }
+    .pcard-name{ padding:16px 18px 18px; }
   }
 
   /* ── S4 — PLANS / PRICING ──────────────────────────── */
