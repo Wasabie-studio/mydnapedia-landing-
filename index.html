@@ -133,6 +133,18 @@
   #dna::-webkit-media-controls-panel,
   #dna::-webkit-media-controls-start-playback-button,
   #dna::-webkit-media-controls-play-button{ display:none !important; -webkit-appearance:none; }
+  /* tap-to-play button — only revealed by JS when autoplay is blocked (Low Power Mode) */
+  .hero-play{ position:absolute; z-index:6; top:50vh; left:71%; transform:translate(-50%,-50%);
+    width:74px; height:74px; border-radius:50%; cursor:pointer; color:var(--ink);
+    display:flex; align-items:center; justify-content:center; pointer-events:auto;
+    background:var(--glass-cta); border:1px solid var(--glass-brd); box-shadow:var(--glass-sh);
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+    transition:transform .18s ease, background .18s ease; }
+  .hero-play:hover{ transform:translate(-50%,-50%) scale(1.06); }
+  .hero-play:active{ transform:translate(-50%,-50%) scale(.96); }
+  .hero-play svg{ width:30px; height:30px; margin-left:3px; }
+  .hero-play[hidden]{ display:none; }
+  @media (max-width:860px){ .hero-play{ top:24vh; left:50%; } }
 
   .stage-sticky::before{
     content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
@@ -953,6 +965,10 @@
       <video id="dna" autoplay loop muted playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true">
         <source src="assets/hero-loop.mp4" type="video/mp4" />
       </video>
+      <!-- shown only if autoplay is blocked (e.g. iOS Low Power Mode) so the user can tap to play -->
+      <button class="hero-play" id="heroPlay" type="button" aria-label="Play video" hidden>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      </button>
       <div class="ambient"></div>
       <div class="stage-fade" id="stageFade"></div>
 
@@ -1468,13 +1484,32 @@
   // Force the hero video to autoplay muted inline — some browsers show a play
   // button unless muted is set as a property and play() is called explicitly.
   const heroVid = document.getElementById('dna');
+  const heroPlay = document.getElementById('heroPlay');
   if(heroVid && heroVid.tagName === 'VIDEO'){
     heroVid.muted = true;
     heroVid.setAttribute('muted','');
-    const tryPlay = () => { const p = heroVid.play(); if(p && p.catch) p.catch(()=>{}); };
+
+    // Attempt muted autoplay. If the browser blocks it (e.g. iOS Low Power Mode),
+    // reveal a tap-to-play button so the user can start the video themselves.
+    const tryPlay = () => {
+      const p = heroVid.play();
+      if(p && p.then){
+        p.then(()=>{ if(heroPlay) heroPlay.hidden = true; })
+         .catch(()=>{ if(heroPlay) heroPlay.hidden = false; });
+      }
+    };
     tryPlay();
     heroVid.addEventListener('canplay', tryPlay, { once:true });
-    document.addEventListener('visibilitychange', () => { if(!document.hidden) tryPlay(); });
+    heroVid.addEventListener('playing', () => { if(heroPlay) heroPlay.hidden = true; });
+    document.addEventListener('visibilitychange', () => { if(!document.hidden && heroVid.paused) tryPlay(); });
+
+    // user tap starts playback (a user gesture is allowed even in Low Power Mode)
+    if(heroPlay){
+      heroPlay.addEventListener('click', () => {
+        heroVid.muted = true;
+        heroVid.play().then(()=>{ heroPlay.hidden = true; }).catch(()=>{});
+      });
+    }
   }
 
   // ── preload frames ──────────────────────────────────────
