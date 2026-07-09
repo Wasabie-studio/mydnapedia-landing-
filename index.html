@@ -123,8 +123,9 @@
   .stage{ position:relative; height:300vh; }
   .stage-sticky{ position:sticky; top:0; height:100vh; width:100%; overflow:hidden; }
   /* EXPERIMENT: looping video. Helix is centered in the source, placed on the RIGHT. */
-  #dna{ position:absolute; top:0; right:0; bottom:0; width:58%; height:100%; display:block; z-index:1;
+  #dna, .dna-fallback{ position:absolute; top:0; right:0; bottom:0; width:58%; height:100%; display:block; z-index:1;
     object-fit:cover; object-position:78% center; pointer-events:none; }
+  .dna-fallback{ display:none; }   /* static poster; shown by JS only when the hero video can't autoplay (e.g. iOS Low Power Mode) so no native play button appears */
   /* hero video is pure background — hide the native play button / media controls */
   #dna::-webkit-media-controls,
   #dna::-webkit-media-controls-enclosure,
@@ -133,18 +134,6 @@
   #dna::-webkit-media-controls-panel,
   #dna::-webkit-media-controls-start-playback-button,
   #dna::-webkit-media-controls-play-button{ display:none !important; -webkit-appearance:none; }
-  /* tap-to-play button — only revealed by JS when autoplay is blocked (Low Power Mode) */
-  .hero-play{ position:absolute; z-index:6; top:50vh; left:71%; transform:translate(-50%,-50%);
-    width:74px; height:74px; border-radius:50%; cursor:pointer; color:var(--ink);
-    display:flex; align-items:center; justify-content:center; pointer-events:auto;
-    background:var(--glass-cta); border:1px solid var(--glass-brd); box-shadow:var(--glass-sh);
-    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
-    transition:transform .18s ease, background .18s ease; }
-  .hero-play:hover{ transform:translate(-50%,-50%) scale(1.06); }
-  .hero-play:active{ transform:translate(-50%,-50%) scale(.96); }
-  .hero-play svg{ width:30px; height:30px; margin-left:3px; }
-  .hero-play[hidden]{ display:none; }
-  @media (max-width:860px){ .hero-play{ top:24vh; left:50%; } }
 
   .stage-sticky::before{
     content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
@@ -324,7 +313,7 @@
     .hero .eyebrow{ margin-bottom:22px; }
     .hero h1{ font-size:clamp(32px,8vw,44px); margin-bottom:18px; max-width:66%; }
     .hero .sub{ font-size:clamp(15px,4vw,17px); max-width:62%; margin-bottom:30px; }
-    #dna{ position:absolute; top:0; right:0; left:auto; bottom:auto;
+    #dna, .dna-fallback{ position:absolute; top:0; right:0; left:auto; bottom:auto;
       width:100%; height:90vh; object-fit:cover; object-position:84% center;
       z-index:1; margin-top:0; }
     .stage-sticky::before{ display:block; content:""; inset:auto; top:0; left:0; right:0;
@@ -965,10 +954,7 @@
       <video id="dna" autoplay loop muted playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true">
         <source src="assets/hero-loop.mp4" type="video/mp4" />
       </video>
-      <!-- shown only if autoplay is blocked (e.g. iOS Low Power Mode) so the user can tap to play -->
-      <button class="hero-play" id="heroPlay" type="button" aria-label="Play video" hidden>
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-      </button>
+      <img class="dna-fallback" src="assets/hero-poster.webp" alt="" aria-hidden="true" decoding="async">
       <div class="ambient"></div>
       <div class="stage-fade" id="stageFade"></div>
 
@@ -1484,32 +1470,20 @@
   // Force the hero video to autoplay muted inline — some browsers show a play
   // button unless muted is set as a property and play() is called explicitly.
   const heroVid = document.getElementById('dna');
-  const heroPlay = document.getElementById('heroPlay');
   if(heroVid && heroVid.tagName === 'VIDEO'){
     heroVid.muted = true;
     heroVid.setAttribute('muted','');
-
-    // Attempt muted autoplay. If the browser blocks it (e.g. iOS Low Power Mode),
-    // reveal a tap-to-play button so the user can start the video themselves.
-    const tryPlay = () => {
-      const p = heroVid.play();
-      if(p && p.then){
-        p.then(()=>{ if(heroPlay) heroPlay.hidden = true; })
-         .catch(()=>{ if(heroPlay) heroPlay.hidden = false; });
-      }
-    };
+    // When autoplay is blocked (e.g. iOS Low Power Mode) the browser forces a
+    // native play button onto the video. Swap in a static poster image instead —
+    // no <video> shown means no play button. Devices that can autoplay keep the animation.
+    const fallback = document.querySelector('.dna-fallback');
+    const showFallback = () => { if(fallback) fallback.style.display = 'block'; heroVid.style.display = 'none'; };
+    const hideFallback = () => { if(fallback) fallback.style.display = 'none'; if(heroVid.style.display === 'none') heroVid.style.display = ''; };
+    const tryPlay = () => { const p = heroVid.play(); if(p && p.then) p.then(hideFallback).catch(showFallback); };
     tryPlay();
     heroVid.addEventListener('canplay', tryPlay, { once:true });
-    heroVid.addEventListener('playing', () => { if(heroPlay) heroPlay.hidden = true; });
-    document.addEventListener('visibilitychange', () => { if(!document.hidden && heroVid.paused) tryPlay(); });
-
-    // user tap starts playback (a user gesture is allowed even in Low Power Mode)
-    if(heroPlay){
-      heroPlay.addEventListener('click', () => {
-        heroVid.muted = true;
-        heroVid.play().then(()=>{ heroPlay.hidden = true; }).catch(()=>{});
-      });
-    }
+    heroVid.addEventListener('playing', hideFallback);
+    document.addEventListener('visibilitychange', () => { if(!document.hidden) tryPlay(); });
   }
 
   // ── preload frames ──────────────────────────────────────
