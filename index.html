@@ -125,7 +125,11 @@
   /* EXPERIMENT: looping video. Helix is centered in the source, placed on the RIGHT. */
   #dna, .dna-fallback{ position:absolute; top:0; right:0; bottom:0; width:58%; height:100%; display:block; z-index:1;
     object-fit:cover; object-position:78% center; pointer-events:none; }
-  .dna-fallback{ display:none; }   /* static poster; shown by JS only when the hero video can't autoplay (e.g. iOS Low Power Mode) so no native play button appears */
+  /* Static poster is shown by default; the <video> is revealed by JS only once
+     it is actually playing. A blocked/paused video is never visible, so iOS can
+     never render its native play button. */
+  #dna{ display:none; }
+  .dna-fallback{ display:block; }
   /* hero video is pure background — hide the native play button / media controls */
   #dna::-webkit-media-controls,
   #dna::-webkit-media-controls-enclosure,
@@ -1478,7 +1482,7 @@
     // no <video> shown means no play button. Devices that can autoplay keep the animation.
     const fallback = document.querySelector('.dna-fallback');
     const showFallback = () => { if(fallback) fallback.style.display = 'block'; heroVid.style.display = 'none'; };
-    const hideFallback = () => { if(fallback) fallback.style.display = 'none'; if(heroVid.style.display === 'none') heroVid.style.display = ''; };
+    const hideFallback = () => { if(fallback) fallback.style.display = 'none'; heroVid.style.display = 'block'; };
     const tryPlay = () => { const p = heroVid.play(); if(p && p.then) p.then(hideFallback).catch(showFallback); };
     tryPlay();
     heroVid.addEventListener('canplay', tryPlay, { once:true });
