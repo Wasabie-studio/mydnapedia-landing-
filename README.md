@@ -1,118 +1,68 @@
-# MyDNAPedia — Landing Page
+# MyDNAPedia — Website
 
-Marketing landing page for **MyDNAPedia**, a DNA wellness testing company (India).
-Single-page, scroll-driven experience across 9 sections + footer.
+The marketing website for **MyDNAPedia**, live at **https://mydnapedia.org**.
 
-> **Status:** **S1 (Hero)** and **S2 (Rotating tension line)** are built. Sections S3–S9 + footer are open for the team (see *Sections* below).
+Hand-coded static site (plain HTML, CSS, vanilla JavaScript — no framework, no build step). Push to `main` and it deploys itself via GitHub Pages.
+
+---
+
+## For the team: making changes with Claude Code
+
+This repo is set up so you can make edits by *describing what you want* to **Claude Code** (an AI coding assistant), even without being a developer.
+
+### One-time setup
+1. **Install Claude Code:** follow https://claude.com/claude-code (available in the terminal and as a desktop/VS Code app).
+2. **Get the project on your computer:**
+   ```bash
+   git clone https://github.com/Wasabie-studio/mydnapedia-landing-.git
+   cd mydnapedia-landing-
+   ```
+3. **Open Claude Code in this folder.** It automatically reads `CLAUDE.md`, so it already understands the project.
+4. *(Optional)* Type `/mydnapedia-site` in Claude Code to load the project skill for extra guidance.
+
+### Making a change
+Just tell Claude Code plainly, e.g.:
+- "Change the hero headline to '…'."
+- "Add a testimonial from Priya, Mumbai: '…'."
+- "Update the New Delhi phone number to … on all pages."
+- "Remove [name] from the team."
+
+Then ask it to **commit and push** — the change goes live on mydnapedia.org in a couple of minutes (hard-refresh your browser to see it).
+
+### The important docs (Claude Code reads these; you can too)
+| File | What it's for |
+|---|---|
+| **`CLAUDE.md`** | Project overview, structure, how to run & deploy |
+| **`docs/DECISIONS.md`** | *Why* things are built the way they are — read before changing core behavior |
+| **`docs/EDITING-GUIDE.md`** | Step-by-step recipes for common edits |
+| **`.claude/skills/mydnapedia-site/SKILL.md`** | The project skill (loads the rules on demand) |
+
+### A few things to know
+- **Content rule:** the site must not mention Finland, Europe, "EU-certified", or "ASPCR" (client decision — see DECISIONS.md).
+- **Nav, footer, and page meta repeat on all 5 pages** — changes there apply everywhere.
+- **If a change doesn't show up:** it's almost always browser/CDN caching or a still-running deploy, not a bug. Hard-refresh (Cmd/Ctrl+Shift+R) and give it a couple minutes.
 
 ---
 
 ## Run it locally
-
-It's a static site — no build step. Serve the folder:
-
 ```bash
-# option A
 npx serve -l 4321 .
-# option B
-python3 -m http.server 4321
 ```
+Open http://localhost:4321.
 
-Then open http://localhost:4321
-
-`npm install` is **only** needed if you want to re-generate the DNA helix frames (see *Assets*).
-
----
-
-## How the hero works
-
-S1 + S2 share **one pinned scroll stage** (`.stage` → `position: sticky`). As you scroll:
-
-- a **97-frame webp sequence** of the glass DNA helix is scrubbed on a `<canvas>` (helix builds 1/3 → full),
-- the hero copy + trust bar fade out,
-- S2's rotating "Your DNA already knows…" line fades in once the helix completes.
-
-All logic is vanilla JS at the bottom of `index.html`. (The helper hooks `window.__scrub` / `window.__freeze` are dev-only and will be removed before launch.)
-
----
-
-## Project structure
-
-```
-index.html            # everything: markup, styles, scroll/scrub JS
-assets/
-  dna-helix.webp       # full animated helix (1 file, reference)
-frames/                # frame_0001..0097.webp — the scrub sequence (native 1764px)
-package.json           # ffmpeg-static, only for regenerating frames
-```
-
----
-
-## Design system / brand tokens
-
-Defined as CSS variables in `:root` (top of `index.html`):
-
-- **Display font:** Sentient (Fontshare, serif) — headlines + the S2 word
-- **Body/UI font:** Satoshi (Fontshare)
-- **Background:** `#F7F2E8` warm off-white
-- **Ink:** `#16120A`
-- **Gold (two-tone):**
-  - `--gold #9C6B16` — gold **text** on light (legible)
-  - `--gold-lt #E4A92F` — bright honey-gold for **fills/accents** (always with near-black `--on-gold` text)
-- **Frosted glass:** shared `.glass` tokens (`--glass*`, `--blur`) — used by the nav, trust bar, eyebrow, and CTAs. Glass reads best **over the helix/glow**; over flat areas it stays subtle by design.
-
-Please reuse these tokens so the sections stay consistent.
-
----
-
-## Fonts
-
-- **Sentient** (display) + **Satoshi** (body) — both from **Fontshare, free for commercial + web use**. No licensing blockers.
-- (We trialled Canela earlier but moved off it to avoid the paid Commercial Type web licence.)
-
----
-
-## Assets — regenerating the helix frames
-
-Frames are committed, so you normally don't need this. To re-extract from a new master video:
-
+## Deploy
+Automatic — push to `main`:
 ```bash
-npm install            # pulls ffmpeg-static
-# then run the ffmpeg extract (1764px wide, q92) — see commit history / ask Tanish
+git add -A && git commit -m "your message" && git push origin main
 ```
+GitHub Pages rebuilds and serves it at mydnapedia.org.
 
----
+## Tech
+Static HTML/CSS/JS. Fonts: **Sentient** (headings) + **Satoshi** (body) from Fontshare — both free for commercial/web use. Forms via Google Apps Script → Google Sheets. Analytics via Google Analytics 4.
 
-## Working in parallel (branching)
-
-`main` holds the integrated page. **Don't commit your section straight to `main`.**
-
-1. Branch per section: `git checkout -b section/s4-pricing`
-2. Build your section as a self-contained block (ideally its own partial/component or a clearly-marked block in `index.html`).
-3. Open a PR into `main`. We'll integrate sections in order.
-
-Keep to the brand tokens above and the frosted-glass / Sentient + Satoshi language.
-
-### Sections
-- **S1 Hero** — ✅ done
-- **S2 Rotating tension line** — ✅ done
-- S3 Scroll-triggered emotional copy
-- S4 Three-tier pricing (scroll-based, DNA helix scrub across Lite → Standard → Premium)
-- S5 How it works (5 steps)
-- S6 After your test (counselling + report)
-- S7 Trust & credentials
-- S8 Lead capture form (Netlify forms)
-- S9 Partner CTA
-- Footer
-
----
-
-## Open content/legal flags (read before publishing)
-
-- **Pharmacogenomics "only in India" claim is factually wrong** — Mapmygenome's MedicaMap already offers consumer PGx in India (since 2022). The PGx benefit copy is fine; the "only" superlative must be dropped/qualified (ASCI risk).
-- **Trust signals:** Indian buyers look for **NABL / CAP** accreditation — currently the copy leans EU/US (FDA/EMA). Confirm which accreditations MyDNAPedia can legitimately display before building S7.
-- Testimonials and accreditation logos are **client-supplied placeholders**.
-
----
-
-*Stack roadmap (per brief): Netlify hosting + forms, Google Analytics 4, TinaCMS, Zapier → Google Sheet for leads.*
+## Accounts involved (owned by the client)
+- **GitHub** (`Wasabie-studio/mydnapedia-landing-`) — code + hosting (GitHub Pages).
+- **Domain** — `mydnapedia.org` (DNS at GoDaddy).
+- **Google account `sales@mydnapedia.org`** — runs the form backend (Apps Script + the "MyDNAPedia Leads" Google Sheet). Lead alerts go to `support@mydnapedia.org`.
+- **Google Analytics 4** — traffic + form-conversion tracking.
+- **Google Search Console** — manages how the site appears in Google search.
