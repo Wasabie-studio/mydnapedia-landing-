@@ -665,23 +665,24 @@
   @keyframes vizdraw{ to{ stroke-dashoffset:0; } }
   @keyframes vizpop{ to{ opacity:1; transform:translate(-50%,-50%) scale(1); } }
 
-  /* A — cumulative growth chart (tests built since 2025) */
-  .viz-growth{ display:flex; flex-direction:column; gap:12px; }
-  .growth{ position:relative; height:clamp(100px,12vw,132px); }
-  .growth svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
-  .growth-area{ opacity:0; transition:opacity 1.1s ease .3s; }
-  .viz.in .growth-area{ opacity:1; }
-  .growth-line{ fill:none; stroke:var(--gold-lt); stroke-width:2.5;
-    stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke;
-    stroke-dasharray:1; stroke-dashoffset:1; }
-  .viz.in .growth-line{ animation:vizdraw 1.25s ease .15s forwards; }
-  .growth-dot{ position:absolute; width:13px; height:13px; border-radius:50%;
-    background:var(--gold-lt); border:2.5px solid #F9F6EF;
-    box-shadow:0 4px 12px -3px rgba(214,156,26,.7);
-    transform:translate(-50%,-50%) scale(.3); opacity:0; }
-  .viz.in .growth-dot{ animation:vizpop .5s cubic-bezier(.22,1,.36,1) 1.1s both; }
-  .growth-axis{ display:flex; justify-content:space-between;
-    font-size:11.5px; font-weight:600; color:var(--muted); letter-spacing:.02em; }
+  /* A — 100+ traits, broken down by health area (bars fill in on scroll) */
+  .viz-traits{ display:flex; flex-direction:column; gap:12px; }
+  .traits-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:11px; }
+  .trait-row{ display:grid; grid-template-columns:120px 1fr; align-items:center; gap:12px; }
+  .trait-name{ font-size:12.5px; font-weight:600; color:var(--ink-soft); letter-spacing:.01em; }
+  .trait-bar{ position:relative; height:11px; border-radius:7px; overflow:hidden;
+    background:repeating-linear-gradient(45deg, rgba(50,46,39,.1) 0 2px, rgba(50,46,39,.04) 2px 6px); }
+  .trait-bar i{ position:absolute; inset:0 auto 0 0; width:0; display:block; border-radius:7px;
+    background:linear-gradient(90deg, var(--gold), var(--gold-lt));
+    box-shadow:0 3px 10px -4px rgba(214,156,26,.55);
+    transition:width 1.1s cubic-bezier(.16,1,.3,1); }
+  .trait-row:nth-child(1) .trait-bar i{ transition-delay:.05s; }
+  .trait-row:nth-child(2) .trait-bar i{ transition-delay:.13s; }
+  .trait-row:nth-child(3) .trait-bar i{ transition-delay:.21s; }
+  .trait-row:nth-child(4) .trait-bar i{ transition-delay:.29s; }
+  .trait-row:nth-child(5) .trait-bar i{ transition-delay:.37s; }
+  .trait-row:nth-child(6) .trait-bar i{ transition-delay:.45s; }
+  .viz.in .trait-bar i{ width:var(--w); }
 
   /* B — accuracy vs industry comparison bars */
   .cmp{ display:flex; flex-direction:column; gap:18px; max-width:440px; }
@@ -716,9 +717,7 @@
   }
   @media (prefers-reduced-motion:reduce){
     .odo.run .odo-reel{ transition:none; }
-    .viz .growth-area{ opacity:1; transition:none; }
-    .viz .growth-line{ stroke-dashoffset:0; animation:none; }
-    .viz .growth-dot{ opacity:1; transform:translate(-50%,-50%) scale(1); animation:none; }
+    .viz.in .trait-bar i{ transition:none; }
     .viz.in .cmp-fill{ transition:none; }
   }
 
@@ -1176,22 +1175,18 @@
 
       <div class="trust-stats">
         <div class="stat">
-          <div class="odo" data-value="1.8" data-suffix="M+"></div>
-          <div class="stat-label">tests conducted</div>
-          <!-- cumulative growth: tests built up from the 2025 founding to today -->
-          <div class="viz viz-growth">
-            <div class="growth">
-              <svg viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true">
-                <defs><linearGradient id="growthFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#E4A92F" stop-opacity=".32"/>
-                  <stop offset="1" stop-color="#E4A92F" stop-opacity="0"/>
-                </linearGradient></defs>
-                <path class="growth-area" fill="url(#growthFill)" d="M0,55 C22,53 38,49 54,39 C70,30 84,18 96,11 L96,60 L0,60 Z"/>
-                <path class="growth-line" pathLength="1" d="M0,55 C22,53 38,49 54,39 C70,30 84,18 96,11"/>
-              </svg>
-              <span class="growth-dot" style="left:96%;top:18%"></span>
-            </div>
-            <div class="growth-axis"><span>2025</span><span>Today &middot; 1.8M+</span></div>
+          <div class="odo" data-value="100" data-suffix="+"></div>
+          <div class="stat-label">health traits analysed</div>
+          <!-- 100+ traits, broken down across health areas -->
+          <div class="viz viz-traits">
+            <ul class="traits-list">
+              <li class="trait-row" style="--w:94%"><span class="trait-name">Disease risk</span><span class="trait-bar"><i></i></span></li>
+              <li class="trait-row" style="--w:80%"><span class="trait-name">Nutrition</span><span class="trait-bar"><i></i></span></li>
+              <li class="trait-row" style="--w:68%"><span class="trait-name">Fitness</span><span class="trait-bar"><i></i></span></li>
+              <li class="trait-row" style="--w:56%"><span class="trait-name">Skin &amp; hair</span><span class="trait-bar"><i></i></span></li>
+              <li class="trait-row" style="--w:46%"><span class="trait-name">Pharmacogenomics</span><span class="trait-bar"><i></i></span></li>
+              <li class="trait-row" style="--w:36%"><span class="trait-name">Mental wellbeing</span><span class="trait-bar"><i></i></span></li>
+            </ul>
           </div>
         </div>
         <div class="stat">
