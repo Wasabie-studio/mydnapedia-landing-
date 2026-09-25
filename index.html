@@ -98,6 +98,7 @@
     transition:color .25s ease, background .25s ease;
   }
   .nav-links a:hover{ color:var(--ink); background:rgba(255,255,255,.38); }
+  .nav-links a.active{ color:var(--gold); font-weight:700; background:rgba(247,190,40,.16); }
   .nav-cta{
     display:inline-flex; align-items:center; gap:8px; margin-left:6px;
     background:rgba(247,190,40,.82);
@@ -2142,6 +2143,36 @@
     const el = document.getElementById('get-results');
     if(el) el.scrollIntoView({ behavior:'smooth' });
   });
+})();
+</script>
+
+<script>
+/* nav scrollspy — highlight the nav link for the section currently in view */
+(function(){
+  const links = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+  const map = links
+    .map(a => ({ a, sec: document.querySelector(a.getAttribute('href')) }))
+    .filter(x => x.sec);
+  if(!map.length) return;
+
+  const LINE = 150;              // reference line just below the floating nav
+  let raf = null;
+  function spy(){
+    raf = null;
+    let current = null;
+    for(const {a, sec} of map){
+      const r = sec.getBoundingClientRect();
+      if(r.top <= LINE && r.bottom > LINE) current = a;   // section straddling the line
+    }
+    // near the very bottom, keep the last mapped section active
+    if(!current && (window.innerHeight + window.scrollY) >= document.body.scrollHeight - 2){
+      current = map[map.length - 1].a;
+    }
+    links.forEach(a => a.classList.toggle('active', a === current));
+  }
+  window.addEventListener('scroll', () => { if(!raf) raf = requestAnimationFrame(spy); }, {passive:true});
+  window.addEventListener('resize', () => { if(!raf) raf = requestAnimationFrame(spy); });
+  spy();
 })();
 </script>
 </body>
