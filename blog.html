@@ -11,21 +11,21 @@
   gtag('config', 'G-3VM23JCP35');
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="MyDNAPedia's disclaimer on the informational, non-diagnostic nature of our DNA reports and genetic wellness guidance." />
+<meta name="description" content="Field notes on the science of you — MyDNAPedia's blog on DNA wellness, nutrition, fitness, disease risk and what your genes reveal about your health." />
 <meta name="robots" content="index, follow" />
-<link rel="canonical" href="https://mydnapedia.org/disclaimer.html" />
+<link rel="canonical" href="https://mydnapedia.org/blog.html" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="MyDNAPedia" />
 <meta property="og:locale" content="en_IN" />
-<meta property="og:title" content="Disclaimer — MyDNAPedia" />
-<meta property="og:description" content="MyDNAPedia's disclaimer on the informational, non-diagnostic nature of our DNA reports and genetic wellness guidance." />
-<meta property="og:url" content="https://mydnapedia.org/disclaimer.html" />
+<meta property="og:title" content="Blog — MyDNAPedia" />
+<meta property="og:description" content="Field notes on the science of you — insights on DNA wellness, nutrition, fitness and disease risk." />
+<meta property="og:url" content="https://mydnapedia.org/blog.html" />
 <meta property="og:image" content="https://mydnapedia.org/assets/og-image.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Disclaimer — MyDNAPedia" />
-<meta name="twitter:description" content="MyDNAPedia's disclaimer on the informational, non-diagnostic nature of our DNA reports and genetic wellness guidance." />
+<meta name="twitter:title" content="Blog — MyDNAPedia" />
+<meta name="twitter:description" content="Field notes on the science of you — insights on DNA wellness, nutrition, fitness and disease risk." />
 <meta name="twitter:image" content="https://mydnapedia.org/assets/og-image.jpg" />
-<title>Disclaimer — MyDNAPedia</title>
+<title>Blog — MyDNAPedia | Field notes on the science of you</title>
 <link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
 <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png" />
@@ -92,6 +92,7 @@
     transition:color .25s ease, background .25s ease;
   }
   .nav-links a:hover{ color:var(--ink); background:rgba(255,255,255,.38); }
+  .nav-links a.active{ color:var(--ink); background:rgba(255,255,255,.5); }
   .nav-cta{
     display:inline-flex; align-items:center; gap:8px; margin-left:6px;
     background:rgba(247,190,40,.82);
@@ -135,67 +136,75 @@
     .nav-links a{ padding:13px 16px; font-size:15px; border-radius:11px; }
   }
 
-  /* ── LEGAL DOCUMENT ─────────────────────────── */
-  .legal{ background:#FBF8F1; }
-  .legal-head{ padding:clamp(120px,15vh,168px) max(42px,6vw) clamp(34px,4vw,48px);
-    border-bottom:1px solid rgba(50,46,39,.10); }
-  .legal-head .kicker{ font-size:12px; font-weight:600; letter-spacing:.18em;
-    text-transform:uppercase; color:var(--muted); display:block; }
-  .legal-head h1{ font-family:var(--font-display); font-weight:500;
-    font-size:clamp(34px,5vw,60px); line-height:1.06; letter-spacing:-.02em;
-    color:var(--ink); margin:14px 0 0; }
-  .legal-head .meta{ margin-top:16px; font-size:14.5px; color:var(--muted); line-height:1.6; }
+  /* ── BLOG HERO BAND ─────────────────────────────────── */
+  .blog-hero{ position:relative; overflow:hidden; background:#2A2620; color:#F7F2E8; }
+  .blog-hero::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:url('assets/partner-dna.webp') no-repeat center right / cover; opacity:.34; }
+  .blog-hero::after{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:linear-gradient(100deg, #2A2620 8%, rgba(42,38,32,.86) 40%, rgba(42,38,32,.42) 78%, rgba(42,38,32,.2) 100%); }
+  .blog-hero-wrap{ position:relative; z-index:1;
+    padding:clamp(126px,15vh,180px) max(42px,6vw) clamp(56px,7vw,90px); max-width:1240px; margin:0 auto; }
+  .blog-hero .kicker{ font-size:12.5px; font-weight:700; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--gold-lt); display:block; }
+  .blog-hero h1{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(38px,6vw,76px); line-height:1.04; letter-spacing:-.02em;
+    color:#FBF8F1; margin:20px 0 0; max-width:15em; }
+  .blog-hero p{ font-size:clamp(15px,1.3vw,19px); line-height:1.6;
+    color:rgba(247,242,232,.72); font-weight:500; max-width:46ch; margin:22px 0 0; }
 
-  .legal-wrap{
-    padding:clamp(40px,5vw,64px) max(42px,6vw) clamp(60px,7vw,96px); }
+  /* ── ARTICLE GRID ───────────────────────────────────── */
+  .blog{ position:relative; background:#FBF8F1; }
+  .blog-wrap{ padding:clamp(48px,6vw,84px) max(42px,6vw) clamp(64px,8vw,110px); max-width:1240px; margin:0 auto; }
 
-  .legal-section{ margin-top:clamp(36px,4vw,52px); }
-  .legal-section:first-child{ margin-top:0; }
-  .legal-section > h2{ font-family:var(--font-display); font-weight:500;
-    font-size:clamp(21px,2.2vw,28px); letter-spacing:-.015em; color:var(--ink);
-    line-height:1.2; margin:0 0 18px; padding-bottom:14px;
-    border-bottom:1px solid rgba(50,46,39,.10); }
-  .legal-section > h2 .num{ color:var(--gold-lt); font-weight:500; margin-right:.5em; }
+  /* category filter row (client-side, static) */
+  .blog-filters{ display:flex; flex-wrap:wrap; gap:10px; margin:0 0 clamp(30px,3.5vw,46px); }
+  .blog-filter{ font-family:"Satoshi",sans-serif; font-size:13.5px; font-weight:600;
+    color:var(--ink-soft); background:#fff; border:1px solid rgba(50,46,39,.14);
+    border-radius:100px; padding:9px 18px; cursor:pointer; letter-spacing:.005em;
+    transition:color .2s ease, background .2s ease, border-color .2s ease; }
+  .blog-filter:hover{ border-color:rgba(228,169,47,.6); color:var(--ink); }
+  .blog-filter.active{ background:rgba(247,190,40,.95); color:var(--on-gold);
+    border-color:rgba(255,246,210,.85); box-shadow:0 8px 20px -10px rgba(214,156,26,.5); }
 
-  .legal-block{ margin-top:22px; }
-  .legal-block:first-of-type{ margin-top:0; }
-  .legal-block h3{ font-size:15.5px; font-weight:700; color:var(--ink);
-    letter-spacing:-.005em; margin:0 0 7px; }
-  .legal-block p{ font-size:clamp(14.5px,1.05vw,16px); line-height:1.72;
-    color:var(--ink-soft); margin:0 0 12px; }
-  .legal-block p:last-child{ margin-bottom:0; }
-  .legal-block a{ color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(156,107,22,.3); }
-  .legal-block a:hover{ border-bottom-color:var(--gold); }
-  .legal-block ul{ margin:10px 0 0; padding-left:0; list-style:none; }
-  .legal-block li{ position:relative; padding-left:22px; margin:0 0 10px;
-    font-size:clamp(14.5px,1.05vw,16px); line-height:1.7; color:var(--ink-soft); }
-  .legal-block li::before{ content:""; position:absolute; left:2px; top:11px;
-    width:6px; height:6px; border-radius:50%; background:var(--gold-lt); }
-
-  @media(max-width:600px){
-    .legal-head{ padding:100px 22px 26px; }
-    .legal-head h1{ font-size:clamp(30px,8.5vw,40px); }
-    .legal-head .meta{ font-size:13.5px; }
-    .legal-wrap{ padding:32px 22px 64px; }
-    .legal-section{ margin-top:32px; }
-    .legal-section > h2{ font-size:20px; margin-bottom:14px; padding-bottom:12px; }
-    .legal-block p, .legal-block li{ font-size:14.5px; }
-    .legal-callout{ padding:22px 20px; }
-    .legal-callout h2{ font-size:18px; }
-  }
-
-  .legal-callout{ margin-top:clamp(40px,5vw,60px);
+  .blog-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(18px,2vw,28px); }
+  .post{ display:flex; flex-direction:column;
     background:#fff; border:1px solid rgba(50,46,39,.10); border-radius:18px;
-    padding:clamp(26px,3vw,38px); box-shadow:0 8px 30px -18px rgba(74,55,18,.22); }
-  .legal-callout h2{ font-family:var(--font-display); font-weight:500;
-    font-size:clamp(18px,1.8vw,24px); color:var(--ink); letter-spacing:-.01em;
-    line-height:1.25; margin:0 0 6px; }
-  .legal-callout .sub{ font-size:13.5px; color:var(--muted); line-height:1.65; margin:0 0 8px; }
+    padding:clamp(24px,2.4vw,32px); text-decoration:none; color:inherit;
+    box-shadow:0 4px 20px rgba(50,46,39,.04);
+    opacity:0; transform:translateY(34px) scale(.98); filter:blur(6px);
+    transition:box-shadow .3s ease, border-color .3s ease, transform .3s ease,
+               opacity .8s cubic-bezier(.22,1,.36,1), filter .7s ease; }
+  .post.in{ opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+  .post:hover{ box-shadow:0 16px 40px -20px rgba(74,55,18,.3); border-color:rgba(50,46,39,.2);
+    transform:translateY(-4px); }
+  @media(prefers-reduced-motion:reduce){
+    .post{ opacity:1; transform:none; filter:none; transition:box-shadow .3s ease, border-color .3s ease; }
+  }
+  .post-date{ font-size:13px; font-weight:600; color:var(--muted); letter-spacing:.02em; }
+  .post h2{ font-family:var(--font-display); font-weight:500;
+    font-size:clamp(20px,1.7vw,25px); line-height:1.22; letter-spacing:-.01em;
+    color:var(--ink); margin:14px 0 0; }
+  .post p{ font-size:clamp(14.5px,1.02vw,16px); line-height:1.66;
+    color:var(--ink-soft); margin:12px 0 0; }
+  .post-foot{ margin-top:auto; padding-top:22px;
+    display:flex; align-items:center; gap:9px; }
+  .post-cat{ display:inline-flex; align-items:center; gap:9px;
+    font-size:13px; font-weight:700; color:var(--gold); letter-spacing:.01em; }
+  .post-cat i{ width:8px; height:8px; border-radius:50%; background:var(--gold-lt);
+    box-shadow:0 0 0 4px rgba(228,169,47,.16); }
+  .post .post-arrow{ margin-left:auto; width:30px; height:30px; border-radius:50%;
+    display:grid; place-items:center; background:rgba(228,169,47,.12);
+    border:1px solid rgba(228,169,47,.3); color:var(--gold);
+    transition:transform .3s cubic-bezier(.22,1,.36,1), background .3s ease; }
+  .post:hover .post-arrow{ transform:translateX(3px); background:rgba(228,169,47,.22); }
+  .post .post-arrow svg{ width:14px; height:14px; }
 
-  .legal-contact-card{ margin-top:14px; padding:18px 20px;
-    background:#FBF8F1; border-radius:12px; }
-  .legal-contact-card strong{ display:block; color:var(--ink); font-size:15px; margin-bottom:4px; }
-  .legal-contact-card span{ display:block; font-size:14.5px; color:var(--ink-soft); line-height:1.6; }
+  .blog-empty{ display:none; text-align:center; padding:60px 20px;
+    font-size:16px; color:var(--muted); font-weight:500; }
+  .blog-empty.show{ display:block; }
+
+  @media(max-width:960px){ .blog-grid{ grid-template-columns:1fr 1fr; } }
+  @media(max-width:600px){ .blog-grid{ grid-template-columns:1fr; } }
 
   /* ── FOOTER ─────────────────────────── */
   .footer{ background:#2A2620; color:rgba(247,242,232,.72); }
@@ -227,7 +236,7 @@
     .footer-top{ grid-template-columns:1fr; }
   }
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": ["MedicalBusiness", "Organization"], "name": "MyDNAPedia", "url": "https://mydnapedia.org/", "logo": "https://mydnapedia.org/assets/logo.webp", "description": "Genetic wellness company offering DNA testing and one-on-one genetic counselling, analysed in a Global Standards compliant laboratory.", "foundingDate": "2025", "areaServed": "IN", "email": "support@mydnapedia.org", "telephone": "+91-93119-54311", "address": {"@type": "PostalAddress", "streetAddress": "INNOV8, Okhla Phase III", "addressLocality": "New Delhi", "postalCode": "110020", "addressCountry": "IN"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Blog", "name": "MyDNAPedia Blog", "url": "https://mydnapedia.org/blog.html", "description": "Field notes on the science of you — insights on DNA wellness, nutrition, fitness and disease risk.", "publisher": {"@type": "Organization", "name": "MyDNAPedia", "logo": "https://mydnapedia.org/assets/logo.webp"}}</script>
 </head>
 <body>
 
@@ -240,48 +249,102 @@
       <a href="index.html#tests">Our Tests</a>
       <a href="index.html#how-it-works">How It Works</a>
       <a href="about.html">About</a>
-      <a href="blog.html">Blog</a>
+      <a href="blog.html" class="active">Blog</a>
     </div>
     <button class="nav-cta" onclick="location.href='index.html#get-results'">Get My Results
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </button>
   </nav>
 
-  <!-- ═══ HEADER ═══ -->
-  <section class="legal">
-    <div class="legal-head">
-      <span class="kicker">Legal</span>
-      <h1>Disclaimer</h1>
-      <p class="meta">MyDNAPedia, a unit of TVASTI Health and Wellness Private Limited, New Delhi. Please read this disclaimer carefully before using this site.</p>
-    </div>
-
-    <div class="legal-wrap">
-
-      <div class="legal-section">
-        <h2><span class="num">1</span>&ldquo;As Is&rdquo; and &ldquo;As Available&rdquo;</h2>
-        <div class="legal-block">
-          <p>This site is provided by MYDNAPEDIA on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo; basis. MYDNAPEDIA makes no representations or warranties of any kind, express or implied, as to the operation of this site or the information, content, materials, or products included on this site. MYDNAPEDIA may discontinue the site anytime and may impose limits on the service without prior notice. To the full extent permissible by applicable law, MYDNAPEDIA disclaims all warranties, express or implied, including, but not limited to, implied warranties of merchantability and fitness for a particular purpose.</p>
-        </div>
-      </div>
-
-      <div class="legal-section">
-        <h2><span class="num">2</span>Use at Your Own Risk</h2>
-        <div class="legal-block">
-          <p>You expressly agree that your use of this site is at your sole risk. MYDNAPEDIA does not guarantee or warrant that this site, its servers, emails sent by this site or any files available for downloading through the site will be free of infectious viruses or other harmful components that may contain contaminating or destructive properties to your computer or corresponding device. MYDNAPEDIA will not be liable for any damages of any kind arising from the use of this site including, but not limited to, direct, indirect, incidental, punitive, and consequential damages.</p>
-        </div>
-      </div>
-
-      <div class="legal-section">
-        <h2><span class="num">3</span>Third-Party Sites and Content</h2>
-        <div class="legal-block">
-          <p>MYDNAPEDIA does not warrant that any tutorials taught on this site will be guaranteed to render the desired results. MYDNAPEDIA does not warrant that the links on the site will be working and are only brought to you on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo; basis. Any third-party sites or web stores to which this site may link are not under MYDNAPEDIA&acute;s control, and MYDNAPEDIA does not assume any responsibility or liability for any information, content, communications or materials available on such third-party sites. MYDNAPEDIA is not responsible for any flaws or availability regarding products, deliveries, or content provided by third-party sites or web stores to which this site may link. MYDNAPEDIA is not responsible for such ways of usage of products or results purchased from third-party sites or web stores this site may link that they are intended to or not intended to, such as diagnostic procedures. MYDNAPEDIA is not responsible for any misconceptions the results provided by third-party sites or web stores to which this site may link may cause.</p>
-        </div>
-      </div>
-
+  <!-- ═══ BLOG HERO ═══ -->
+  <section class="blog-hero">
+    <div class="blog-hero-wrap">
+      <span class="kicker">News &amp; Insights</span>
+      <h1>Field notes on the science of you.</h1>
+      <p>Updates, research and perspectives on DNA wellness — nutrition, fitness, disease risk and what your genes reveal about living better.</p>
     </div>
   </section>
 
-  <!-- ═══ FOOTER ═══ -->
+  <!-- ═══ ARTICLE GRID (placeholder posts — swap with real content) ═══ -->
+  <section class="blog">
+    <div class="blog-wrap">
+      <div class="blog-filters" role="tablist" aria-label="Filter posts by topic">
+        <button class="blog-filter active" data-cat="all">All</button>
+        <button class="blog-filter" data-cat="Nutrition">Nutrition</button>
+        <button class="blog-filter" data-cat="Fitness">Fitness</button>
+        <button class="blog-filter" data-cat="Disease Risk">Disease Risk</button>
+        <button class="blog-filter" data-cat="Skin &amp; Hair">Skin &amp; Hair</button>
+        <button class="blog-filter" data-cat="Pharmacogenomics">Pharmacogenomics</button>
+      </div>
+
+      <div class="blog-grid" id="blogGrid">
+
+        <a class="post" href="#" data-cat="Nutrition">
+          <span class="post-date">14 June 2026</span>
+          <h2>Why the same diet works for your friend but not for you</h2>
+          <p>Your genes shape how you process carbs, fats and caffeine. Here's how DNA-guided nutrition moves you past one-size-fits-all diet advice.</p>
+          <div class="post-foot">
+            <span class="post-cat"><i></i> Nutrition</span>
+            <span class="post-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+
+        <a class="post" href="#" data-cat="Fitness">
+          <span class="post-date">08 June 2026</span>
+          <h2>Are you built for endurance or power? Your DNA has an opinion</h2>
+          <p>Muscle-fibre type, recovery speed and injury risk are partly written in your genes. What that means for how you should actually train.</p>
+          <div class="post-foot">
+            <span class="post-cat"><i></i> Fitness</span>
+            <span class="post-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+
+        <a class="post" href="#" data-cat="Disease Risk">
+          <span class="post-date">31 May 2026</span>
+          <h2>Family history vs. genetic risk: what's the difference?</h2>
+          <p>Knowing a condition runs in the family is one thing — seeing your own predisposition is another. How to read a risk score without panic.</p>
+          <div class="post-foot">
+            <span class="post-cat"><i></i> Disease Risk</span>
+            <span class="post-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+
+        <a class="post" href="#" data-cat="Skin &amp; Hair">
+          <span class="post-date">22 May 2026</span>
+          <h2>The genetics behind collagen, ageing and hair loss</h2>
+          <p>Skin elasticity and pattern hair loss have strong genetic signals. Understand yours before spending on products that were never made for you.</p>
+          <div class="post-foot">
+            <span class="post-cat"><i></i> Skin &amp; Hair</span>
+            <span class="post-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+
+        <a class="post" href="#" data-cat="Pharmacogenomics">
+          <span class="post-date">15 May 2026</span>
+          <h2>Why one medicine helps some people and not others</h2>
+          <p>Pharmacogenomics studies how your body responds to prescriptions. A quick primer on why this belongs in every health conversation.</p>
+          <div class="post-foot">
+            <span class="post-cat"><i></i> Pharmacogenomics</span>
+            <span class="post-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+
+        <a class="post" href="#" data-cat="Nutrition">
+          <span class="post-date">06 May 2026</span>
+          <h2>Vitamin D, B12 and the deficiencies your genes predict</h2>
+          <p>Some people need far more of certain nutrients than others. See how a single test can flag the deficiencies worth watching for life.</p>
+          <div class="post-foot">
+            <span class="post-cat"><i></i> Nutrition</span>
+            <span class="post-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+
+      </div>
+
+      <p class="blog-empty" id="blogEmpty">No posts in this topic yet — check back soon.</p>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-top">
@@ -301,7 +364,7 @@
           <a href="index.html#how-it-works">How it works</a>
           <a href="index.html#tests">Our Test</a>
           <a href="about.html">About</a>
-          <a href="blog.html">Blog</a>
+          <a href="blog.html" class="active">Blog</a>
           <a href="about.html#partner">Partner with us</a>
           <a href="mailto:support@mydnapedia.org">Contact</a>
         </nav>
@@ -309,7 +372,7 @@
           <h4>Legal</h4>
           <a href="privacy.html">Privacy Policy</a>
           <a href="terms.html">Terms &amp; Conditions</a>
-          <a href="disclaimer.html" class="active">Disclaimer</a>
+          <a href="disclaimer.html">Disclaimer</a>
         </nav>
         <nav class="footer-col">
           <h4>Follow</h4>
@@ -324,6 +387,50 @@
       </div>
     </div>
   </footer>
+
+<script>
+/* article cards reveal on scroll (staggered) */
+(function(){
+  const cards = Array.from(document.querySelectorAll('.post'));
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+    cards.forEach(c=>c.classList.add('in')); return;
+  }
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const visible = cards.filter(c=>c.style.display!=='none');
+        const idx = visible.indexOf(e.target);
+        setTimeout(()=>e.target.classList.add('in'), Math.max(0,idx)*90);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold:0.15 });
+  cards.forEach(c=>io.observe(c));
+})();
+</script>
+
+<script>
+/* topic filter — static, client-side */
+(function(){
+  const filters = document.querySelectorAll('.blog-filter');
+  const posts   = Array.from(document.querySelectorAll('.post'));
+  const empty   = document.getElementById('blogEmpty');
+  filters.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      filters.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.getAttribute('data-cat');
+      let shown = 0;
+      posts.forEach(p=>{
+        const match = cat==='all' || p.getAttribute('data-cat')===cat;
+        p.style.display = match ? '' : 'none';
+        if(match){ shown++; p.classList.add('in'); }
+      });
+      if(empty) empty.classList.toggle('show', shown===0);
+    });
+  });
+})();
+</script>
 
 <script>
 /* custom gold cursor + particle trail (shared with landing) */
@@ -425,6 +532,5 @@
   loop();
 })();
 </script>
-
 </body>
 </html>
