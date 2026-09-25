@@ -67,12 +67,10 @@
     position:fixed; top:22px; left:50%; transform:translateX(-50%);
     z-index:50; display:flex; align-items:center; gap:10px;
     padding:10px 10px 10px 26px; border-radius:20px;
-    /* blog hero is dark — use a cleaner frosted-white pill so links stay legible
-       over the dark banner as well as the cream content below */
-    background:rgba(255,255,255,.86);
+    background:var(--glass);
     -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
-    border:1px solid rgba(255,255,255,.7);
-    box-shadow:0 20px 50px -20px rgba(20,14,4,.5), var(--glass-hi);
+    border:1px solid var(--glass-brd);
+    box-shadow:var(--glass-sh), var(--glass-hi);
     animation:navrise .9s cubic-bezier(.22,1,.36,1) .1s both;
   }
   @keyframes navrise{
