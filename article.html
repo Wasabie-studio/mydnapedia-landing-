@@ -234,8 +234,8 @@
 
   /* ── ARTICLE PAGE ─────────────────────────────────────── */
   .article{ background:var(--bg); }
-  .artwrap{ max-width:760px; margin:0 auto;
-    padding:clamp(104px,13vh,140px) max(20px,6vw) clamp(64px,8vw,100px); }
+  .artwrap{ padding:clamp(104px,13vh,140px) max(42px,6vw) clamp(64px,8vw,100px); }
+  .artwrap > *{ max-width:720px; }   /* readable measure, left-aligned like the other pages */
   .crumb{ display:flex; flex-wrap:wrap; align-items:center; gap:8px;
     font-size:13px; font-weight:600; color:var(--muted); letter-spacing:.01em; }
   .crumb a{ color:var(--muted); text-decoration:none; transition:color .2s ease; }
