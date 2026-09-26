@@ -479,7 +479,7 @@
   async function load(){
     if(!grid){ return; }
     let posts=null;
-    try{ const raw=localStorage.getItem('mdp-blog'); if(raw){ const o=JSON.parse(raw); if(Date.now()-o.t<600000) posts=o.posts; } }catch(e){}
+    try{ const raw=localStorage.getItem('mdp-blog-v2'); if(raw){ const o=JSON.parse(raw); if(Date.now()-o.t<600000) posts=o.posts; } }catch(e){}
     if(!posts){
       try{
         const list=await fetch(API,{headers:{Accept:'application/vnd.github.v3+json'}}).then(r=>{ if(!r.ok) throw 0; return r.json(); });
@@ -489,7 +489,7 @@
           return {slug:f.name.replace(/\.md$/,''),title:fm.title,date:fm.date,category:fm.category,location:fm.location,image:fm.image,excerpt:fm.excerpt};
         })));
         posts.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
-        try{ localStorage.setItem('mdp-blog', JSON.stringify({t:Date.now(),posts})); }catch(e){}
+        try{ localStorage.setItem('mdp-blog-v2', JSON.stringify({t:Date.now(),posts})); }catch(e){}
       }catch(e){ posts=null; }
     }
     if(posts && posts.length){
