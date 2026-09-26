@@ -1,17 +1,14 @@
 # Decap CMS configuration — MyDNAPedia blog / events
-# Hosting: GitHub Pages.  Auth: GitHub backend.
-#
-# ONE-TIME SETUP for login (see admin/CMS-SETUP.md):
-#   GitHub Pages is static, so the "Login with GitHub" button needs a tiny
-#   OAuth helper. Deploy the Cloudflare Worker in admin/oauth-worker.js
-#   (free, ~10 min), then set `base_url` below to the worker's URL.
+# Hosting: GitHub Pages.  Auth: GitHub backend via the shared Wasabie
+# Cloudflare Worker OAuth relay (the same one OASYS uses) — no per-site
+# setup needed. Log in with a GitHub account that can write to this repo.
 
 backend:
   name: github
   repo: Wasabie-studio/mydnapedia-landing-
   branch: main
-  # base_url: https://<your-worker-url>   # <-- set after deploying the worker
-  # auth_endpoint: auth
+  base_url: https://oasys-cms-oauth.wasabie-studioo.workers.dev
+  auth_endpoint: auth
 
 # Where uploaded images are stored in the repo, and how the site references them.
 media_folder: "assets/blog"
