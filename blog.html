@@ -198,12 +198,6 @@
     font-size:13px; font-weight:700; color:var(--gold); letter-spacing:.01em; }
   .post-cat i{ width:8px; height:8px; border-radius:50%; background:var(--gold-lt);
     box-shadow:0 0 0 4px rgba(228,169,47,.16); }
-  .post .post-arrow{ margin-left:auto; width:30px; height:30px; border-radius:50%;
-    display:grid; place-items:center; background:rgba(228,169,47,.12);
-    border:1px solid rgba(228,169,47,.3); color:var(--gold);
-    transition:transform .3s cubic-bezier(.22,1,.36,1), background .3s ease; }
-  .post:hover .post-arrow{ transform:translateX(3px); background:rgba(228,169,47,.22); }
-  .post .post-arrow svg{ width:14px; height:14px; }
 
   @media(max-width:960px){ .blog-grid{ grid-template-columns:1fr 1fr; } }
   @media(max-width:600px){ .blog-grid{ grid-template-columns:1fr; } }
@@ -286,7 +280,7 @@
             <p>We officially opened bookings nationwide — a simple cheek swab, a detailed report and a 1-on-1 counselling session, delivered to your door.</p>
             <div class="post-foot">
               <span class="post-cat"><i></i> Launch event</span>
-              <span class="post-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              
             </div>
           </div>
         </a>
@@ -302,7 +296,7 @@
             <p>Our counsellors spent the weekend helping visitors understand what a DNA wellness report can reveal — and what it can't. Thank you for coming.</p>
             <div class="post-foot">
               <span class="post-cat"><i></i> Community event</span>
-              <span class="post-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              
             </div>
           </div>
         </a>
@@ -318,7 +312,7 @@
             <p>A live session with our scientific team on how your genes affect the way your body responds to common prescriptions — with a Q&amp;A at the end.</p>
             <div class="post-foot">
               <span class="post-cat"><i></i> Webinar</span>
-              <span class="post-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              
             </div>
           </div>
         </a>
@@ -334,7 +328,7 @@
             <p>We've teamed up with a Mumbai wellness network so more people can book a test and meet a genetic counsellor closer to home.</p>
             <div class="post-foot">
               <span class="post-cat"><i></i> Partnership</span>
-              <span class="post-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              
             </div>
           </div>
         </a>
@@ -350,7 +344,7 @@
             <p>We opened our doors to walk visitors through the journey of a sample — from swab to report — and answer questions about genetic wellness.</p>
             <div class="post-foot">
               <span class="post-cat"><i></i> Community event</span>
-              <span class="post-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              
             </div>
           </div>
         </a>
@@ -366,7 +360,7 @@
             <p>Our flagship report now spans even more of your biology — disease risk, nutrition, fitness, skin and hair, mental wellbeing and more.</p>
             <div class="post-foot">
               <span class="post-cat"><i></i> Milestone</span>
-              <span class="post-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              
             </div>
           </div>
         </a>
@@ -438,7 +432,6 @@
     Partnership:{tag:'Partnership', foot:'Partnership', glyph:'<path d="M8 12 5.5 9.5a3 3 0 0 1 4.2-4.2L12 7l2.3-1.7a3 3 0 0 1 4.2 4.2L16 12M9 13l2 2 5-5"/>'},
     Milestone:{tag:'Milestone', foot:'Milestone', glyph:'<path d="M8 21h8M12 17v4M6 4h12v3a6 6 0 0 1-12 0zM6 5H3v2a3 3 0 0 0 3 3M18 5h3v2a3 3 0 0 1-3 3"/>'}
   };
-  const ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
   const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -479,7 +472,7 @@
         <span class="post-date">${dateLine}</span>
         <h2>${esc(p.title)}</h2>
         <p>${esc(p.excerpt)}</p>
-        <div class="post-foot"><span class="post-cat"><i></i> ${esc(c.foot)}</span><span class="post-arrow">${ARROW}</span></div>
+        <div class="post-foot"><span class="post-cat"><i></i> ${esc(c.foot)}</span></div>
       </div></a>`;
   }
 
