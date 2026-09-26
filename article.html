@@ -234,8 +234,8 @@
 
   /* ── ARTICLE PAGE ─────────────────────────────────────── */
   .article{ background:var(--bg); }
-  .artwrap{ max-width:680px; margin:0 auto;
-    padding:clamp(104px,13vh,140px) max(24px,5vw) clamp(80px,10vw,130px); }
+  .artwrap{ max-width:1080px; margin:0 auto;
+    padding:clamp(104px,13vh,140px) max(42px,6vw) clamp(80px,10vw,130px); }
   .crumb{ display:flex; flex-wrap:wrap; align-items:center; gap:8px;
     font-size:13px; font-weight:600; color:var(--muted); letter-spacing:.01em; }
   .crumb a{ color:var(--muted); text-decoration:none; transition:color .2s ease; }
@@ -243,14 +243,14 @@
   .crumb .cur{ color:var(--gold); }
   .crumb span{ color:rgba(50,46,39,.3); }
   .article h1{ font-family:var(--font-display); font-weight:500;
-    font-size:clamp(30px,4.2vw,50px); line-height:1.12; letter-spacing:-.015em;
-    color:var(--ink); margin:16px 0 0; text-wrap:balance; }
+    font-size:clamp(32px,4.8vw,58px); line-height:1.1; letter-spacing:-.015em;
+    color:var(--ink); margin:18px 0 0; max-width:22ch; }
   .artmeta{ display:flex; align-items:center; gap:12px; margin:16px 0 0;
     font-size:14px; font-weight:600; color:var(--muted); }
   .artmeta .a-cat{ color:var(--gold); }
   .artmeta .dot{ width:4px; height:4px; border-radius:50%; background:rgba(50,46,39,.3); }
   .art-divider{ height:1px; background:rgba(50,46,39,.1); margin:26px 0 0; }
-  .art-figure{ margin:30px 0 0; }
+  .art-figure{ margin:34px 0 0; max-width:840px; }
   .art-figure img{ display:block; width:100%; max-height:400px; object-fit:cover;
     border-radius:18px; border:1px solid rgba(50,46,39,.08); }
   .art-ph{ position:relative; height:clamp(200px,34vw,340px); border-radius:18px; overflow:hidden;
@@ -261,8 +261,8 @@
   .art-ph .glyph{ position:relative; z-index:1; }
   .art-ph .glyph svg{ width:58px; height:58px; color:rgba(156,107,22,.4); }
   .art-cap{ margin:12px 2px 0; font-size:13px; color:var(--muted); }
-  .art-body{ margin:30px 0 0; }
-  .art-body p{ font-size:clamp(16px,1.15vw,18px); line-height:1.75;
+  .art-body{ margin:34px 0 0; max-width:720px; }
+  .art-body p{ font-size:clamp(16px,1.15vw,18px); line-height:1.8;
     color:var(--ink-soft); margin:0 0 20px; }
   .art-body strong{ color:var(--ink); font-weight:700; }
   .artback{ display:inline-flex; align-items:center; gap:8px; margin-top:22px;
