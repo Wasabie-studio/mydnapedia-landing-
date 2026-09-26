@@ -1,20 +1,16 @@
 # Decap CMS configuration — MyDNAPedia blog / events
-# Auth: GitHub backend (site is on GitHub Pages).
+# Auth: Netlify Identity + Git Gateway.
 #
-# ⚠️ ONE-TIME SETUP REQUIRED for login to work on GitHub Pages:
-#   The GitHub backend needs an OAuth handler (GitHub Pages can't do the
-#   OAuth handshake by itself). Create a GitHub OAuth App and deploy a small
-#   OAuth provider (Netlify / Cloudflare Worker / Vercel), then set `base_url`
-#   (and `auth_endpoint`) below to that provider. If Wasabie already runs one
-#   for the OASYS CMS, reuse the same `base_url` here.
-#   Docs: https://decapcms.org/docs/backends-overview/  (GitHub backend)
+# ONE-TIME SETUP (in the Netlify dashboard, see admin/CMS-SETUP.md):
+#   1. Connect this repo to a Netlify site.
+#   2. Site settings → Identity → Enable Identity (Registration: Invite only).
+#   3. Identity → Services → Enable Git Gateway.
+#   4. Identity → Invite users → invite the editors' emails.
+#   Then open <your-site>/admin/ and log in with the invite.
 
 backend:
-  name: github
-  repo: Wasabie-studio/mydnapedia-landing-
+  name: git-gateway
   branch: main
-  # base_url: https://your-oauth-provider.example.com   # <-- set this
-  # auth_endpoint: auth
 
 # Where uploaded images are stored in the repo, and how the site references them.
 media_folder: "assets/blog"
