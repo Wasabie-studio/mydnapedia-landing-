@@ -403,7 +403,7 @@
     } else {
       const cat=CATS[fm.category]||CATS.Milestone;
       $('a-ph').querySelector('.glyph').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+cat+'</svg>';
-      $('a-cap').textContent='Image to come — '+(fm.title||'');
+      $('a-cap').textContent='Image to come: '+(fm.title||'');
     }
     $('a-body').innerHTML=renderBody(body)|| ('<p>'+esc(fm.excerpt||'')+'</p>');
   }
