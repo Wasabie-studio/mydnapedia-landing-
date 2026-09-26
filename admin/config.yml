@@ -1,0 +1,46 @@
+# Decap CMS configuration — MyDNAPedia blog / events
+# Auth: GitHub backend (site is on GitHub Pages).
+#
+# ⚠️ ONE-TIME SETUP REQUIRED for login to work on GitHub Pages:
+#   The GitHub backend needs an OAuth handler (GitHub Pages can't do the
+#   OAuth handshake by itself). Create a GitHub OAuth App and deploy a small
+#   OAuth provider (Netlify / Cloudflare Worker / Vercel), then set `base_url`
+#   (and `auth_endpoint`) below to that provider. If Wasabie already runs one
+#   for the OASYS CMS, reuse the same `base_url` here.
+#   Docs: https://decapcms.org/docs/backends-overview/  (GitHub backend)
+
+backend:
+  name: github
+  repo: Wasabie-studio/mydnapedia-landing-
+  branch: main
+  # base_url: https://your-oauth-provider.example.com   # <-- set this
+  # auth_endpoint: auth
+
+# Where uploaded images are stored in the repo, and how the site references them.
+media_folder: "assets/blog"
+public_folder: "/assets/blog"
+
+# Editors see live previews of their edits disabled (static site, custom render).
+show_preview_links: false
+
+collections:
+  - name: "blog"
+    label: "Blog / Events"
+    label_singular: "Event"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{date | date('DD MMM YYYY')}} — {{title}}"
+    sortable_fields: [date, title]
+    fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "date", label: "Date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: false }
+      - name: "category"
+        label: "Category"
+        widget: "select"
+        default: "Launch"
+        options: ["Launch", "Community", "Webinar", "Partnership", "Milestone"]
+      - { name: "location", label: "Location (optional)", widget: "string", required: false, hint: "e.g. New Delhi, Online" }
+      - { name: "image", label: "Cover image (optional)", widget: "image", required: false, hint: "Leave empty to use the branded placeholder." }
+      - { name: "excerpt", label: "Excerpt", widget: "text", hint: "1–2 sentences shown on the card." }
+      - { name: "body", label: "Full write-up (optional)", widget: "markdown", required: false }
