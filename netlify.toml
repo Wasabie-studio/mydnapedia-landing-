@@ -6,17 +6,6 @@
   publish = "."
   command = ""
 
-# Content manager (Decap CMS) — make sure /admin/ serves its index reliably.
-# Exact paths only (no wildcard) so /admin/config.yml still loads directly.
-[[redirects]]
-  from = "/admin"
-  to = "/admin/index.html"
-  status = 200
-[[redirects]]
-  from = "/admin/"
-  to = "/admin/index.html"
-  status = 200
-
 # Pretty URLs: /about -> about.html, /terms -> terms.html
 [[redirects]]
   from = "/about"

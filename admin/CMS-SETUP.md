@@ -1,38 +1,42 @@
-# MyDNAPedia CMS — Netlify setup (one time)
+# MyDNAPedia CMS — GitHub setup
 
-The blog/events are managed in **Decap CMS** at `/admin/`, using **Netlify
-Identity + Git Gateway** for login. The code is already in place — these are
-the dashboard steps to switch it on. Do them once.
+The blog/events are managed in **Decap CMS** at `/admin/`, hosted on **GitHub
+Pages** with the **GitHub backend**. No Netlify.
 
-## 1. Connect the repo to Netlify
-- Log in at https://app.netlify.com → **Add new site → Import an existing project**.
-- Pick GitHub → the repo **Wasabie-studio/mydnapedia-landing-**.
-- Build command: *(leave empty)*  •  Publish directory: **`.`**  → **Deploy**.
-  (The repo already has `netlify.toml` set up for this.)
+## How editing works
+- Posts are markdown files in `content/blog/`; images live in `assets/blog/`.
+- The public blog reads those posts live via the GitHub API, so new/edited
+  events show up automatically.
 
-## 2. Enable Identity
-- Site → **Identity** → **Enable Identity**.
-- Identity → **Registration preferences** → set to **Invite only**.
+## Two ways to edit
 
-## 3. Enable Git Gateway
-- Identity → **Services** → **Enable Git Gateway**.
-  (This lets logged-in editors commit to the repo without their own GitHub access.)
+### Option 1 — Edit directly on GitHub (zero setup)
+The simplest, purely-GitHub way — no login service needed:
+1. Go to the repo → `content/blog/` on github.com.
+2. **Add file → Create new file** (or open an existing post to edit).
+3. Use this template, then **Commit**:
+   ```
+   ---
+   title: Your event title
+   date: 2026-07-01
+   category: Launch          # Launch | Community | Webinar | Partnership | Milestone
+   location: New Delhi        # optional
+   image: /assets/blog/your-photo.webp   # optional (upload to assets/blog first)
+   excerpt: One or two sentences shown on the card.
+   ---
 
-## 4. Invite editors
-- Identity → **Invite users** → enter each editor's email.
-- They get an email → click the link → set a password → they land in `/admin/`.
+   Full write-up (optional).
+   ```
+The blog updates on its own after the commit.
 
-## 5. Open the CMS
-- Go to **`https://<your-netlify-site>/admin/`** and log in.
-- To use it at **mydnapedia.org/admin/**, point the domain to this Netlify site
-  (Netlify → Domain settings → add `mydnapedia.org`, then update DNS as Netlify
-  instructs). Until the domain is moved, use the `*.netlify.app` URL for the CMS.
+### Option 2 — The Decap CMS admin UI at /admin/
+Nicer editing UI, but GitHub Pages is static, so the **login button needs one
+small OAuth helper** (there is no way around this on GitHub Pages):
+1. Deploy the Cloudflare Worker in **`admin/oauth-worker.js`** (free; full
+   steps are in the file's comment).
+2. Create a **GitHub OAuth App** and put its Client ID/Secret in the Worker.
+3. Set `base_url` in **`admin/config.yml`** to the Worker's URL.
+Then `mydnapedia.org/admin/` → **Login with GitHub** works.
 
----
-
-### Notes
-- Posts are saved as markdown in `content/blog/`; images upload to `assets/blog/`.
-- The public site reads those posts live via the GitHub API, so new/edited
-  events appear on the blog automatically after they're published in the CMS.
-- Login is handled entirely by Netlify Identity — no GitHub OAuth app or
-  external OAuth handler is needed.
+Until step 3 is done, `/admin/` will load but the login button won't complete —
+so use **Option 1** in the meantime.

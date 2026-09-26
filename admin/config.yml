@@ -1,16 +1,17 @@
 # Decap CMS configuration — MyDNAPedia blog / events
-# Auth: Netlify Identity + Git Gateway.
+# Hosting: GitHub Pages.  Auth: GitHub backend.
 #
-# ONE-TIME SETUP (in the Netlify dashboard, see admin/CMS-SETUP.md):
-#   1. Connect this repo to a Netlify site.
-#   2. Site settings → Identity → Enable Identity (Registration: Invite only).
-#   3. Identity → Services → Enable Git Gateway.
-#   4. Identity → Invite users → invite the editors' emails.
-#   Then open <your-site>/admin/ and log in with the invite.
+# ONE-TIME SETUP for login (see admin/CMS-SETUP.md):
+#   GitHub Pages is static, so the "Login with GitHub" button needs a tiny
+#   OAuth helper. Deploy the Cloudflare Worker in admin/oauth-worker.js
+#   (free, ~10 min), then set `base_url` below to the worker's URL.
 
 backend:
-  name: git-gateway
+  name: github
+  repo: Wasabie-studio/mydnapedia-landing-
   branch: main
+  # base_url: https://<your-worker-url>   # <-- set after deploying the worker
+  # auth_endpoint: auth
 
 # Where uploaded images are stored in the repo, and how the site references them.
 media_folder: "assets/blog"
