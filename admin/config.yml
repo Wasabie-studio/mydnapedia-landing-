@@ -35,6 +35,6 @@ collections:
         default: "Launch"
         options: ["Launch", "Community", "Webinar", "Partnership", "Milestone"]
       - { name: "location", label: "Location (optional)", widget: "string", required: false, hint: "e.g. New Delhi, Online" }
-      - { name: "image", label: "Cover image (optional)", widget: "image", required: false, hint: "Leave empty to use the branded placeholder." }
-      - { name: "excerpt", label: "Excerpt", widget: "text", hint: "1–2 sentences shown on the card." }
-      - { name: "body", label: "Full write-up (optional)", widget: "markdown", required: false }
+      - { name: "image", label: "Cover image (optional)", widget: "image", required: false, hint: "Shown at the top of the event's article page and on its card. Leave empty to use the branded placeholder." }
+      - { name: "excerpt", label: "Excerpt", widget: "text", hint: "1–2 sentences shown on the blog card (and used as the summary if there's no write-up below)." }
+      - { name: "body", label: "Full write-up (optional)", widget: "markdown", required: false, hint: "The full text shown on the event's own article page (each card links to it)." }
